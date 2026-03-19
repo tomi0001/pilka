@@ -40,6 +40,9 @@
                         <x-dropdown-link :href="route('profile.addGroup')">
                             Dodaj grupę
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('profile.addCountry')">
+                            Dodaj Kraj
+                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

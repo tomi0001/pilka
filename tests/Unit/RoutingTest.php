@@ -28,4 +28,19 @@ class RoutingTest extends TestCase
         // $response->assertViewHas('user', $user); // Sprawdza, czy zmienna 'user' została przekazana
         // $response->assertViewHas('title', 'Profil użytkownika');
     }
+
+    public function testShowGroup(): void
+    {
+        $Profile = new Profile;
+        $listGroup = $Profile->showGroup();
+
+        $this->assertNotEmpty($listGroup);
+    }
+    public function testShowCountry(): void
+    {
+        $Profile = new Profile;
+        $listCountry = $Profile->showCountry(6);
+
+        $this->assertNotEmpty($listCountry);
+    }
 }

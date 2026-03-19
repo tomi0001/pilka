@@ -20,4 +20,17 @@ class ProfileRequest extends FormRequest
             ]);
         }
     }
+
+    public function addCountry(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:200'],
+        ]);
+        $Profile = new Profile;
+        if ($Profile->ifExistCountry($request->get('name'))) {
+            return back()->withErrors([
+                'name' => __('validation.ifExistCountry'),
+            ]);
+        }
+    }
 }
