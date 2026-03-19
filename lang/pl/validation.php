@@ -22,7 +22,7 @@ return [
         'name' => [
             'max' => 'Nazwa grupy musi mieć jeden znak',
             'required' => 'Uzupełnij pole nazwa grupy',
-        ]
+        ],
     ],
     'confirmed' => 'Hasła musza być identyczne',
     /*

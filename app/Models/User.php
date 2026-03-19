@@ -46,8 +46,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public static function showUser()
     {
-        return self::orderBy("id")->get();
+        return self::orderBy('id')->get();
     }
 }

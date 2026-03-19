@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Services\Profile;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +21,7 @@ class ProfileController extends Controller
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
+
     }
 
     /**
@@ -59,31 +61,31 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function showGroup()
+    public function showGroup(int $id = 1)
     {
-        $Profile = new Profile();
+        $Profile = new Profile;
         $listGroup = $Profile->showGroup();
-        return View("profile.showGroup")->with("listGroup", $listGroup);
+        $listCountry = $Profile->showCountry($id);
+
+        return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry);
     }
+
     public function addGroup()
     {
-        return View("profile.addGroup");
+        return View('profile.addGroup');
     }
+
     public function addGroupSubmit(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:1'],
 
-        ]);
-        $Profile = new Profile();
-        if ($Profile->ifExistGroup($request->get("name"))) {
-            return back()->withErrors([
-                'name' => __('validation.ifExistGroup')
-            ]);
+        $ProfileRequest = new ProfileRequest;
+        $validate = $ProfileRequest->addGroup($request);
+        if ($validate) {
+            return $validate;
         } else {
-            $Profile->saveGroup($request->get("name"));
+            $Profile = new Profile;
+            $Profile->saveGroup($request->get('name'));
         }
 
-        return View("profile.addGroup");
     }
 }

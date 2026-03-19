@@ -1,27 +1,24 @@
 <?php
 
 namespace Tests\Unit;
+
 use App\Http\Services\Profile;
-use Mockery;
-use Mockery\MockInterface;
-//use PHPUnit\Framework\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase; //this
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Group;
+// use PHPUnit\Framework\TestCase;
+use App\Models\Group; // this
 use App\Models\User;
+use Tests\TestCase;
+
 class RoutingTest extends TestCase
 {
-
     /**
      * A basic unit test example.
      */
     public function test(): void
     {
-        //$user = new Profile();
-        //$this->assertEquals('Jan Kowalski', $user->showGroup());
-        //$this->assertRedirect('/login');
-        //$user = Group::factory()->create();
+        // $user = new Profile();
+        // $this->assertEquals('Jan Kowalski', $user->showGroup());
+        // $this->assertRedirect('/login');
+        // $user = Group::factory()->create();
         $user = User::find(4);
 
         $response = $this->actingAs($user)->get('/profile.addGroup');

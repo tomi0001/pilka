@@ -7,7 +7,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -21,4 +20,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile.addGroupSubmit', [ProfileController::class, 'addGroupSubmit'])->name('profile.addGroupSubmit');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
