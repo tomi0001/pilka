@@ -68,7 +68,7 @@ class ProfileController extends Controller
         $listCountry = $Profile->showCountry($id);
 
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-                ->with('selectedGroup', 0) ;
+            ->with('selectedGroup', 0);
     }
 
     public function addGroup()
@@ -111,6 +111,7 @@ class ProfileController extends Controller
         }
 
     }
+
     public function showGroupForm(Request $request)
     {
         $Profile = new Profile;
@@ -118,6 +119,6 @@ class ProfileController extends Controller
         $listCountry = $Profile->showCountry($request->get('group'));
 
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-            ->with('selectedGroup', $request->get('group')) ;
+            ->with('selectedGroup', $request->get('group'))->with('arrayPtk', $Profile->arrayPtk);
     }
 }

@@ -23,11 +23,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($listCountry as $country)
+                @for($i=0;$i < count($arrayPtk); $i++)
                     <tr>
-                        <td class="px-8 py-4">{{ $country->name }}</td>
+                        <td class="px-8 py-4">{{ $arrayPtk[$i]['name'] }}</td>
+                        <td class="px-8 py-4">{{ $arrayPtk[$i]['PTK'] }}</td>
+                        <td class="px-8 py-4">{{ $arrayPtk[$i]['RM'] }}</td>
+                        <td class="px-8 py-4">{{ $arrayPtk[$i]['BZ'] }}</td>
+                        <td class="px-8 py-4">{{ $arrayPtk[$i]['BS'] }}</td>
+                        <td class="px-8 py-4">{{ $arrayPtk[$i]['RB'] }}</td>
+                        <td class="px-8 py-4">{{ $arrayPtk[$i]['W'] }}</td>
+                        <td class="px-8 py-4">{{ $arrayPtk[$i]['P'] }}</td>
+                        <td class="px-8 py-4">{{ $arrayPtk[$i]['R'] }}</td>
                     </tr>
-                @endforeach
+                @endfor
             </tbody>
         </table>
     @endif

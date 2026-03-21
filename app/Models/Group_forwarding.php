@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Group_forwarding extends Model
 {
     public $timestamps = false;
+
     public function saveForwarding(int $idCountry, int $idGroup)
     {
         $Group_forwarding = new self;

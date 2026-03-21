@@ -29,18 +29,20 @@ class RoutingTest extends TestCase
         // $response->assertViewHas('title', 'Profil użytkownika');
     }
 
-    public function testShowGroup(): void
+    public function test_show_group(): void
     {
         $Profile = new Profile;
         $listGroup = $Profile->showGroup();
 
         $this->assertNotEmpty($listGroup);
     }
-    public function testShowCountry(): void
+
+    public function test_show_country(): void
     {
         $Profile = new Profile;
-        $listCountry = $Profile->showCountry(6);
+        $listCountry = $Profile->showCountry(4);
 
         $this->assertNotEmpty($listCountry);
     }
+
 }
