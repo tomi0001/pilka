@@ -21,7 +21,7 @@ class Group extends Model
     public function saveGroup(string $name)
     {
         $Group = new self;
-        $Group->name = $name;
+        $Group->name = strtoupper($name);
         $Group->save();
     }
 }

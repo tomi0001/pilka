@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile.addGroup', [ProfileController::class, 'addGroup'])->name('profile.addGroup');
     Route::get('/profile.addGroupSubmit', [ProfileController::class, 'addGroupSubmit'])->name('profile.addGroupSubmit');
     Route::get('/profile.addCountry', [ProfileController::class, 'addCountry'])->name('profile.addCountry');
+    Route::get('/profile.addGame', [ProfileController::class, 'addGame'])->name('profile.addGame');
+    Route::get('/profile.addGameSubmit', [ProfileController::class, 'addGameSubmit'])->name('profile.addGameSubmit');
     Route::get('/profile.addCountrySubmit', [ProfileController::class, 'addCountrySubmit'])->name('profile.addCountrySubmit');
 });
 

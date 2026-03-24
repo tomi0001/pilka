@@ -33,4 +33,16 @@ class ProfileRequest extends FormRequest
             ]);
         }
     }
+
+    public function addGame(Request $request)
+    {
+        $request->validate([
+            'countryOne' => ['required', 'integer'],
+            'countryTwo' => ['required', 'integer'],
+            'date' => ['required', 'date'],
+            'time' => ['required', 'date_format:H:i'],
+            'resultOne' => ['nullable','integer', 'min:0', 'max:300'],
+            'resultTwo' => ['nullable','integer', 'min:0', 'max:300'],
+        ]);
+    }
 }

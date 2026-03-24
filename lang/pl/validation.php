@@ -23,6 +23,30 @@ return [
             'max' => 'Nazwa grupy musi mieć jeden znak',
             'required' => 'Uzupełnij pole nazwa grupy',
         ],
+        'countryOne' => [
+            'required' => 'Wybierz pierwszą drużynę',
+        ],
+        'countryTwo' => [
+            'required' => 'Wybierz drugą drużynę',
+        ],
+        'date' => [
+            'required' => 'Wybierz datę meczu',
+            'date' => 'Wybierz poprawną datę',
+        ],
+        'time' => [
+            'required' => 'Wybierz godzinę meczu',
+            'date_format' => 'Wybierz poprawną godzinę',
+        ],
+        'resultOne' => [
+            'integer' => 'Wynik musi być liczbą',
+            'min' => 'Wynik nie może być mniejszy niż :min',
+            'max' => 'Wynik nie może być większy niż :max',
+        ],
+        'resultTwo' => [
+            'integer' => 'Wynik musi być liczbą',
+            'min' => 'Wynik nie może być mniejszy niż :min',
+            'max' => 'Wynik nie może być większy niż :max',
+        ]
     ],
     'confirmed' => 'Hasła musza być identyczne',
     /*

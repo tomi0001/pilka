@@ -13,6 +13,11 @@ class Countrie extends Model
         return self::where('name', $name)->first();
     }
 
+    public static function showCountries()
+    {
+        return self::all();
+    }
+
     public function saveCountry(string $name): int
     {
         $Countrie = new self;

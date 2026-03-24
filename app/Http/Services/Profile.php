@@ -13,18 +13,12 @@ class Profile
 {
     public $arrayPtk = [];
 
-    public $arrayPtk2 = [];
-
     public function showCountry(int $id)
     {
         $Repository = new ProfileRepository;
         $listCountry = $Repository->showCountry($id);
 
-
-
-
         $listGame = Game::showGames($id);
-
 
         if (count($listCountry) > 0) {
             $this->createArrayPtk($listCountry);
@@ -35,6 +29,11 @@ class Profile
         }
 
         return $listCountry;
+    }
+
+    public function showCountryAll()
+    {
+        return Countrie::showCountries();
     }
 
     private function createArrayPtk($listCountry)
@@ -53,69 +52,68 @@ class Profile
         }
 
     }
+
     private function sumGoals()
     {
         for ($i = 0; $i < count($this->arrayPtk); $i++) {
             $this->arrayPtk[$i]['RB'] = $this->arrayPtk[$i]['BZ'] - $this->arrayPtk[$i]['BS'];
         }
     }
+
     private function sumPtk($arrayCountry)
     {
         for ($j = 0; $j < count($this->arrayPtk); $j++) {
             for ($i = 0; $i < count($arrayCountry); $i++) {
 
-                    if ($arrayCountry[$i]['country_one'] == $this->arrayPtk[$j]['idCountry']) {
+                if ($arrayCountry[$i]['country_one'] == $this->arrayPtk[$j]['idCountry']) {
 
-                        if ($arrayCountry[$i]['result_one'] > $arrayCountry[$i]['result_two']) {
+                    if ($arrayCountry[$i]['result_one'] > $arrayCountry[$i]['result_two']) {
 
-                            $this->arrayPtk[$j]['PTK'] += 3;
-                            $this->arrayPtk[$j]['W'] += 1;
-                            $this->arrayPtk[$j]['RM'] += 1;
-                            $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                            $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_one'];
-                        } elseif ($arrayCountry[$i]['result_one'] == $arrayCountry[$i]['result_two']) {
-                            $this->arrayPtk[$j]['PTK'] += 1;
-                            $this->arrayPtk[$j]['R'] += 1;
-                            $this->arrayPtk[$j]['RM'] += 1;
-                            $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
-                            $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                        } else {
-                            $this->arrayPtk[$j]['P'] += 1;
-                            $this->arrayPtk[$j]['RM'] += 1;
-                            $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                            $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_one'];
-                        }
-
-                    } elseif ($arrayCountry[$i]['country_two'] == $this->arrayPtk[$j]['idCountry']) {
-
-                        if ($arrayCountry[$i]['result_one'] < $arrayCountry[$i]['result_two']) {
-
-                            $this->arrayPtk[$j]['PTK'] += 3;
-                            $this->arrayPtk[$j]['W'] += 1;
-                            $this->arrayPtk[$j]['RM'] += 1;
-                            $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_one'];
-                            $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
-                        } elseif ($arrayCountry[$i]['result_one'] == $arrayCountry[$i]['result_two']) {
-
-                            $this->arrayPtk[$j]['PTK'] += 1;
-                            $this->arrayPtk[$j]['R'] += 1;
-                            $this->arrayPtk[$j]['RM'] += 1;
-                            $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
-                            $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                        } else {
-                            $this->arrayPtk[$j]['P'] += 1;
-                            $this->arrayPtk[$j]['RM'] += 1;
-                            $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                            $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_one'];
-
-                        }
+                        $this->arrayPtk[$j]['PTK'] += 3;
+                        $this->arrayPtk[$j]['W'] += 1;
+                        $this->arrayPtk[$j]['RM'] += 1;
+                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
+                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_one'];
+                    } elseif ($arrayCountry[$i]['result_one'] == $arrayCountry[$i]['result_two']) {
+                        $this->arrayPtk[$j]['PTK'] += 1;
+                        $this->arrayPtk[$j]['R'] += 1;
+                        $this->arrayPtk[$j]['RM'] += 1;
+                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
+                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
+                    } else {
+                        $this->arrayPtk[$j]['P'] += 1;
+                        $this->arrayPtk[$j]['RM'] += 1;
+                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
+                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_one'];
                     }
 
+                } elseif ($arrayCountry[$i]['country_two'] == $this->arrayPtk[$j]['idCountry']) {
+
+                    if ($arrayCountry[$i]['result_one'] < $arrayCountry[$i]['result_two']) {
+
+                        $this->arrayPtk[$j]['PTK'] += 3;
+                        $this->arrayPtk[$j]['W'] += 1;
+                        $this->arrayPtk[$j]['RM'] += 1;
+                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_one'];
+                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
+                    } elseif ($arrayCountry[$i]['result_one'] == $arrayCountry[$i]['result_two']) {
+
+                        $this->arrayPtk[$j]['PTK'] += 1;
+                        $this->arrayPtk[$j]['R'] += 1;
+                        $this->arrayPtk[$j]['RM'] += 1;
+                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
+                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
+                    } else {
+                        $this->arrayPtk[$j]['P'] += 1;
+                        $this->arrayPtk[$j]['RM'] += 1;
+                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
+                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_one'];
+
+                    }
+                }
 
             }
         }
-
-
 
     }
 
