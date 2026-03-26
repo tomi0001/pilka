@@ -150,4 +150,14 @@ class Profile
 
         }
     }
+    public function checkGame(Request $request)
+    {
+       return   ProfileRepository::showGameIfTrue($request->get('countryOne'), $request->get('countryTwo'));
+
+
+    }
+    public function checkGameNullGame(int $idCountry)
+    {
+        return Group_forwarding::checkGameNullGame($idCountry);
+    }
 }

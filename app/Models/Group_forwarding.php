@@ -15,4 +15,8 @@ class Group_forwarding extends Model
         $Group_forwarding->group_id = $idGroup;
         $Group_forwarding->save();
     }
+    public static function checkGameNullGame(int $idCountry)
+    {
+        return self::where('countrie_id', $idCountry)->first();
+    }
 }

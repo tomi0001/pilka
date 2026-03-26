@@ -134,12 +134,13 @@ class ProfileController extends Controller
     {
 
         $ProfileRequest = new ProfileRequest;
+
         $validate = $ProfileRequest->addGame($request);
         if ($validate) {
             return $validate;
         } else {
-            $Profile = new Profile;
-            $Profile->saveGame($request);
+
+            //$Profile->saveGame($request);
         }
 
     }

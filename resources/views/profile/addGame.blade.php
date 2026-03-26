@@ -23,6 +23,7 @@
                     </td>
                     <td>
                         <x-input-error :messages="$errors->get('countryOne')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('countryOne1')" class="mt-2" />
                     </td>
                 </tr>
                 <tr>
@@ -62,7 +63,7 @@
                 </tr>
 
                 <tr>
-                    <td class="py-4">
+                    <td class="py-2">
 
                     </td>
                     <td>
@@ -71,7 +72,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="py-8">
+                          <span class="text-gray-600 font-light text-xl "> Rodzaj meczu</span>
+                    </td>
+                    <td >
+                        <select name="type" id="type" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                           @if (Auth::user()->status == 0)
+                                <option value="0" @selected(old('type') == '0' ? true : false)>Mecz o punkty</option>
+                            @else
+                                <option value="1" @selected(old('type') == '1' ? true : false)>Mecz faza pucharowa</option>
+                            @endif
+                            <option value="2" @selected(old('type') == '2' ? true : false)>Mecz towarzyski</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td >
                        <span class="text-gray-600 font-light text-xl "> Wynik meczu opcjonalnie</span>
 
                     </td>

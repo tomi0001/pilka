@@ -36,13 +36,38 @@ class ProfileRequest extends FormRequest
 
     public function addGame(Request $request)
     {
+        $Profile = new Profile;
         $request->validate([
-            'countryOne' => ['required', 'integer'],
-            'countryTwo' => ['required', 'integer'],
+            'countryOne' => ['required', 'integer','different:countryTwo',
+                function ($attribute, $value,$fail) use ($request,$Profile) {
+                    if ($request->get('type') != 2) {
+
+                        if (count($Profile->checkGame($request))  > 1) {
+                            $fail(__('validation.ifExistGame'));
+                        }
+                        if ($Profile->checkGameNullGame($request->get("countryOne")) == null) {
+                            $fail(__('validation.ifExistGameNullGame'));
+                        }
+                    }
+                }
+
+            ],
+            'countryTwo' => ['required', 'integer',
+                function ($attribute, $value,$fail) use ($request,$Profile) {
+                    if ($request->get('type') != 2) {
+
+                        if ($Profile->checkGameNullGame($request->get("countryTwo")) == null) {
+                            $fail(__('validation.ifExistGameNullGame'));
+                        }
+                    }
+                }
+            ],
             'date' => ['required', 'date'],
             'time' => ['required', 'date_format:H:i'],
             'resultOne' => ['nullable','integer', 'min:0', 'max:300'],
             'resultTwo' => ['nullable','integer', 'min:0', 'max:300'],
         ]);
+
     }
+
 }

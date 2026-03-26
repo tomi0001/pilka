@@ -26,4 +26,6 @@ class Countrie extends Model
 
         return $Countrie->id;
     }
+
+
 }
