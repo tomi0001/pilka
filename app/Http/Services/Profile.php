@@ -18,7 +18,7 @@ class Profile
         $Repository = new ProfileRepository;
         $listCountry = $Repository->showCountry($id);
 
-        $listGame = Game::showGames($id);
+        $listGame = ProfileRepository::showGames($id);
 
         if (count($listCountry) > 0) {
             $this->createArrayPtk($listCountry);
@@ -27,7 +27,6 @@ class Profile
             $this->sumPtk($listGame);
             $this->sumGoals();
         }
-
         return $listCountry;
     }
 
@@ -39,6 +38,7 @@ class Profile
     private function createArrayPtk($listCountry)
     {
         for ($i = 0; $i < count($listCountry); $i++) {
+
             $this->arrayPtk[$i]['name'] = $listCountry[$i]->name;
             $this->arrayPtk[$i]['idCountry'] = $listCountry[$i]->id;
             $this->arrayPtk[$i]['PTK'] = 0;
@@ -156,8 +156,12 @@ class Profile
 
 
     }
-    public function checkGameNullGame(int $idCountry)
+    public function checkGameNullGame(int|null $idCountry)
     {
         return Group_forwarding::checkGameNullGame($idCountry);
+    }
+    public function showGame(int $idGroup)
+    {
+        return ProfileRepository::showGames($idGroup);
     }
 }

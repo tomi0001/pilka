@@ -66,9 +66,10 @@ class ProfileController extends Controller
         $Profile = new Profile;
         $listGroup = $Profile->showGroup();
         $listCountry = $Profile->showCountry($id);
+        $listGame = $Profile->showGame($id);
 
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-            ->with('selectedGroup', 0);
+            ->with('selectedGroup', 0)->with('listGame', $listGame)->with('arrayPtk', $Profile->arrayPtk);
     }
 
     public function addGroup()
@@ -125,9 +126,10 @@ class ProfileController extends Controller
         $Profile = new Profile;
         $listGroup = $Profile->showGroup();
         $listCountry = $Profile->showCountry($request->get('group'));
+        $listGame = $Profile->showGame($request->get('group'));
 
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-            ->with('selectedGroup', $request->get('group'))->with('arrayPtk', $Profile->arrayPtk);
+            ->with('selectedGroup', $request->get('group'))->with('arrayPtk', $Profile->arrayPtk)->with('listGame', $listGame);
     }
 
     public function addGameSubmit(Request $request)

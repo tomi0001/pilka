@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Models\Group;
 use App\Models\Countrie;
+use App\Models\Game;
 use Illuminate\Database\Eloquent\Model;
 
 class ProfileRepository extends Model
@@ -17,7 +18,7 @@ class ProfileRepository extends Model
         return $listCountry;
     }
 
-    public static function showGameIfTrue(int $idCountryOne, int $idCountryTwo)
+    public static function showGameIfTrue(int|null $idCountryOne, int|null $idCountryTwo)
     {
         return Countrie::join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')->selectRaw(' DISTINCT group_forwardings.group_id')
             ->where(function ($query) use ($idCountryOne, $idCountryTwo) {
@@ -25,5 +26,16 @@ class ProfileRepository extends Model
                     ->orWhere('group_forwardings.countrie_id', $idCountryTwo);
             })
             ->get();
+    }
+    public static function showGames(int $idGroup)
+    {
+        return Game::join("countries as c1", "c1.id", "=", "games.country_one")
+            ->join("countries as c2", "c2.id", "=", "games.country_two")
+            ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'games.country_one')
+            ->join('group_forwardings as gf2', 'gf2.countrie_id', '=', 'games.country_two')
+            ->selectRaw('group_forwardings.group_id as group_id')
+            ->selectRaw('games.date as date')->selectRaw('games.country_one as country_one')->selectRaw('games.country_two as country_two')
+            ->selectRaw('games.result_one as result_one')->selectRaw('games.result_two as result_two')
+            ->where('group_forwardings.group_id', $idGroup)->get();
     }
 }
