@@ -134,7 +134,7 @@ class ProfileController extends Controller
 
     public function addGameSubmit(Request $request)
     {
-
+        $Profile = new Profile;
         $ProfileRequest = new ProfileRequest;
 
         $validate = $ProfileRequest->addGame($request);
@@ -142,7 +142,7 @@ class ProfileController extends Controller
             return $validate;
         } else {
 
-            //$Profile->saveGame($request);
+            $Profile->saveGame($request);
         }
 
     }

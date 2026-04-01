@@ -162,6 +162,15 @@ class Profile
     }
     public function showGame(int $idGroup)
     {
-        return ProfileRepository::showGames($idGroup);
+        return ProfileRepository::showGames($idGroup,true);
+    }
+    public function saveGame(Request $request)
+    {
+        $Game = new Game;
+        $Game->saveGame($request);
+    }
+    public function checkGameDate(Request $request)
+    {
+        return ProfileRepository::showGameIfTrueDate($request->get('countryOne'), $request->get('countryTwo'), $request->get('date') . " " . $request->get('time') . ":00");
     }
 }

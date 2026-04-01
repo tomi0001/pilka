@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Http\Services\Profile;
 use App\Models\Countrie;
+use App\Http\Repositories\ProfileRepository;
 // use PHPUnit\Framework\TestCase;
 // this
 use Tests\TestCase;
@@ -39,5 +40,19 @@ class ServiceTest extends TestCase
         $listGame = $Profile->showGame(6);
 
         $this->assertEquals(3, count($listGame));
+    }
+    public function test_showGamesResult(): void
+    {
+
+        $listGame = ProfileRepository::showGames(6,true);
+
+        $this->assertNotEquals(16, count($listGame));
+    }
+    public function test_showGamesNullResult(): void
+    {
+
+        $listGame = ProfileRepository::showGames(6,false);
+
+        $this->assertEquals(1, count($listGame));
     }
 }

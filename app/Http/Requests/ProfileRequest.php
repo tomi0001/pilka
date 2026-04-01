@@ -59,13 +59,16 @@ class ProfileRequest extends FormRequest
                         if ($Profile->checkGameNullGame($request->get("countryTwo")) == null) {
                             $fail(__('validation.ifExistGameNullGame'));
                         }
+                        if (($Profile->checkGameDate($request))  ) {
+                            $fail(__('validation.ifExistGameDate'));
+                        }
                     }
                 }
             ],
             'date' => ['required', 'date'],
             'time' => ['required', 'date_format:H:i'],
-            'resultOne' => ['nullable','integer', 'min:0', 'max:300'],
-            'resultTwo' => ['nullable','integer', 'min:0', 'max:300'],
+            'resultOne' => ['nullable','integer', 'min:0', 'max:300', 'required_with:resultTwo'],
+            'resultTwo' => ['nullable','integer', 'min:0', 'max:300', 'required_with:resultOne'],
         ]);
 
     }

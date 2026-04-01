@@ -27,7 +27,7 @@ class ProfileRepository extends Model
             })
             ->get();
     }
-    public static function showGames(int $idGroup)
+    public static function showGames(int $idGroup, bool $isResult = false)
     {
         return Game::join("countries as c1", "c1.id", "=", "games.country_one")
             ->join("countries as c2", "c2.id", "=", "games.country_two")
@@ -36,6 +36,21 @@ class ProfileRepository extends Model
             ->selectRaw('group_forwardings.group_id as group_id')
             ->selectRaw('games.date as date')->selectRaw('games.country_one as country_one')->selectRaw('games.country_two as country_two')
             ->selectRaw('games.result_one as result_one')->selectRaw('games.result_two as result_two')
-            ->where('group_forwardings.group_id', $idGroup)->get();
+            ->where('group_forwardings.group_id', $idGroup)
+            ->when($isResult == false, function ($query) use ($isResult) {
+                    $query->whereNotNull('games.result_one')
+                        ->whereNotNull('games.result_two');
+
+            })
+            ->get();
+    }
+    public static function showGameIfTrueDate(int|null $idCountryOne, int|null $idCountryTwo, string $date)
+    {
+        return Game::where(function ($query) use ($idCountryOne, $idCountryTwo) {
+                $query->where('country_one', $idCountryOne)
+                    ->Where('country_two', $idCountryTwo);
+            })
+            ->where('date', $date)
+            ->first();
     }
 }

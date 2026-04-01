@@ -12,10 +12,11 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
-
+    'required_with' => 'Wynik jest wymagany, gdy drugi wynik jest obecny',
     'registration_closed' => 'Rejestracja jest już zamknięta.',
     'ifExistGroup' => 'Już jest taka grupy o tej nazwie',
     'ifExistGame' => 'Państwa należa do innych grup',
+    'ifExistGameDate' => 'W tym dniu i o tej godzinie jest już zaplanowany mecz z jedną z tych drużyn',
     'different' => 'Państwa muszą być różne',
     'ifExistGameNullGame' => 'Nie można dodać meczu z drużyną, która nie jest przypisana do żadnej grupy',
     'custom' => [
