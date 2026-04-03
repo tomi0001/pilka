@@ -67,8 +67,8 @@ class ProfileRequest extends FormRequest
             ],
             'date' => ['required', 'date'],
             'time' => ['required', 'date_format:H:i'],
-            'resultOne' => ['nullable','integer', 'min:0', 'max:300', 'required_with:resultTwo'],
-            'resultTwo' => ['nullable','integer', 'min:0', 'max:300', 'required_with:resultOne'],
+            'resultOne' => ['nullable','integer', 'min:0', 'max:255', 'required_with:resultTwo'],
+            'resultTwo' => ['nullable','integer', 'min:0', 'max:255', 'required_with:resultOne'],
         ]);
 
     }

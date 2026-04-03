@@ -15,7 +15,7 @@ class Countrie extends Model
 
     public static function showCountries()
     {
-        return self::all();
+        return self::orderBy('name')->get();
     }
 
     public function saveCountry(string $name): int

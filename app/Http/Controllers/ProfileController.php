@@ -146,4 +146,11 @@ class ProfileController extends Controller
         }
 
     }
+    public function showCountries()
+    {
+        $Profile = new Profile;
+        $listCountry = $Profile->showCountryAll();
+
+        return View('profile.showCountries')->with('listCountry', $listCountry);
+    }
 }

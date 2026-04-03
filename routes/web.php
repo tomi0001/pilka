@@ -16,6 +16,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile.showGroup', [ProfileController::class, 'showGroup'])->name('profile.showGroup');
+    Route::get('/profile.showCountries', [ProfileController::class, 'showCountries'])->name('profile.showCountries');
     Route::get('/profile.showGroupForm', [ProfileController::class, 'showGroupForm'])->name('profile.showGroupForm');
     Route::get('/profile.addGroup', [ProfileController::class, 'addGroup'])->name('profile.addGroup');
     Route::get('/profile.addGroupSubmit', [ProfileController::class, 'addGroupSubmit'])->name('profile.addGroupSubmit');

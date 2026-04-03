@@ -53,4 +53,12 @@ class ProfileRepository extends Model
             ->where('date', $date)
             ->first();
     }
+    public static function showNameGroup(int $idCountry)
+    {
+        return Countrie::join("group_forwardings", "group_forwardings.countrie_id", "=", "countries.id")
+        ->join("groups", "groups.id", "=", "group_forwardings.group_id")
+        ->selectRaw('groups.name as name')
+        ->selectRaw('group_forwardings.group_id as group_id')
+        ->where('countries.id', $idCountry)->first();
+    }
 }

@@ -17,8 +17,13 @@ return new class extends Migration
             $table->foreign('country_one')->references('id')->on('countries')->onDelete('cascade');
             $table->unsignedBigInteger('country_two')->constrained();
             $table->foreign('country_two')->references('id')->on('countries')->onDelete('cascade');
-            $table->unsignedSmallInteger('result_one')->nullable();
-            $table->unsignedSmallInteger('result_two')->nullable();
+            $table->unsignedTinyInteger('result_one')->nullable();
+            $table->unsignedTinyInteger('result_two')->nullable();
+            $table->unsignedTinyInteger('result_over_one')->nullable();
+            $table->unsignedTinyInteger('result_over_two')->nullable();
+            $table->unsignedTinyInteger('result_pena_one')->nullable();
+            $table->unsignedTinyInteger('result_pena_two')->nullable();
+            $table->unsignedTinyInteger('type')->default(0);
             $table->dateTime('date')->nullable();
         });
 

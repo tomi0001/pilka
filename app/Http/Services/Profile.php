@@ -19,13 +19,13 @@ class Profile
         $listCountry = $Repository->showCountry($id);
 
         $listGame = ProfileRepository::showGames($id);
-
         if (count($listCountry) > 0) {
             $this->createArrayPtk($listCountry);
         }
         if (count($listGame) > 0) {
             $this->sumPtk($listGame);
             $this->sumGoals();
+            array_multisort(array_column($this->arrayPtk, 'PTK'), SORT_DESC, array_column($this->arrayPtk, 'BZ'), SORT_DESC, array_column($this->arrayPtk, 'RB'), SORT_DESC, $this->arrayPtk);
         }
         return $listCountry;
     }
@@ -106,8 +106,8 @@ class Profile
                     } else {
                         $this->arrayPtk[$j]['P'] += 1;
                         $this->arrayPtk[$j]['RM'] += 1;
-                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_one'];
+                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_one'];
+                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
 
                     }
                 }

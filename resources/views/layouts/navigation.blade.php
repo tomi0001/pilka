@@ -11,6 +11,9 @@
                     <x-nav-link :href="route('profile.showGroup')" :active="request()->routeIs('profile.showGroup')">
                         Lista grup
                     </x-nav-link>
+                    <x-nav-link :href="route('profile.showCountries')" :active="request()->routeIs('profile.showCountries')">
+                        Lista Państw
+                    </x-nav-link>
                 </div>
             </div>
 

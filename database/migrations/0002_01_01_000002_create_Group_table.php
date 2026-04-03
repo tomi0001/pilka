@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->char('name', 1);
+            $table->unsignedTinyInteger('type')->default(0);
         });
 
     }
