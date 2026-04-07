@@ -61,4 +61,62 @@ class ProfileRepository extends Model
         ->selectRaw('group_forwardings.group_id as group_id')
         ->where('countries.id', $idCountry)->first();
     }
+    public static function countGames(int $idCountry)
+    {
+        return Game::where('country_one', $idCountry)->orWhere('country_two', $idCountry)->count();
+    }
+    public static function showGamesGroupById(int $id)
+    {
+        return Game::join("countries",function ($join) {
+            $join->on("countries.id", "=", "games.country_one")
+                ->orOn("countries.id", "=", "games.country_two");
+        })
+            ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')
+            ->selectRaw('group_forwardings.group_id as group_id')
+            ->selectRaw('games.type as type')
+            ->selectRaw('games.date as date')
+            ->selectRaw('games.country_one as country_one')
+            ->selectRaw('games.country_two as country_two')
+            ->selectRaw('games.result_one as result_one')
+            ->selectRaw('games.result_two as result_two')
+            ->where('group_forwardings.countrie_id', $id)
+            ->where('games.type', 0)
+            ->get();
+    }
+    public static function showGamesFriendryById(int $id)
+    {
+        return Game::join("countries",function ($join) {
+            $join->on("countries.id", "=", "games.country_one")
+                ->orOn("countries.id", "=", "games.country_two");
+        })
+            ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')
+            ->selectRaw('group_forwardings.group_id as group_id')
+            ->selectRaw('games.type as type')
+            ->selectRaw('games.date as date')
+            ->selectRaw('games.country_one as country_one')
+            ->selectRaw('games.country_two as country_two')
+            ->selectRaw('games.result_one as result_one')
+            ->selectRaw('games.result_two as result_two')
+            ->where('group_forwardings.countrie_id', $id)
+            ->where('games.type', 2)
+            ->get();
+    }
+    public static function showGamesCupById(int $id)
+    {
+            return Game::join("countries as c1", "c1.id", "=", "games.country_one")
+                ->join("countries as c2", "c2.id", "=", "games.country_two")
+                ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'games.country_one')
+                ->join('group_forwardings as gf2', 'gf2.countrie_id', '=', 'games.country_two')
+            ->selectRaw('group_forwardings.group_id as group_id')
+            ->selectRaw('games.type as type')
+            ->selectRaw('games.date as date')
+            ->selectRaw('games.country_one as country_one')
+            ->selectRaw('games.country_two as country_two')
+            ->selectRaw('games.result_one as result_one')
+            ->selectRaw('games.result_two as result_two')
+            ->where('group_forwardings.countrie_id', $id)
+            ->where('games.type', 1)
+            ->get();
+    }
+
 }

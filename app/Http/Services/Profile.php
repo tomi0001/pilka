@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 class Profile
 {
     public $arrayPtk = [];
+    public $listGameGroup;
+    public $listGameFriendry;
+    public $listGameCup;
 
     public function showCountry(int $id)
     {
@@ -173,4 +176,12 @@ class Profile
     {
         return ProfileRepository::showGameIfTrueDate($request->get('countryOne'), $request->get('countryTwo'), $request->get('date') . " " . $request->get('time') . ":00");
     }
+    public function showCountriesById(int $id)
+    {
+       $this->listGameGroup =   ProfileRepository::showGamesGroupById($id);
+       $this->listGameFriendry =   ProfileRepository::showGamesFriendryById($id);
+       $this->listGameCup =   ProfileRepository::showGamesCupById($id);
+
+    }
+
 }
