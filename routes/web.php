@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile.addGame', [ProfileController::class, 'addGame'])->name('profile.addGame');
     Route::get('/profile.addGameSubmit', [ProfileController::class, 'addGameSubmit'])->name('profile.addGameSubmit');
     Route::get('/profile.addCountrySubmit', [ProfileController::class, 'addCountrySubmit'])->name('profile.addCountrySubmit');
+    Route::delete('/profile.deleteGroup/{id?}', [ProfileController::class, 'deleteGroup'])->name('profile.deleteGroup');
 });
 
 require __DIR__.'/auth.php';

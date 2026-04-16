@@ -27,7 +27,7 @@ class Game extends Model
         $this->date = $request->get('date') .  " " . $request->get('time') . ":00";
         $this->result_one = $request->get('resultOne');
         $this->result_two = $request->get('resultTwo');
-        //$this->type = $request->get('type');
+        $this->type = $request->get('type');
         $this->save();
     }
 

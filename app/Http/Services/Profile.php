@@ -28,7 +28,7 @@ class Profile
         if (count($listGame) > 0) {
             $this->sumPtk($listGame);
             $this->sumGoals();
-            array_multisort(array_column($this->arrayPtk, 'PTK'), SORT_DESC, array_column($this->arrayPtk, 'BZ'), SORT_DESC, array_column($this->arrayPtk, 'RB'), SORT_DESC, $this->arrayPtk);
+            array_multisort(array_column($this->arrayPtk, 'PTK'), SORT_DESC, array_column($this->arrayPtk, 'RM'), SORT_ASC, array_column($this->arrayPtk, 'RB'), SORT_DESC, $this->arrayPtk);
         }
         return $listCountry;
     }
@@ -181,6 +181,12 @@ class Profile
        $this->listGameGroup =   ProfileRepository::showGamesGroupById($id);
        $this->listGameFriendry =   ProfileRepository::showGamesFriendryById($id);
        $this->listGameCup =   ProfileRepository::showGamesCupById($id);
+
+    }
+    public function deleteGroup(int $id)
+    {
+        Group_forwarding::deleteGroup($id);
+        Group::destroy($id);
 
     }
 

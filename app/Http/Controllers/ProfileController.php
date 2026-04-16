@@ -163,4 +163,10 @@ class ProfileController extends Controller
                                         ->with('listGamesCup', $Profile->listGameCup)
                                         ->with('idCountry', $id);
     }
+    public function deleteGroup(int $id)
+    {
+        $Profile = new Profile;
+        $Profile->deleteGroup($id);
+        return Redirect::route('profile.showGroup', 1);
+    }
 }

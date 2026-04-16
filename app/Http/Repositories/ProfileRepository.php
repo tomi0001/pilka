@@ -37,6 +37,7 @@ class ProfileRepository extends Model
             ->selectRaw('games.date as date')->selectRaw('games.country_one as country_one')->selectRaw('games.country_two as country_two')
             ->selectRaw('games.result_one as result_one')->selectRaw('games.result_two as result_two')
             ->where('group_forwardings.group_id', $idGroup)
+            ->where('games.type', 0)
             ->when($isResult == false, function ($query) use ($isResult) {
                     $query->whereNotNull('games.result_one')
                         ->whereNotNull('games.result_two');
