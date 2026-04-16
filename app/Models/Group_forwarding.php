@@ -15,11 +15,14 @@ class Group_forwarding extends Model
         $Group_forwarding->group_id = $idGroup;
         $Group_forwarding->save();
     }
-    public static function checkGameNullGame(int|null $idCountry)
+
+    public static function checkGameNullGame(?int $idCountry)
     {
         return self::where('countrie_id', $idCountry)->first();
     }
-    public static function deleteGroup(int $idGroup) {
+
+    public static function deleteGroup(int $idGroup)
+    {
         self::where('group_id', $idGroup)->delete();
     }
 }

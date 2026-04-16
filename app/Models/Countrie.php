@@ -26,10 +26,9 @@ class Countrie extends Model
 
         return $Countrie->id;
     }
+
     public static function showCountryName(int $idCountry)
     {
         return self::where('id', $idCountry)->first();
     }
-
-
 }

@@ -146,6 +146,7 @@ class ProfileController extends Controller
         }
 
     }
+
     public function showCountries()
     {
         $Profile = new Profile;
@@ -153,20 +154,23 @@ class ProfileController extends Controller
 
         return View('profile.showCountries')->with('listCountry', $listCountry);
     }
+
     public function showCountriesId(int $id)
     {
         $Profile = new Profile;
         $Profile->showCountriesById($id);
 
         return View('profile.showCountriesId')->with('listGamesGroup', $Profile->listGameGroup)
-                                        ->with('listGamesFriendry', $Profile->listGameFriendry)
-                                        ->with('listGamesCup', $Profile->listGameCup)
-                                        ->with('idCountry', $id);
+            ->with('listGamesFriendry', $Profile->listGameFriendry)
+            ->with('listGamesCup', $Profile->listGameCup)
+            ->with('idCountry', $id);
     }
+
     public function deleteGroup(int $id)
     {
         $Profile = new Profile;
         $Profile->deleteGroup($id);
+
         return Redirect::route('profile.showGroup', 1);
     }
 }

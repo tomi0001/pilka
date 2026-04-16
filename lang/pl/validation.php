@@ -50,7 +50,7 @@ return [
             'integer' => 'Wynik musi być liczbą',
             'min' => 'Wynik nie może być mniejszy niż :min',
             'max' => 'Wynik nie może być większy niż :max',
-        ]
+        ],
     ],
     'confirmed' => 'Hasła musza być identyczne',
     /*

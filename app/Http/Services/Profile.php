@@ -12,8 +12,11 @@ use Illuminate\Http\Request;
 class Profile
 {
     public $arrayPtk = [];
+
     public $listGameGroup;
+
     public $listGameFriendry;
+
     public $listGameCup;
 
     public function showCountry(int $id)
@@ -30,6 +33,7 @@ class Profile
             $this->sumGoals();
             array_multisort(array_column($this->arrayPtk, 'PTK'), SORT_DESC, array_column($this->arrayPtk, 'RM'), SORT_ASC, array_column($this->arrayPtk, 'RB'), SORT_DESC, $this->arrayPtk);
         }
+
         return $listCountry;
     }
 
@@ -153,41 +157,50 @@ class Profile
 
         }
     }
+
     public function checkGame(Request $request)
     {
-       return   ProfileRepository::showGameIfTrue($request->get('countryOne'), $request->get('countryTwo'));
-
+        return ProfileRepository::showGameIfTrue($request->get('countryOne'), $request->get('countryTwo'));
 
     }
-    public function checkGameNullGame(int|null $idCountry)
+
+    public function checkGameNullGame(?int $idCountry)
     {
         return Group_forwarding::checkGameNullGame($idCountry);
     }
+
     public function showGame(int $idGroup)
     {
-        return ProfileRepository::showGames($idGroup,true);
+        return ProfileRepository::showGames($idGroup, true);
     }
+
     public function saveGame(Request $request)
     {
         $Game = new Game;
         $Game->saveGame($request);
     }
+
     public function checkGameDate(Request $request)
     {
-        return ProfileRepository::showGameIfTrueDate($request->get('countryOne'), $request->get('countryTwo'), $request->get('date') . " " . $request->get('time') . ":00");
+        return ProfileRepository::showGameIfTrueDate($request->get('countryOne'), $request->get('countryTwo'), $request->get('date').' '.$request->get('time').':00');
     }
+
     public function showCountriesById(int $id)
     {
-       $this->listGameGroup =   ProfileRepository::showGamesGroupById($id);
-       $this->listGameFriendry =   ProfileRepository::showGamesFriendryById($id);
-       $this->listGameCup =   ProfileRepository::showGamesCupById($id);
+        $this->listGameGroup = ProfileRepository::showGamesGroupById($id);
+        $this->listGameFriendry = ProfileRepository::showGamesFriendryById($id);
+        $this->listGameCup = ProfileRepository::showGamesCupById($id);
 
     }
+
     public function deleteGroup(int $id)
     {
+        $listGameGroup = ProfileRepository::showGames($id, true);
+        if (count($listGameGroup) > 0) {
+            return false;
+        }
         Group_forwarding::deleteGroup($id);
         Group::destroy($id);
 
     }
-
 }
