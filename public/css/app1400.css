@@ -57,4 +57,7 @@
         margin-left: auto;
         text-align: center;
     }
+    .main-link {
+        font-size: 1.25rem;
+    }
 }

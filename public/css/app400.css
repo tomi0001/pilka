@@ -49,4 +49,9 @@
         margin-left: auto;
         text-align: center;
     }
+    .main-link {
+        font-size: 12px;
+        padding-top: 20px;
+
+    }
 }

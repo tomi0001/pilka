@@ -7,12 +7,15 @@
 
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="space-x-5 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('profile.showGroup')" :active="request()->routeIs('profile.showGroup')">
                         Lista grup
                     </x-nav-link>
                     <x-nav-link :href="route('profile.showCountries')" :active="request()->routeIs('profile.showCountries')">
                         Lista Państw
+                    </x-nav-link>
+                    <x-nav-link :href="route('profile.showCountries')" :active="request()->routeIs('profile.showCountries')" style=" pointer-events: none; cursor: default;" >
+                        faza pucharowa
                     </x-nav-link>
                 </div>
             </div>
