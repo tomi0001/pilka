@@ -60,8 +60,8 @@
                                                 @endif
                                                 <option value="2" @selected(old('type') == '2' ? true : false)>Mecz towarzyski</option>
                                 </select>
-                                <x-input-error :messages="$errors->get('resultOne')" class="mt-2" />
-                                            <x-input-error :messages="$errors->get('resultTwo')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('type')" class="mt-2" />
+
                             </div>
 
                             <div>
