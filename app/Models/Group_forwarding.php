@@ -25,4 +25,8 @@ class Group_forwarding extends Model
     {
         self::where('group_id', $idGroup)->delete();
     }
+    public static function deleteCountry(int $idCountry)
+    {
+        self::where('countrie_id', $idCountry)->delete();
+    }
 }

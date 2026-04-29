@@ -173,4 +173,26 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.showGroup', 1);
     }
+    public function deleteCountry(int $id)
+    {
+        $Profile = new Profile;
+        $Profile->deleteCountry($id);
+
+        return Redirect::route('profile.showCountries');
+    }
+    public function deleteGame(int $id, int $idCountry)
+    {
+        $Profile = new Profile;
+        $Profile->deleteGame($id);
+
+        return Redirect::route('profile.showCountriesId', $idCountry);
+    }
+    public function editGame(int $id)
+    {
+        $Profile = new Profile;
+        $game = $Profile->showGameById($id);
+
+        return View('profile.editGame')->with('game', $game);
+    }
+
 }

@@ -14,10 +14,10 @@
         </form>
     @if ($listGame->isEmpty())
 
-<div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
-        <button command="show-modal" commandfor="dialog"  class="!bg-red-500   text-white text-bold  py-2 px-4 ">Usuń grupę</button>
-</div>
-     <el-dialog>
+        <div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
+                <button command="show-modal" commandfor="dialog"  class="!bg-red-500   text-white text-bold  py-2 px-4 ">Usuń grupę</button>
+        </div>
+        <el-dialog>
                 <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
                     <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
@@ -57,7 +57,7 @@
                         </el-dialog-panel>
                     </div>
                 </dialog>
-            </el-dialog>
+        </el-dialog>
 
     @else
         <button class="!bg-red-200   text-white text-bold  py-2 px-4 rounded rounded cursor-not-allowed ">Usuń grupę</button>

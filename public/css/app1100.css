@@ -60,4 +60,11 @@
     .main-link {
         font-size: 1.25rem;
     }
+    div.main-page-game-edit {
+        padding-top: 30px;
+        width: 30%;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+    }
 }

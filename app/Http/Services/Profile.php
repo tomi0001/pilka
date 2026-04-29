@@ -203,4 +203,24 @@ class Profile
         Group::destroy($id);
 
     }
+    public function deleteCountry(int $id)
+    {
+        $this->listGameGroup = ProfileRepository::showGamesGroupById($id);
+        $this->listGameFriendry = ProfileRepository::showGamesFriendryById($id);
+        $this->listGameCup = ProfileRepository::showGamesCupById($id);
+        if (count($this->listGameGroup) > 0 and count($this->listGameFriendry) > 0 and count($this->listGameCup) > 0) {
+            return false;
+        }
+        Group_forwarding::deleteCountry($id);
+        Countrie::destroy($id);
+
+    }
+    public function deleteGame(int $id)
+    {
+        Game::destroy($id);
+    }
+    public function showGameById(int $id)
+    {
+        return Game::showGameById($id);
+    }
 }

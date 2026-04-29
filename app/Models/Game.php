@@ -32,4 +32,11 @@ class Game extends Model
         $this->type = $request->get('type');
         $this->save();
     }
+    public static function showGameById(int $id)
+    {
+        return self::selectRaw("result_one as result_one")->selectRaw("result_two as result_two")
+        ->selectRaw("date as date")->selectRaw("id as id")->where('id', $id)
+        ->first();
+
+    }
 }
