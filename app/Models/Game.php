@@ -39,4 +39,13 @@ class Game extends Model
         ->first();
 
     }
+    public function editGame(Request $request, int $id)
+    {
+        $Game = self::find($id);
+        $Game->date = $request->get('date').' '.$request->get('time').':00';
+        $Game->result_one = $request->get('resultOne');
+        $Game->result_two = $request->get('resultTwo');
+        $Game->save();
+    }
+
 }

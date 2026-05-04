@@ -194,5 +194,19 @@ class ProfileController extends Controller
 
         return View('profile.editGame')->with('game', $game);
     }
+    public function editGameSubmit(Request $request, int $id)
+    {
+        $Profile = new Profile;
+        $ProfileRequest = new ProfileRequest;
+
+        $validate = $ProfileRequest->editGame($request, $id);
+        if ($validate) {
+            return $validate;
+        } else {
+
+            $Profile->editGame($request, $id);
+        }
+
+    }
 
 }

@@ -34,6 +34,7 @@ class ProfileRepository extends Model
             ->join('countries as c2', 'c2.id', '=', 'games.country_two')
             ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'games.country_one')
             ->join('group_forwardings as gf2', 'gf2.countrie_id', '=', 'games.country_two')
+            ->selectRaw('games.id as id')
             ->selectRaw('group_forwardings.group_id as group_id')
             ->selectRaw('games.date as date')->selectRaw('games.country_one as country_one')->selectRaw('games.country_two as country_two')
             ->selectRaw('games.result_one as result_one')->selectRaw('games.result_two as result_two')

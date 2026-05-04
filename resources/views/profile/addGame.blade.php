@@ -66,9 +66,9 @@
 
                             <div>
                                 <span class="text-gray-600 font-light text-x2 "> Wynik meczu opcjonalnie</span>
-                                <input  type="number" name="resultOne" autocomplete="family-name" max="300" min="0" step="1"
+                                <input  type="number" name="resultOne" autocomplete="family-name" max="255" min="0" step="1"
                                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"  value="{{ old('resultOne') }}" />
-                                <input  type="number" name="resultTwo" autocomplete="family-name" max="300" min="0" step="1"
+                                <input  type="number" name="resultTwo" autocomplete="family-name" max="255" min="0" step="1"
                                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"  value="{{ old('resultTwo') }}" />
 
                                 <x-input-error :messages="$errors->get('resultOne')" class="mt-2" />

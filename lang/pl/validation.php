@@ -15,6 +15,7 @@ return [
     'required_with' => 'Wynik jest wymagany, gdy drugi wynik jest obecny',
     'registration_closed' => 'Rejestracja jest już zamknięta.',
     'ifExistGroup' => 'Już jest taka grupy o tej nazwie',
+    'ifExistCountry' => 'Już jest taki kraj o tej nazwie',
     'ifExistGame' => 'Państwa należa do innych grup',
     'ifExistGameDate' => 'W tym dniu i o tej godzinie jest już zaplanowany mecz z jedną z tych drużyn',
     'different' => 'Państwa muszą być różne',

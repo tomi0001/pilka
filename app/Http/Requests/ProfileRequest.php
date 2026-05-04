@@ -72,4 +72,14 @@ class ProfileRequest extends FormRequest
         ]);
 
     }
+    public function editGame(Request $request, int $id)
+    {
+        $Profile = new Profile;
+        $request->validate([
+            'date' => ['required', 'date'],
+            'time' => ['required', 'date_format:H:i'],
+            'resultOne' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultTwo'],
+            'resultTwo' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultOne'],
+        ]);
+    }
 }

@@ -67,4 +67,11 @@
         margin-left: auto;
         text-align: center;
     }
+    div.main-groups-game {
+        padding-top: 30px;
+        width: 70%;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+    }
 }

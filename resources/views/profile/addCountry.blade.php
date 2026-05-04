@@ -25,7 +25,7 @@
                                                         <option value="{{ $group->id }}">{{ $group->name }}</option>
                                                     @endforeach
                                         </select>
-                                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+
 
                                     </div>
                                     <div class="flex items-center gap-4">

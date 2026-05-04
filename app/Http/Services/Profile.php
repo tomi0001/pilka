@@ -223,4 +223,9 @@ class Profile
     {
         return Game::showGameById($id);
     }
+    public function editGame(Request $request, int $id)
+    {
+        $Game = new Game;
+        $Game->editGame($request, $id);
+    }
 }
