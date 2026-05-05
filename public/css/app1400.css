@@ -1,4 +1,4 @@
-@media (min-width: 1100px) and (max-width: 1780px) {
+@media (min-width: 1100px) and (max-width: 1700px) {
 
 
     div.main {
@@ -8,25 +8,10 @@
         margin-right: auto;
     }
 
-    div.main-page-add {
-        padding-top: 30px;
-        width: 27%;
-        margin-right: auto;
-        margin-left: auto;
-        text-align: center;
 
-    }
-    div.main-page-addGame {
-        padding-top: 30px;
-        width: 50%;
-        margin-right: auto;
-        margin-left: auto;
-        text-align: center;
-
-    }
     div.main-page-view {
         padding-top: 30px;
-        width: 50%;
+        width: 69%;
         margin-right: auto;
         margin-left: auto;
         text-align: center;
@@ -52,7 +37,7 @@
     }
     div.main-page-countries {
         padding-top: 30px;
-        width: 30%;
+        width: 59%;
         margin-right: auto;
         margin-left: auto;
         text-align: center;
@@ -62,7 +47,7 @@
     }
     div.main-page-game-edit {
         padding-top: 30px;
-        width: 30%;
+        width: 55%;
         margin-right: auto;
         margin-left: auto;
         text-align: center;

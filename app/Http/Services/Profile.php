@@ -201,6 +201,7 @@ class Profile
         }
         Group_forwarding::deleteGroup($id);
         Group::destroy($id);
+        return true;
 
     }
     public function deleteCountry(int $id)

@@ -72,15 +72,15 @@
          <table class="w-full text-sm text-left rtl:text-right text-body min-w-full border-collapse " id="groupTable">
             <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default bg-blue-400">
                 <tr>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" onclick="sortByColumn(0)">Kraj</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" onclick="sortByColumn(1)">RM</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" onclick="sortByColumn(1)">W</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" onclick="sortByColumn(1)">R</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" onclick="sortByColumn(1)">P</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" onclick="sortByColumn(1)">BZ</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" onclick="sortByColumn(1)">BS</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" onclick="sortByColumn(1)">RB</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" onclick="sortByColumn(1)">PTK</th>
+                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >Kraj</th>
+                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >RM</th>
+                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >W</th>
+                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >R</th>
+                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >P</th>
+                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >BZ</th>
+                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >BS</th>
+                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >RB</th>
+                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >PTK</th>
                 </tr>
             </thead>
             <tbody  class="">
