@@ -12,6 +12,13 @@
                 @endforeach
             </select>
         </form>
+
+        @if ($ifEndGroup == true)
+            True
+        @else
+            False
+        @endif
+
     @if ($listGame->isEmpty())
 
         <div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">

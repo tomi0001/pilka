@@ -42,6 +42,20 @@ class Profile
         return Countrie::showCountries();
     }
 
+    private function crecreateArrayForM($listCountry)
+    {
+        for ($i = 0; $i < count($listCountry); $i++) {
+
+            $arrayPtk[$i]['idGroup'] = $listCountry[$i]->name;
+            $arrayPtk[$i]['idCountry'] = $listCountry[$i]->id;
+            $arrayPtk[$i]['RM'] = 0;
+
+        }
+
+        return $arrayPtk;
+
+    }
+
     private function createArrayPtk($listCountry)
     {
         for ($i = 0; $i < count($listCountry); $i++) {
@@ -67,59 +81,89 @@ class Profile
         }
     }
 
-    private function sumPtk($arrayCountry)
+    private function sumPtkForM($listGame, $arrayPtk)
     {
-        for ($j = 0; $j < count($this->arrayPtk); $j++) {
-            for ($i = 0; $i < count($arrayCountry); $i++) {
+        for ($j = 0; $j < count($arrayPtk); $j++) {
+            for ($i = 0; $i < count($listGame); $i++) {
 
-                if ($arrayCountry[$i]['country_one'] == $this->arrayPtk[$j]['idCountry']) {
+                if ($listGame[$i]['country_one'] == $arrayPtk[$j]['idCountry']) {
+                    $arrayPtk[$j]['RM'] += 1;
 
-                    if ($arrayCountry[$i]['result_one'] > $arrayCountry[$i]['result_two']) {
-
-                        $this->arrayPtk[$j]['PTK'] += 3;
-                        $this->arrayPtk[$j]['W'] += 1;
-                        $this->arrayPtk[$j]['RM'] += 1;
-                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_one'];
-                    } elseif ($arrayCountry[$i]['result_one'] == $arrayCountry[$i]['result_two']) {
-                        $this->arrayPtk[$j]['PTK'] += 1;
-                        $this->arrayPtk[$j]['R'] += 1;
-                        $this->arrayPtk[$j]['RM'] += 1;
-                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
-                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                    } else {
-                        $this->arrayPtk[$j]['P'] += 1;
-                        $this->arrayPtk[$j]['RM'] += 1;
-                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_one'];
-                    }
-
-                } elseif ($arrayCountry[$i]['country_two'] == $this->arrayPtk[$j]['idCountry']) {
-
-                    if ($arrayCountry[$i]['result_one'] < $arrayCountry[$i]['result_two']) {
-
-                        $this->arrayPtk[$j]['PTK'] += 3;
-                        $this->arrayPtk[$j]['W'] += 1;
-                        $this->arrayPtk[$j]['RM'] += 1;
-                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_one'];
-                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
-                    } elseif ($arrayCountry[$i]['result_one'] == $arrayCountry[$i]['result_two']) {
-
-                        $this->arrayPtk[$j]['PTK'] += 1;
-                        $this->arrayPtk[$j]['R'] += 1;
-                        $this->arrayPtk[$j]['RM'] += 1;
-                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
-                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_two'];
-                    } else {
-                        $this->arrayPtk[$j]['P'] += 1;
-                        $this->arrayPtk[$j]['RM'] += 1;
-                        $this->arrayPtk[$j]['BS'] += $arrayCountry[$i]['result_one'];
-                        $this->arrayPtk[$j]['BZ'] += $arrayCountry[$i]['result_two'];
-
-                    }
+                } elseif ($listGame[$i]['country_two'] == $arrayPtk[$j]['idCountry']) {
+                    $arrayPtk[$j]['RM'] += 1;
                 }
 
             }
+        }
+
+        return $arrayPtk;
+    }
+
+    private function sumPtk($listGame)
+    {
+        for ($j = 0; $j < count($this->arrayPtk); $j++) {
+            for ($i = 0; $i < count($listGame); $i++) {
+
+                if ($listGame[$i]['country_one'] == $this->arrayPtk[$j]['idCountry']) {
+
+                    $this->sumPtkForCountryOne($listGame, $j, $i);
+
+                } elseif ($listGame[$i]['country_two'] == $this->arrayPtk[$j]['idCountry']) {
+
+                    $this->sumPtkForCountryTwo($listGame, $j, $i);
+                }
+
+            }
+        }
+
+    }
+
+    private function sumPtkForCountryOne($listGame, int $j, int $i)
+    {
+        if ($listGame[$i]['result_one'] > $listGame[$i]['result_two']) {
+
+            $this->arrayPtk[$j]['PTK'] += 3;
+            $this->arrayPtk[$j]['W'] += 1;
+            $this->arrayPtk[$j]['RM'] += 1;
+            $this->arrayPtk[$j]['BS'] += $listGame[$i]['result_two'];
+            $this->arrayPtk[$j]['BZ'] += $listGame[$i]['result_one'];
+        } elseif ($listGame[$i]['result_one'] == $listGame[$i]['result_two']) {
+            $this->arrayPtk[$j]['PTK'] += 1;
+            $this->arrayPtk[$j]['R'] += 1;
+            $this->arrayPtk[$j]['RM'] += 1;
+            $this->arrayPtk[$j]['BZ'] += $listGame[$i]['result_two'];
+            $this->arrayPtk[$j]['BS'] += $listGame[$i]['result_two'];
+        } else {
+            $this->arrayPtk[$j]['P'] += 1;
+            $this->arrayPtk[$j]['RM'] += 1;
+            $this->arrayPtk[$j]['BS'] += $listGame[$i]['result_two'];
+            $this->arrayPtk[$j]['BZ'] += $listGame[$i]['result_one'];
+        }
+
+    }
+
+    private function sumPtkForCountryTwo($listGame, int $j, int $i)
+    {
+        if ($listGame[$i]['result_one'] < $listGame[$i]['result_two']) {
+
+            $this->arrayPtk[$j]['PTK'] += 3;
+            $this->arrayPtk[$j]['W'] += 1;
+            $this->arrayPtk[$j]['RM'] += 1;
+            $this->arrayPtk[$j]['BS'] += $listGame[$i]['result_one'];
+            $this->arrayPtk[$j]['BZ'] += $listGame[$i]['result_two'];
+        } elseif ($listGame[$i]['result_one'] == $listGame[$i]['result_two']) {
+
+            $this->arrayPtk[$j]['PTK'] += 1;
+            $this->arrayPtk[$j]['R'] += 1;
+            $this->arrayPtk[$j]['RM'] += 1;
+            $this->arrayPtk[$j]['BZ'] += $listGame[$i]['result_two'];
+            $this->arrayPtk[$j]['BS'] += $listGame[$i]['result_two'];
+        } else {
+            $this->arrayPtk[$j]['P'] += 1;
+            $this->arrayPtk[$j]['RM'] += 1;
+            $this->arrayPtk[$j]['BS'] += $listGame[$i]['result_one'];
+            $this->arrayPtk[$j]['BZ'] += $listGame[$i]['result_two'];
+
         }
 
     }
@@ -201,9 +245,11 @@ class Profile
         }
         Group_forwarding::deleteGroup($id);
         Group::destroy($id);
+
         return true;
 
     }
+
     public function deleteCountry(int $id)
     {
         $this->listGameGroup = ProfileRepository::showGamesGroupById($id);
@@ -216,17 +262,57 @@ class Profile
         Countrie::destroy($id);
 
     }
+
     public function deleteGame(int $id)
     {
         Game::destroy($id);
     }
+
     public function showGameById(int $id)
     {
         return Game::showGameById($id);
     }
+
     public function editGame(Request $request, int $id)
     {
         $Game = new Game;
         $Game->editGame($request, $id);
+    }
+
+    public function sumMForAllGroup()
+    {
+        $Repository = new ProfileRepository;
+        $listGroup = Group::showGroup();
+        $i = 0;
+        foreach ($listGroup as $group) {
+            $listCountry = $Repository->showCountry($group->id);
+            if (count($listCountry) > 0) {
+                $arrayPtk[$i] = $this->crecreateArrayForM($listCountry);
+            }
+            $listGame = ProfileRepository::showGames($group->id);
+            if (count($listGame) > 0) {
+                $arrayPtk[$i] = $this->sumPtkForM($listGame, $arrayPtk[$i]);
+            }
+            $i++;
+        }
+
+        return $arrayPtk;
+    }
+
+    public function ifEndGroup($sumMForAllGroup)
+    {
+        $howM = 0;
+        for ($i = 0; $i < count($sumMForAllGroup); $i++) {
+            for ($j = 0; $j < count($sumMForAllGroup[$i]); $j++) {
+                if ($i == 0 and $j == 0 and $sumMForAllGroup[$i][$j]['RM'] > 0) {
+                    $howM = $sumMForAllGroup[$i][$j]['RM'];
+                } elseif ($sumMForAllGroup[$i][$j]['RM'] == 0 or $sumMForAllGroup[$i][$j]['RM'] != $howM) {
+                    return false;
+                }
+
+            }
+        }
+
+        return true;
     }
 }
