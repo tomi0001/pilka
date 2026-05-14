@@ -5,7 +5,7 @@
             @method('PUT')
                 <div class="grid grid-cols-2 gap-2">
                     <div class="bg-blue-100 text-blue-800 px-4 py-2  	flex items-center justify-center">
-                        Wynik 1:
+                        Wynik: <br> {{ \App\Models\Countrie::find($game->country_one)->name }}:
                     </div>
                     <div class="bg-blue-100 text-blue-800 px-4 py-2 ">
                         <input  type="number" name="resultOne" autocomplete="family-name" max="255" min="0" step="1" value="{{ $game->result_one }}"
@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="bg-blue-100 text-blue-800 px-4 py-2 	flex items-center justify-center">
-                        Wynik 2:
+                        Wynik: <br> {{ \App\Models\Countrie::find($game->country_two)->name }}:
                     </div>
                     <div class="bg-blue-100 text-blue-800 px-4 py-2 ">
                         <input type="number" name="resultTwo" autocomplete="family-name" max="255" min="0" step="1" value="{{ $game->result_two }}"

@@ -41,11 +41,13 @@ class ProfileRepository extends Model
             ->selectRaw('games.result_one as result_one')->selectRaw('games.result_two as result_two')
             ->where('group_forwardings.group_id', $idGroup)
             ->where('games.type', 0)
+            ->where('games.status', -1)
             ->when($isResult == false, function ($query) {
                 $query->whereNotNull('games.result_one')
                     ->whereNotNull('games.result_two');
 
             })
+            ->orderBy('date')
             ->get();
     }
 
@@ -90,6 +92,7 @@ class ProfileRepository extends Model
             ->selectRaw('games.result_two as result_two')
             ->where('group_forwardings.countrie_id', $id)
             ->where('games.type', 0)
+            ->where('games.status', -1)
             ->get();
     }
 
@@ -109,7 +112,8 @@ class ProfileRepository extends Model
             ->selectRaw('games.result_one as result_one')
             ->selectRaw('games.result_two as result_two')
             ->where('group_forwardings.countrie_id', $id)
-            ->where('games.type', 2)
+            ->where('games.type', 0)
+            ->where('games.status', -2)
             ->get();
     }
 

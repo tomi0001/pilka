@@ -29,12 +29,13 @@ class Game extends Model
         $this->date = $request->get('date').' '.$request->get('time').':00';
         $this->result_one = $request->get('resultOne');
         $this->result_two = $request->get('resultTwo');
-        $this->type = $request->get('type');
+        $this->status = $request->get('type');
         $this->save();
     }
     public static function showGameById(int $id)
     {
         return self::selectRaw("result_one as result_one")->selectRaw("result_two as result_two")
+        ->selectRaw("country_one as country_one")->selectRaw("country_two as country_two")
         ->selectRaw("date as date")->selectRaw("id as id")->where('id', $id)
         ->first();
 

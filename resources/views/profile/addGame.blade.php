@@ -53,12 +53,28 @@
                             <div>
                                 <span class="text-gray-600 font-light text-x2 "> Rodzaj meczu</span>
                                 <select name="type" id="type" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                            @if (Auth::user()->status == 0)
-                                                    <option value="0" @selected(old('type') == '0' ? true : false)>Mecz o punkty</option>
+                                                @if (Auth::user()->status == -1)
+                                                    <option value="-1" @selected(old('type') == '-1' ? true : false)>Mecz o punkty</option>
+                                                @elseif (Auth::user()->status == 64)
+                                                    <option value="64" @selected(old('type') == '64' ? true : false)>Mecz o 1/64 pucharu</option>
+                                                @elseif (Auth::user()->status == 32)
+                                                    <option value="32" @selected(old('type') == '32' ? true : false)>Mecz o 1/32 pucharu</option>
+                                                @elseif (Auth::user()->status == 16)
+                                                    <option value="16" @selected(old('type') == '16' ? true : false)>Mecz o 1/16 pucharu</option>
+                                                @elseif (Auth::user()->status == 8)
+                                                    <option value="8" @selected(old('type') == '8' ? true : false)>Mecz o 1/8 pucharu</option>
+                                                @elseif (Auth::user()->status == 4)
+                                                    <option value="4" @selected(old('type') == '4' ? true : false)>Mecz o 1/4 pucharu</option>
+                                                @elseif (Auth::user()->status == 2)
+                                                    <option value="2" @selected(old('type') == '2' ? true : false)>Mecz o 1/2 pucharu</option>
+                                                @elseif (Auth::user()->status == 1)
+                                                    <option value="1" @selected(old('type') == '1' ? true : false)>Finał</option>
+                                                @elseif (Auth::user()->status == 0)
+                                                    <option value="0" @selected(old('type') == '0' ? true : false)>Mecz o 3 miejsce</option>
                                                 @else
                                                     <option value="1" @selected(old('type') == '1' ? true : false)>Mecz faza pucharowa</option>
                                                 @endif
-                                                <option value="2" @selected(old('type') == '2' ? true : false)>Mecz towarzyski</option>
+                                                <option value="-2" @selected(old('type') == '-2' ? true : false)>Mecz towarzyski</option>
                                 </select>
                                 <x-input-error :messages="$errors->get('type')" class="mt-2" />
 

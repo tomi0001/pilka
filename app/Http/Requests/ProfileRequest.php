@@ -40,7 +40,7 @@ class ProfileRequest extends FormRequest
         $request->validate([
             'countryOne' => ['required', 'integer', 'different:countryTwo',
                 function ($attribute, $value, $fail) use ($request, $Profile) {
-                    if ($request->get('type') != 2) {
+                    if ($request->get('type') == -1) {
 
                         if (count($Profile->checkGame($request)) > 1) {
                             $fail(__('validation.ifExistGame'));
@@ -54,7 +54,7 @@ class ProfileRequest extends FormRequest
             ],
             'countryTwo' => ['required', 'integer',
                 function ($attribute, $value, $fail) use ($request, $Profile) {
-                    if ($request->get('type') != 2) {
+                    if ($request->get('type') == -1) {
 
                         if ($Profile->checkGameNullGame($request->get('countryTwo')) == null) {
                             $fail(__('validation.ifExistGameNullGame'));

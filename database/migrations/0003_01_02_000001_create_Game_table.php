@@ -24,6 +24,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('result_pena_one')->nullable();
             $table->unsignedTinyInteger('result_pena_two')->nullable();
             $table->unsignedTinyInteger('type')->default(0);
+            $table->tinyInteger('status')->default(-1);
             $table->dateTime('date')->nullable();
         });
 
