@@ -62,3 +62,14 @@ function sortByColumn(n) {
     }
   }
 }
+
+
+function closeGroup(countCountry, countGroups) {
+    $("#closeGroup").show();
+    $("#buttonCloseGroup").hide();
+
+}
+
+
+
+

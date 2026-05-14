@@ -29,7 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile.deleteCountry/{id?}', [ProfileController::class, 'deleteCountry'])->name('profile.deleteCountry');
     Route::delete('/profile.deleteGame/{id?}/{idCountry?}', [ProfileController::class, 'deleteGame'])->name('profile.deleteGame');
     Route::get('/profile.editGame/{id}', [ProfileController::class, 'editGame'])->name('profile.editGame');
-    Route::put('/profile.editGameSubmit/{id}', [ProfileController::class, 'editGameSubmit'])->name('profile.editGameSubmit');
+    Route::put('/profile.closeGroup', [ProfileController::class, 'closeGroup'])->name('profile.closeGroup');
+
 });
 
 require __DIR__.'/auth.php';

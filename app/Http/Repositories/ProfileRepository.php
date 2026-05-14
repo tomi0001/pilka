@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\Countrie;
+use App\Models\Group_forwarding;
 use App\Models\Game;
 use App\Models\Group;
 use Illuminate\Database\Eloquent\Model;
@@ -141,6 +142,12 @@ class ProfileRepository extends Model
             ->join('countries', 'group_forwardings.countrie_id', '=', 'countries.id')->get();
 
         return $listCountry;
+    }
+    public static function calculateCup() {
+        return Group_forwarding::join('groups','group_forwardings.group_id', 'groups.id')
+                ->where("groups.type", 0)
+                ->count();
+
     }
 
 }

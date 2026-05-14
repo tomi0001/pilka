@@ -69,10 +69,11 @@ class ProfileController extends Controller
         $listGame = $Profile->showGame($id);
         $sumMForAllGroup = $Profile->sumMForAllGroup();
         $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
+        $result =  $Profile->calculateCup();
 
 
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-            ->with('selectedGroup', 0)->with('listGame', $listGame)->with('arrayPtk', $Profile->arrayPtk)->with('ifEndGroup', $ifEndGroup);
+            ->with('selectedGroup', 0)->with('listGame', $listGame)->with('arrayPtk', $Profile->arrayPtk)->with('ifEndGroup', $ifEndGroup)->with('result', $result) ;
     }
 
     public function addGroup()
@@ -133,9 +134,10 @@ class ProfileController extends Controller
         $sumMForAllGroup = $Profile->sumMForAllGroup();
 
         $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
-
+        $result =  $Profile->calculateCup();
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-            ->with('selectedGroup', $request->get('group'))->with('arrayPtk', $Profile->arrayPtk)->with('listGame', $listGame)->with('ifEndGroup', $ifEndGroup);
+            ->with('selectedGroup', $request->get('group'))->with('arrayPtk', $Profile->arrayPtk)
+            ->with('listGame', $listGame)->with('ifEndGroup', $ifEndGroup)->with('result', $result);
     }
 
     public function addGameSubmit(Request $request)
@@ -214,5 +216,20 @@ class ProfileController extends Controller
         }
 
     }
+    public function closeGroup(Request $request)
+    {
+        $Profile = new Profile;
+        $sumMForAllGroup = $Profile->sumMForAllGroup();
+        $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
+        if ($ifEndGroup != false) {
+            return Redirect::route('profile.showGroup', 1)->with('error', 'Nie możesz zakończyć fazy grupowej musisz rozegrac parzystą liczbę meczy');
+        }
+        else {
+             $Profile->closeGroup($request);
+        }
+
+
+    }
+
 
 }

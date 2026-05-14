@@ -24,4 +24,8 @@ class Group extends Model
         $Group->name = strtoupper($name);
         $Group->save();
     }
+    public static function countGroups() {
+        return self::where("type",0)->count();
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Repositories\ProfileRepository;
 use App\Models\Countrie;
 use App\Models\Game;
+use App\Models\User;
 use App\Models\Group;
 use App\Models\Group_forwarding;
 use Illuminate\Http\Request;
@@ -315,4 +316,46 @@ class Profile
 
         return true;
     }
+    public function calculateCup()
+    {
+
+        $Repository = new ProfileRepository;
+        $result = $Repository->calculateCup();
+        $countGroups = Group::countGroups();
+        $lowerLimit = $this->calculateCupLower($countGroups);
+        $upperLimit = $this->calculateCupUpper($result);
+        if ($lowerLimit > $upperLimit) {
+            $lowerLimit = $upperLimit;
+        }
+        return [$lowerLimit, $upperLimit];
+
+    }
+
+    private function calculateCupLower(int $countGroups) {
+        $lowerLimit = 2;
+        $count = $countGroups;
+        while ($count > $lowerLimit) {
+            if ($lowerLimit > 65) {
+                break;
+            }
+            $lowerLimit = $lowerLimit * 2;
+        }
+        return $lowerLimit / 2;
+}
+
+    private function calculateCupUpper(int $countCountry) {
+        $upperLimit = 64;
+        $count = $countCountry / 2;
+        while ($count < $upperLimit) {
+            $upperLimit = $upperLimit / 2;
+        }
+        return $upperLimit;
+    }
+    public function closeGroup(Request $request) {
+        $User = new User;
+        $User->changeStatus($request->get('closeGroup'));
+
+    }
+
+
 }
