@@ -8,6 +8,7 @@ use App\Models\Game;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Group_forwarding;
+use Auth;
 use Illuminate\Http\Request;
 
 class Profile
@@ -19,6 +20,11 @@ class Profile
     public $listGameFriendry;
 
     public $listGameCup;
+    public $listStatusErrorForCloseGroup = false;
+    public $listStatusErrorFirstCup = false;
+    public $listStatusErrorGamesCup = false;
+    public $listStatusErrorCountryIfGameExist = false;
+
 
     public function showCountry(int $id)
     {
@@ -223,6 +229,12 @@ class Profile
     {
         $Game = new Game;
         $Game->saveGame($request);
+        $count = Game::checkIfFirstCup(Auth::user()->status,true);
+        if ($count >= Auth::user()->status) {
+            $User = new User;
+            $User->changeStatus(Auth::user()->status / 2);
+
+        }
     }
 
     public function checkGameDate(Request $request)
@@ -356,9 +368,42 @@ class Profile
         $User->changeStatus($request->get('closeGroup'));
 
     }
-    public function checkGameForCloseGroup(int $idCountryOne) {
-        return ProfileRepository::checkGameForCloseGroup($idCountryOne);
-    }
+    public function chcekErrorCup(int $idCountryOne) {
+            $this->listStatusErrorFirstCup = false;
+            $this->listStatusErrorForCloseGroup = false;
+            $this->listStatusErrorGamesCup = false;
+            $this->listStatusErrorCountryIfGameExist = false;
 
+            $this->checkGameForCloseGroup($idCountryOne);
+            $this->checkIfFirstCup();
+            $this->countGamesCup(Auth::user()->status);
+            $this->checkCountryIfGameExist($idCountryOne, Auth::user()->status);
+
+    }
+    private function checkGameForCloseGroup(int $idCountryOne) {
+        $tmp =  ProfileRepository::checkGameForCloseGroup($idCountryOne);
+        if ($tmp == true) {
+            $this->listStatusErrorForCloseGroup = true;
+        }
+    }
+    private function checkIfFirstCup() {
+        $tmp = Auth::user()->status * 2;
+        $count = Game::checkIfFirstCup($tmp);
+        if ($count == 0) {
+            $this->listStatusErrorFirstCup = true;
+        }
+    }
+    private function countGamesCup(int $status) {
+        $count = Game::checkIfFirstCup($status);
+        if ($count < $status) {
+            $this->listStatusErrorGamesCup = true;
+        }
+    }
+    private function checkCountryIfGameExist(int $idCountry,int $status) {
+        $count = Game::checkCountryIfGameExist($idCountry, $status);
+        if ($count == 0) {
+            return $this->listStatusErrorCountryIfGameExist = true;
+        }
+    }
 
 }

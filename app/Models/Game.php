@@ -29,6 +29,10 @@ class Game extends Model
         $this->date = $request->get('date').' '.$request->get('time').':00';
         $this->result_one = $request->get('resultOne');
         $this->result_two = $request->get('resultTwo');
+        $this->result_over_one = $request->get('result_over_one');
+        $this->result_over_two = $request->get('result_over_two');
+        $this->result_pena_one = $request->get('result_pena_one');
+        $this->result_pena_two = $request->get('result_pena_two');
         $this->status = $request->get('type');
         $this->save();
     }
@@ -47,6 +51,24 @@ class Game extends Model
         $Game->result_one = $request->get('resultOne');
         $Game->result_two = $request->get('resultTwo');
         $Game->save();
+    }
+    public static function checkIfFirstCup(int $cup, bool $isResult = false) {
+        return self::where('status', $cup)->where('type', 0)
+            ->when($isResult == true, function ($query) {
+                $query->whereNotNull('games.result_one')
+                    ->whereNotNull('games.result_two');
+
+            })
+        ->count();
+    }
+    public static function checkCountryIfGameExist(int $idCountry,int $status) {
+        return self::where(function ($query) use ($idCountry) {
+            $query->where('country_one', $idCountry)
+                ->orWhere('country_two', $idCountry);
+        })
+        ->where('status', $status)
+        ->where('type', 0)
+        ->count();
     }
 
 }

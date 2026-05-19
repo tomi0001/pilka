@@ -150,7 +150,7 @@ class ProfileController extends Controller
             return $validate;
         } else {
 
-            $Profile->saveGame($request);
+            $count =$Profile->saveGame($request);
         }
 
     }

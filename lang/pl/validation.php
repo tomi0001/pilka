@@ -17,6 +17,7 @@ return [
     'ifExistGroup' => 'Już jest taka grupy o tej nazwie',
     'ifExistCountry' => 'Już jest taki kraj o tej nazwie',
     'ifExistGame' => 'Państwa należa do innych grup',
+
     'result' => 'Błędny wynik',
     'ifExistGameCloseGroup' => 'Państwo nie należy do żadnej grupy lub należy do grupy zamkniętej',
     'ifExistGameDate' => 'W tym dniu i o tej godzinie jest już zaplanowany mecz z jedną z tych drużyn',
@@ -26,6 +27,7 @@ return [
         'password' => [
             'min' => 'Hasło musi mieć minimum :min znaków',
         ],
+        'result_error' => 'Nie można dodać meczu z wynikiem, gdy grupa jest otwarta',
         'name' => [
             'max' => 'Nazwa grupy musi mieć jeden znak',
             'required' => 'Uzupełnij pole nazwa grupy',

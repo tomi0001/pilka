@@ -88,7 +88,7 @@
                                 <x-input-error :messages="$errors->get('resultOne')" class="mt-2" />
                                 <x-input-error :messages="$errors->get('resultTwo')" class="mt-2" />
                             </div>
-                            @if (Auth::user()->status != -1)
+                            @if (Auth::user()->status >=  0)
                                 <div>
                                     <span class="text-gray-600 font-light text-x2 "> Wynik Dogrywki opcjonalnie</span>
                                     <input  type="number" name="result_over_one" autocomplete="family-name" max="255" min="0" step="1"
@@ -108,6 +108,7 @@
 
                                     <x-input-error :messages="$errors->get('result_pena_one')" class="mt-2" />
                                     <x-input-error :messages="$errors->get('result_pena_two')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('result_error')" class="mt-2" />
                                 </div>
                             @endif
                             <div class="flex items-center gap-4">
