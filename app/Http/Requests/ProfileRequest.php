@@ -48,6 +48,10 @@ class ProfileRequest extends FormRequest
                         if ($Profile->checkGameNullGame($request->get('countryOne')) == null) {
                             $fail(__('validation.ifExistGameNullGame'));
                         }
+                    } else {
+                        if (! ($Profile->checkGameForCloseGroup($request->get('countryOne')))) {
+                            $fail(__('validation.ifExistGameCloseGroup'));
+                        }
                     }
                 },
 
@@ -62,6 +66,13 @@ class ProfileRequest extends FormRequest
                         if (($Profile->checkGameDate($request))) {
                             $fail(__('validation.ifExistGameDate'));
                         }
+                    } else {
+                        if (! ($Profile->checkGameForCloseGroup($request->get('countryTwo')))) {
+                            $fail(__('validation.ifExistGameCloseGroup'));
+                        }
+                        if ($this->checkResult($request) == -1) {
+                            $fail(__('validation.result'));
+                        }
                     }
                 },
             ],
@@ -69,9 +80,14 @@ class ProfileRequest extends FormRequest
             'time' => ['required', 'date_format:H:i'],
             'resultOne' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultTwo'],
             'resultTwo' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultOne'],
+            'result_over_one' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_over_two'],
+            'result_over_two' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_over_one'],
+            'result_pena_one' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_pena_two'],
+            'result_pena_two' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_pena_one'],
         ]);
 
     }
+
     public function editGame(Request $request, int $id)
     {
         $Profile = new Profile;
@@ -81,5 +97,35 @@ class ProfileRequest extends FormRequest
             'resultOne' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultTwo'],
             'resultTwo' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultOne'],
         ]);
+    }
+
+    private function checkResult(Request $request)
+    {
+
+        if ($request->get('resultOne') == null and $request->get('result_over_one') == null and $request->get('result_pena_one') == null) {
+            return 0;
+        } else {
+            if ($request->get('resultOne') != null and $request->get('result_over_one') == null and $request->get('result_pena_one') == null) {
+                if ($request->get('resultOne') != $request->get('resultTwo')) {
+                    return 0;
+                }
+            } elseif ($request->get('resultOne') != null and $request->get('result_over_one') != null and $request->get('result_pena_one') == null) {
+
+                if ($request->get('result_over_one') != $request->get('result_over_two')) {
+                    return 0;
+                }
+            } elseif ($request->get('resultOne') != null and $request->get('result_over_one') != null and $request->get('result_pena_one') != null) {
+
+                if ($request->get('result_pena_one') != $request->get('result_pena_two')) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+
+            }
+        }
+
+        return -1;
+
     }
 }

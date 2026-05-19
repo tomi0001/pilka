@@ -356,6 +356,9 @@ class Profile
         $User->changeStatus($request->get('closeGroup'));
 
     }
+    public function checkGameForCloseGroup(int $idCountryOne) {
+        return ProfileRepository::checkGameForCloseGroup($idCountryOne);
+    }
 
 
 }

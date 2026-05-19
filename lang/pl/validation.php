@@ -17,6 +17,8 @@ return [
     'ifExistGroup' => 'Już jest taka grupy o tej nazwie',
     'ifExistCountry' => 'Już jest taki kraj o tej nazwie',
     'ifExistGame' => 'Państwa należa do innych grup',
+    'result' => 'Błędny wynik',
+    'ifExistGameCloseGroup' => 'Państwo nie należy do żadnej grupy lub należy do grupy zamkniętej',
     'ifExistGameDate' => 'W tym dniu i o tej godzinie jest już zaplanowany mecz z jedną z tych drużyn',
     'different' => 'Państwa muszą być różne',
     'ifExistGameNullGame' => 'Nie można dodać meczu z drużyną, która nie jest przypisana do żadnej grupy',

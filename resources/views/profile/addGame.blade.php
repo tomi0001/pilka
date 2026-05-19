@@ -71,8 +71,6 @@
                                                     <option value="1" @selected(old('type') == '1' ? true : false)>Finał</option>
                                                 @elseif (Auth::user()->status == 0)
                                                     <option value="0" @selected(old('type') == '0' ? true : false)>Mecz o 3 miejsce</option>
-                                                @else
-                                                    <option value="1" @selected(old('type') == '1' ? true : false)>Mecz faza pucharowa</option>
                                                 @endif
                                                 <option value="-2" @selected(old('type') == '-2' ? true : false)>Mecz towarzyski</option>
                                 </select>
@@ -90,6 +88,28 @@
                                 <x-input-error :messages="$errors->get('resultOne')" class="mt-2" />
                                 <x-input-error :messages="$errors->get('resultTwo')" class="mt-2" />
                             </div>
+                            @if (Auth::user()->status != -1)
+                                <div>
+                                    <span class="text-gray-600 font-light text-x2 "> Wynik Dogrywki opcjonalnie</span>
+                                    <input  type="number" name="result_over_one" autocomplete="family-name" max="255" min="0" step="1"
+                                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"  value="{{ old('result_over_one') }}" />
+                                    <input  type="number" name="result_over_two" autocomplete="family-name" max="255" min="0" step="1"
+                                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"  value="{{ old('result_over_two') }}" />
+
+                                    <x-input-error :messages="$errors->get('result_over_one')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('result_over_two')" class="mt-2" />
+                                </div>
+                                <div>
+                                    <span class="text-gray-600 font-light text-x2 "> Wynik Rzutów karnych opcjonalnie</span>
+                                    <input  type="number" name="result_pena_one" autocomplete="family-name" max="255" min="0" step="1"
+                                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"  value="{{ old('result_pena_one') }}" />
+                                    <input  type="number" name="result_pena_two" autocomplete="family-name" max="255" min="0" step="1"
+                                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"  value="{{ old('result_pena_two') }}" />
+
+                                    <x-input-error :messages="$errors->get('result_pena_one')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('result_pena_two')" class="mt-2" />
+                                </div>
+                            @endif
                             <div class="flex items-center gap-4">
                                 <x-primary-button>{{ __('Dodaj') }}</x-primary-button>
 

@@ -153,5 +153,13 @@ class ProfileRepository extends Model
                 ->count();
 
     }
+    public static function checkGameForCloseGroup(int $idCountryOne) {
+        return Group_forwarding::join('groups','group_forwardings.group_id', 'groups.id')
+                ->where("groups.type", 0)
+                ->where(function ($query) use ($idCountryOne) {
+                $query->where('group_forwardings.countrie_id', $idCountryOne);
+            })
+                ->first();
+    }
 
 }
