@@ -70,5 +70,22 @@ class Game extends Model
         ->where('type', 0)
         ->count();
     }
+    public static function showGamesCup() {
+        return self::where('status',">=",0)->where('type', 0)->orderBy('status')->orderBy('date')->get();
+    }
+    public static function chcekIfGameExistCup(int $idCountryOne, int $idCountryTwo, int $status) {
+        return self::where('status', $status)
+        ->where('type', 0)
+        ->where(function ($query) use ($idCountryOne, $idCountryTwo) {
+            $query->where('country_one', $idCountryOne)
+                ->Where('country_two', $idCountryTwo);
+        })
+        ->orwhere(function ($query) use ($idCountryOne, $idCountryTwo) {
+            $query->where('country_one', $idCountryTwo)
+                ->Where('country_two', $idCountryOne);
+        })
+
+        ->count();
+    }
 
 }

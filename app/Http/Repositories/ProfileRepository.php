@@ -102,8 +102,7 @@ class ProfileRepository extends Model
             $join->on('countries.id', '=', 'games.country_one')
                 ->orOn('countries.id', '=', 'games.country_two');
         })
-            ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')
-            ->selectRaw('group_forwardings.group_id as group_id')
+
             ->selectRaw('games.type as type')
             ->selectRaw('games.date as date')
             ->selectRaw('games.id as id')
@@ -111,7 +110,7 @@ class ProfileRepository extends Model
             ->selectRaw('games.country_two as country_two')
             ->selectRaw('games.result_one as result_one')
             ->selectRaw('games.result_two as result_two')
-            ->where('group_forwardings.countrie_id', $id)
+            ->where('countries.id', $id)
             ->where('games.type', 0)
             ->where('games.status', -2)
             ->get();
@@ -119,20 +118,27 @@ class ProfileRepository extends Model
 
     public static function showGamesCupById(int $id)
     {
-        return Game::join('countries as c1', 'c1.id', '=', 'games.country_one')
-            ->join('countries as c2', 'c2.id', '=', 'games.country_two')
-            ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'games.country_one')
-            ->join('group_forwardings as gf2', 'gf2.countrie_id', '=', 'games.country_two')
+        return Game::join('countries', function ($join) {
+            $join->on('countries.id', '=', 'games.country_one')
+                ->orOn('countries.id', '=', 'games.country_two');
+            })
+            ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')
             ->selectRaw('group_forwardings.group_id as group_id')
             ->selectRaw('games.type as type')
             ->selectRaw('games.date as date')
+            ->selectRaw('games.status as status')
             ->selectRaw('games.id as id')
             ->selectRaw('games.country_one as country_one')
             ->selectRaw('games.country_two as country_two')
             ->selectRaw('games.result_one as result_one')
             ->selectRaw('games.result_two as result_two')
+            ->selectRaw('games.result_over_one as result_over_one')
+            ->selectRaw('games.result_over_two as result_over_two')
+            ->selectRaw('games.result_pena_one as result_pena_one')
+            ->selectRaw('games.result_pena_two as result_pena_two')
             ->where('group_forwardings.countrie_id', $id)
-            ->where('games.type', 1)
+            ->where('games.type', 0)
+            ->where('games.status',">=", 0)
             ->get();
     }
     public static function checkIfEndGroup()

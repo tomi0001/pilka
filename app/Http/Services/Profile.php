@@ -21,9 +21,10 @@ class Profile
 
     public $listGameCup;
     public $listStatusErrorForCloseGroup = false;
-    public $listStatusErrorFirstCup = false;
+    public $listStatusErrorFirstCup = true;
     public $listStatusErrorGamesCup = false;
     public $listStatusErrorCountryIfGameExist = false;
+    public $listStatusChcekIfGameExistCup = false;
 
 
     public function showCountry(int $id)
@@ -368,16 +369,18 @@ class Profile
         $User->changeStatus($request->get('closeGroup'));
 
     }
-    public function chcekErrorCup(int $idCountryOne) {
-            $this->listStatusErrorFirstCup = false;
+    public function chcekErrorCup(int $idCountryOne, int $idCountryTwo = 0) {
+            $this->listStatusErrorFirstCup = true;
             $this->listStatusErrorForCloseGroup = false;
             $this->listStatusErrorGamesCup = false;
             $this->listStatusErrorCountryIfGameExist = false;
+            $this->listStatusChcekIfGameExistCup = false;
 
             $this->checkGameForCloseGroup($idCountryOne);
-            $this->checkIfFirstCup();
+            $this->checkIfFirstCup($idCountryOne);
             $this->countGamesCup(Auth::user()->status);
-            $this->checkCountryIfGameExist($idCountryOne, Auth::user()->status);
+            $this->checkCountryIfGameExist($idCountryOne);
+            $this->chcekIfGameExistCup($idCountryTwo,$idCountryOne);
 
     }
     private function checkGameForCloseGroup(int $idCountryOne) {
@@ -386,24 +389,53 @@ class Profile
             $this->listStatusErrorForCloseGroup = true;
         }
     }
-    private function checkIfFirstCup() {
-        $tmp = Auth::user()->status * 2;
+    private function checkIfFirstCup(int $idCountry) {
+        if (Auth::user()->status == 0) {
+            $tmp = 2;
+        }
+        else {
+            $tmp = Auth::user()->status * 2;
+        }
         $count = Game::checkIfFirstCup($tmp);
+        if ($count != 0) {
+            $count = Game::checkCountryIfGameExist($idCountry, $tmp);
+            if ($count == 0) {
+                $this->listStatusErrorFirstCup = false;
+            }
+
+        }
+    }
+    private function chcekIfGameExistCup(int $idCountryOne, int $idCountryTwo) {
+        if (Auth::user()->status == 0) {
+            $tmp = 2;
+        }
+        else {
+            $tmp = Auth::user()->status * 2;
+        }
+        $count = Game::chcekIfGameExistCup($idCountryOne,$idCountryTwo, $tmp);
         if ($count == 0) {
-            $this->listStatusErrorFirstCup = true;
+            $this->listStatusChcekIfGameExistCup = true;
         }
     }
     private function countGamesCup(int $status) {
+        if (Auth::user()->status == 0) {
+            $this->listStatusErrorGamesCup = true;
+            return;
+        }
         $count = Game::checkIfFirstCup($status);
         if ($count < $status) {
             $this->listStatusErrorGamesCup = true;
         }
     }
-    private function checkCountryIfGameExist(int $idCountry,int $status) {
-        $count = Game::checkCountryIfGameExist($idCountry, $status);
+    private function checkCountryIfGameExist(int $idCountry) {
+        $tmp = Auth::user()->status;
+        $count = Game::checkCountryIfGameExist($idCountry, $tmp);
         if ($count == 0) {
             return $this->listStatusErrorCountryIfGameExist = true;
         }
+    }
+    public function showGamesCup() {
+        return Game::showGamesCup();
     }
 
 }

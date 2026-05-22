@@ -230,6 +230,13 @@ class ProfileController extends Controller
 
 
     }
+    public function showCup()
+    {
+        $Profile = new Profile;
+        $list =  $Profile->showGamesCup();
+
+        return View('profile.showCup')->with('list', $list);
+    }
 
 
 }

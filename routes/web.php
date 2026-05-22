@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile.editGame/{id}', [ProfileController::class, 'editGame'])->name('profile.editGame');
     Route::put('/profile.editGameSubmit/{id}', [ProfileController::class, 'editGameSubmit'])->name('profile.editGameSubmit');
     Route::put('/profile.closeGroup', [ProfileController::class, 'closeGroup'])->name('profile.closeGroup');
+    Route::get('/profile.showCup', [ProfileController::class, 'showCup'])->name('profile.showCup');
+
 
 });
 
