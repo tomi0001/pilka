@@ -27,12 +27,12 @@ class Profile
     public $listStatusChcekIfGameExistCup = false;
 
 
-    public function showCountry(int $id)
+    public function showCountry(int $id, int $number = 0)
     {
         $Repository = new ProfileRepository;
-        $listCountry = $Repository->showCountry($id);
+        $listCountry = $Repository->showCountry($id, $number);
 
-        $listGame = ProfileRepository::showGames($id);
+        $listGame = ProfileRepository::showGames($id, $number);
         if (count($listCountry) > 0) {
             $this->createArrayPtk($listCountry);
         }
@@ -176,9 +176,11 @@ class Profile
 
     }
 
-    public function showGroup()
+    public function showGroup(int $number = 0)
     {
-        return Group::showGroup();
+        return Group::showGroup($number);
+
+
     }
 
     public function ifExistGroup(string $name)
@@ -221,19 +223,41 @@ class Profile
         return Group_forwarding::checkGameNullGame($idCountry);
     }
 
-    public function showGame(int $idGroup)
+    public function showGame(int $idGroup,int $number = 0)
     {
-        return ProfileRepository::showGames($idGroup, true);
+        return ProfileRepository::showGames($idGroup,$number, true);
     }
 
     public function saveGame(Request $request)
     {
         $Game = new Game;
         $Game->saveGame($request);
-        $count = Game::checkIfFirstCup(Auth::user()->status,true);
+        if (  (Auth::user()->status == 1 and $request->get('type') == 0) )  {
+            $count = Game::checkIfFirstCup(0,true);
+        }
+        else {
+            $count = Game::checkIfFirstCup(Auth::user()->status,true);
+        }
         if ($count >= Auth::user()->status) {
             $User = new User;
-            $User->changeStatus(Auth::user()->status / 2);
+            if ( ( Auth::user()->status == 0 )  or (Auth::user()->status == 1 and $request->get('type') == 0) )  {
+                $Group = new Group;
+                $Group_forwarding = new Group_forwarding;
+                $Game = new Game;
+                $Group->increments();
+                $Game->increments();
+                $Group_forwarding->increments();
+                $User->changeStatus(-1);
+            }
+            elseif (Auth::user()->status == 1 and $request->get('type') == 0) {
+                $User->changeStatus(1);
+            }
+            elseif (Auth::user()->status == 1) {
+                $User->changeStatus(0);
+            }
+            else {
+                $User->changeStatus(Auth::user()->status / 2);
+            }
 
         }
     }
@@ -243,11 +267,11 @@ class Profile
         return ProfileRepository::showGameIfTrueDate($request->get('countryOne'), $request->get('countryTwo'), $request->get('date').' '.$request->get('time').':00');
     }
 
-    public function showCountriesById(int $id)
+    public function showCountriesById(int $id,  int $number = 0)
     {
-        $this->listGameGroup = ProfileRepository::showGamesGroupById($id);
-        $this->listGameFriendry = ProfileRepository::showGamesFriendryById($id);
-        $this->listGameCup = ProfileRepository::showGamesCupById($id);
+        $this->listGameGroup = ProfileRepository::showGamesGroupById($id, $number);
+        $this->listGameFriendry = ProfileRepository::showGamesFriendryById($id, $number);
+        $this->listGameCup = ProfileRepository::showGamesCupById($id, $number);
 
     }
 
@@ -293,17 +317,17 @@ class Profile
         $Game->editGame($request, $id);
     }
 
-    public function sumMForAllGroup()
+    public function sumMForAllGroup(int $number = 0)
     {
         $Repository = new ProfileRepository;
-        $listGroup = Group::showGroup();
+        $listGroup = Group::showGroup($number);
         $i = 0;
         foreach ($listGroup as $group) {
-            $listCountry = $Repository->showCountry($group->id);
+            $listCountry = $Repository->showCountry($group->id, $number);
             if (count($listCountry) > 0) {
                 $arrayPtk[$i] = $this->crecreateArrayForM($listCountry);
             }
-            $listGame = ProfileRepository::showGames($group->id);
+            $listGame = ProfileRepository::showGames($group->id,$number);
             if (count($listGame) > 0) {
                 $arrayPtk[$i] = $this->sumPtkForM($listGame, $arrayPtk[$i]);
             }
@@ -329,15 +353,21 @@ class Profile
 
         return true;
     }
-    public function calculateCup()
+    public function calculateCup(int $number = 0)
     {
 
         $Repository = new ProfileRepository;
-        $result = $Repository->calculateCup();
-        $countGroups = Group::countGroups();
+        $number = $this->loadSessionOldGroup();
+        $result = $Repository->calculateCup($number);
+        if ($result == 0) {
+            return [1, 1];
+        }
+        $countGroups = Group::countGroups($number);
         $lowerLimit = $this->calculateCupLower($countGroups);
         $upperLimit = $this->calculateCupUpper($result);
+
         if ($lowerLimit > $upperLimit) {
+
             $lowerLimit = $upperLimit;
         }
         return [$lowerLimit, $upperLimit];
@@ -353,7 +383,7 @@ class Profile
             }
             $lowerLimit = $lowerLimit * 2;
         }
-        return $lowerLimit / 2;
+        return (int) $lowerLimit / 2;
 }
 
     private function calculateCupUpper(int $countCountry) {
@@ -362,7 +392,7 @@ class Profile
         while ($count < $upperLimit) {
             $upperLimit = $upperLimit / 2;
         }
-        return $upperLimit;
+        return (int) $upperLimit;
     }
     public function closeGroup(Request $request) {
         $User = new User;
@@ -390,7 +420,7 @@ class Profile
         }
     }
     private function checkIfFirstCup(int $idCountry) {
-        if (Auth::user()->status == 0) {
+        if (Auth::user()->status == 0 or Auth::user()->status == 1) {
             $tmp = 2;
         }
         else {
@@ -406,7 +436,7 @@ class Profile
         }
     }
     private function chcekIfGameExistCup(int $idCountryOne, int $idCountryTwo) {
-        if (Auth::user()->status == 0) {
+        if (Auth::user()->status == 0 or Auth::user()->status == 1) {
             $tmp = 2;
         }
         else {
@@ -418,7 +448,7 @@ class Profile
         }
     }
     private function countGamesCup(int $status) {
-        if (Auth::user()->status == 0) {
+        if (Auth::user()->status == 0 or Auth::user()->status == 1) {
             $this->listStatusErrorGamesCup = true;
             return;
         }
@@ -434,8 +464,22 @@ class Profile
             return $this->listStatusErrorCountryIfGameExist = true;
         }
     }
-    public function showGamesCup() {
-        return Game::showGamesCup();
+    public function showGamesCup(int $number = 0) {
+        return Game::showGamesCup($number);
+    }
+    public function whereIdFirstGroup(int $number = 0) {
+        return Group::whereIdFirstGroup($number)->id;
+    }
+    public function chcekOldGroup() {
+
+        return Group::chcekOldGroup();
+
+    }
+    public function loadSessionOldGroup() :int {
+        if (session()->has('oldGroup')) {
+            return session()->get('oldGroup');
+        }
+        return 0;
     }
 
 }

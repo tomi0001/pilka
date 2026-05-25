@@ -14,7 +14,7 @@
                     <x-nav-link :href="route('profile.showCountries')" :active="request()->routeIs('profile.showCountries')">
                         Lista Państw
                     </x-nav-link>
-                    <x-nav-link :href="route('profile.showCup')" :active="request()->routeIs('profile.showCup')" style=" {{ Auth::user()->status < 0 ? 'cursor: not-allowed; pointer-events: none;' : '' }}" >
+                    <x-nav-link :href="route('profile.showCup')" :active="request()->routeIs('profile.showCup')" >
                         faza pucharowa
                     </x-nav-link>
                 </div>

@@ -1,16 +1,34 @@
 <x-app-layout>
     <div class="main-page-cup">
+        @if (count($listOldGroup) > 0)
+                <div class="text-blue-500 font-light text-xl mt-4">Istnieją starsze grupy, możesz je przeglądać.</div>
+
+                 @include('profile.selectOldGroup')
+
+        @endif
         @for ($i=0 ; $i < count($list); $i++)
                 @if ($i == 0)
                     <div class="max-w-sm md:max-w-lg w-80 rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-blue-500 text-gray-200 mt-4 mb-4 mx-auto ">
                         <div class="px-6 py-4 ">
-                            <div class="font-bold text-xl mb-2 flex items-center justify-center ">1/{{ $list[$i]->status   }} finału</div>
+                            @if ($list[$i]->status == 0)
+                                <div class="font-bold text-xl mb-2 flex items-center justify-center ">Finał</div>
+                            @elseif ($list[$i]->status == 1)
+                                <div class="font-bold text-xl mb-2 flex items-center justify-center ">Mecz o 3 miesjce</div>
+                            @else
+                                <div class="font-bold text-xl mb-2 flex items-center justify-center ">1/{{ $list[$i]->status  }} finału</div>
+                            @endif
                         </div>
                     </div>
                 @elseif ($list[$i]->status != $list[$i-1]->status)
                     <div class="max-w-sm md:max-w-lg w-80 rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-blue-500 text-gray-200 mt-4 mb-4 mx-auto ">
                         <div class="px-6 py-4 ">
-                            <div class="font-bold text-xl mb-2 flex items-center justify-center ">1/{{ $list[$i]->status  }} finału</div>
+                            @if ($list[$i]->status == 0)
+                                <div class="font-bold text-xl mb-2 flex items-center justify-center ">Finał</div>
+                            @elseif ($list[$i]->status == 1)
+                                <div class="font-bold text-xl mb-2 flex items-center justify-center ">Mecz o 3 miesjce</div>
+                            @else
+                                <div class="font-bold text-xl mb-2 flex items-center justify-center ">1/{{ $list[$i]->status  }} finału</div>
+                            @endif
                         </div>
                     </div>
                 @endif
@@ -86,5 +104,8 @@
                             <div class="m-7"></div>
 
         @endfor
+        @if (count($list) == 0)
+            <p class="text-red-500 font-light text-xl mt-4">Brak meczy fazy pucharowej.</p>
+        @endif
     </div>
 </x-app-layout>

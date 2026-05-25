@@ -70,6 +70,9 @@ function closeGroup(countCountry, countGroups) {
 
 }
 
+function changeSession(url) {
+    window.location.href = url + '?number=' + document.querySelector('#old').value;
 
+}
 
 

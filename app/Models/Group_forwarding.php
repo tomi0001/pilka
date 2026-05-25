@@ -29,4 +29,7 @@ class Group_forwarding extends Model
     {
         self::where('countrie_id', $idCountry)->delete();
     }
+    public function increments() {
+        return self::increment('type');
+    }
 }

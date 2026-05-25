@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('group_id')->constrained();
             $table->foreignId('countrie_id')->constrained();
+            $table->unsignedTinyInteger('type')->default(0);
         });
 
     }

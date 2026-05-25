@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Services\Profile;
+use App\Models\Group;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,19 +62,33 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function showGroup(int $id = 1)
+    public function showGroup()
     {
         $Profile = new Profile;
-        $listGroup = $Profile->showGroup();
-        $listCountry = $Profile->showCountry($id);
-        $listGame = $Profile->showGame($id);
-        $sumMForAllGroup = $Profile->sumMForAllGroup();
+        $number  =$Profile->loadSessionOldGroup();
+        $listGroup = $Profile->showGroup($number);
+        $result =  $Profile->calculateCup($number);
+        $listOldGroup = $Profile->chcekOldGroup();
+
+        if (count($listGroup) == 0) {
+            return View('profile.showGroupError')->with('listOldGroup', $listOldGroup);
+        }
+        $id = $Profile->whereIdFirstGroup($number);
+        $listCountry = $Profile->showCountry($id, $number);
+        $listGame = $Profile->showGame($id, $number);
+        if (count($listCountry) == 0) {
+            return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
+            ->with('selectedGroup', $id)->with('result', $result)->with('ifEndGroup', false)->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
+        }
+
+        $sumMForAllGroup = $Profile->sumMForAllGroup($number);
         $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
-        $result =  $Profile->calculateCup();
+
 
 
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-            ->with('selectedGroup', 0)->with('listGame', $listGame)->with('arrayPtk', $Profile->arrayPtk)->with('ifEndGroup', $ifEndGroup)->with('result', $result) ;
+            ->with('selectedGroup', $id)->with('listGame', $listGame)->with('arrayPtk', $Profile->arrayPtk)
+            ->with('ifEndGroup', $ifEndGroup)->with('result', $result)->with('listOldGroup', $listOldGroup);
     }
 
     public function addGroup()
@@ -128,16 +143,30 @@ class ProfileController extends Controller
     public function showGroupForm(Request $request)
     {
         $Profile = new Profile;
-        $listGroup = $Profile->showGroup();
-        $listCountry = $Profile->showCountry($request->get('group'));
-        $listGame = $Profile->showGame($request->get('group'));
-        $sumMForAllGroup = $Profile->sumMForAllGroup();
+        $number = $Profile->loadSessionOldGroup();
+        $listGroup = $Profile->showGroup($number);
+        $listOldGroup = $Profile->chcekOldGroup();
+
+
+        if (count($listGroup) == 0) {
+            return View('profile.showGroupError')->with('listOldGroup', $listOldGroup);
+        }
+        $listCountry = $Profile->showCountry($request->get('group'), $number);
+        $result =  $Profile->calculateCup($number);
+        $listGame = $Profile->showGame($request->get('group'), $number);
+        if (count($listCountry) == 0) {
+            return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
+            ->with('selectedGroup', $request->get('group'))->with('result', $result)->with('ifEndGroup', false)
+            ->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
+        }
+
+        $sumMForAllGroup = $Profile->sumMForAllGroup($number);
 
         $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
-        $result =  $Profile->calculateCup();
+
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
             ->with('selectedGroup', $request->get('group'))->with('arrayPtk', $Profile->arrayPtk)
-            ->with('listGame', $listGame)->with('ifEndGroup', $ifEndGroup)->with('result', $result);
+            ->with('listGame', $listGame)->with('ifEndGroup', $ifEndGroup)->with('result', $result)->with('listOldGroup', $listOldGroup);
     }
 
     public function addGameSubmit(Request $request)
@@ -159,19 +188,23 @@ class ProfileController extends Controller
     {
         $Profile = new Profile;
         $listCountry = $Profile->showCountryAll();
+        $listOldGroup = $Profile->chcekOldGroup();
 
-        return View('profile.showCountries')->with('listCountry', $listCountry);
+        return View('profile.showCountries')->with('listCountry', $listCountry)->with('listOldGroup', $listOldGroup);
     }
 
     public function showCountriesId(int $id)
     {
         $Profile = new Profile;
-        $Profile->showCountriesById($id);
+        $number = $Profile->loadSessionOldGroup();
+        $Profile->showCountriesById($id, $number);
+        $listOldGroup = $Profile->chcekOldGroup();
 
         return View('profile.showCountriesId')->with('listGamesGroup', $Profile->listGameGroup)
             ->with('listGamesFriendry', $Profile->listGameFriendry)
             ->with('listGamesCup', $Profile->listGameCup)
-            ->with('idCountry', $id);
+            ->with('idCountry', $id)
+            ->with('listOldGroup', $listOldGroup);
     }
 
     public function deleteGroup(int $id)
@@ -179,7 +212,7 @@ class ProfileController extends Controller
         $Profile = new Profile;
         $Profile->deleteGroup($id);
 
-        return Redirect::route('profile.showGroup', 1);
+        return Redirect::route('profile.showGroup');
     }
     public function deleteCountry(int $id)
     {
@@ -233,9 +266,17 @@ class ProfileController extends Controller
     public function showCup()
     {
         $Profile = new Profile;
-        $list =  $Profile->showGamesCup();
+        $listOldGroup = $Profile->chcekOldGroup();
+        $number = $Profile->loadSessionOldGroup();
+        $list =  $Profile->showGamesCup($number);
 
-        return View('profile.showCup')->with('list', $list);
+        return View('profile.showCup')->with('list', $list)->with('listOldGroup', $listOldGroup);
+    }
+    public function changeSeession(Request $request)
+    {
+        $request->session()->put('oldGroup', $request->get('number'));
+
+        return Redirect::back();
     }
 
 

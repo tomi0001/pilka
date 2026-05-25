@@ -68,9 +68,10 @@
                                                 @elseif (Auth::user()->status == 2)
                                                     <option value="2" @selected(old('type') == '2' ? true : false)>Mecz o 1/2 pucharu</option>
                                                 @elseif (Auth::user()->status == 1)
-                                                    <option value="1" @selected(old('type') == '1' ? true : false)>Finał</option>
+                                                    <option value="1" @selected(old('type') == '1' ? true : false)>Mecz o 3 miejsce</option>
+                                                    <option value="0" @selected(old('type') == '0' ? true : false)>Finał</option>
                                                 @elseif (Auth::user()->status == 0)
-                                                    <option value="0" @selected(old('type') == '0' ? true : false)>Mecz o 3 miejsce</option>
+                                                    <option value="1" @selected(old('type') == '0' ? true : false)>Finał</option>
                                                 @endif
                                                 <option value="-2" @selected(old('type') == '-2' ? true : false)>Mecz towarzyski</option>
                                 </select>
