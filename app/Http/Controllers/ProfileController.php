@@ -278,6 +278,13 @@ class ProfileController extends Controller
 
         return Redirect::back();
     }
+    public function changeGroup(Request $request)
+    {
+        $Profile = new Profile;
+        $Profile->changeGroup($request);
+
+        return Redirect::back();
+    }
 
 
 }

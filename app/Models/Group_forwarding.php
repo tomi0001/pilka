@@ -32,4 +32,11 @@ class Group_forwarding extends Model
     public function increments() {
         return self::increment('type');
     }
+    public static function checkForwarding(int $idCountry) {
+        return self::selectRaw('group_id as group_id')->where('countrie_id', $idCountry)->where('type', 0)->first();
+    }
+    public function deleteForwarding( int $idCountry) {
+        $Group_forwarding = new self;
+        $Group_forwarding->where('countrie_id', $idCountry)->where("type", 0)->delete();
+    }
 }

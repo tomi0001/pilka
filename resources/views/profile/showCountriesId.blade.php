@@ -9,7 +9,18 @@
 
 
             <div class="grid grid-cols-2 gap-2">
-
+                <div class="bg-blue-100 text-blue-800 px-4 py-2 "> Przypisana grupa </div>
+                <div class="bg-blue-100 text-blue-800 px-4 py-2 ">
+                    <span @class([
+                       'font-bold',
+                        'text-red-500' => \App\Http\Repositories\ProfileRepository::showNameGroup($idCountry,session()->get('oldGroup')) == null,
+                       'text-blue-500' => ! \App\Http\Repositories\ProfileRepository::showNameGroup($idCountry,session()->get('oldGroup')) == null,
+                       ])>
+                       {!!    \App\Http\Repositories\ProfileRepository::showNameGroup($idCountry,session()->get('oldGroup')) == null ?
+                        "Nie przypisano do grupy" :
+                       " <a href='" . route('profile.showGroupForm', ['group' => \App\Http\Repositories\ProfileRepository::showNameGroup($idCountry,session()->get('oldGroup'))->group_id]) . "'> Grupa " . \App\Http\Repositories\ProfileRepository::showNameGroup($idCountry,session()->get('oldGroup'))->name . "</a>" !!}
+                         </span>
+                </div>
                 <div class="bg-blue-100 text-blue-800 px-4 py-2 "> Nazwa kraju </div><div class="bg-blue-100 text-blue-800 px-4 py-2">{{ \App\Models\Countrie::find($idCountry)->name }}</div>
                 <div class="bg-blue-100 text-blue-800 px-4 py-2 "> Liczba meczy grupowych</div><div class="bg-blue-100 text-blue-800 px-4 py-2">{{ $listGamesGroup->count() }}</div>
                 <div class="bg-blue-100 text-blue-800 px-4 py-2 "> Liczba meczy Towarzyskich</div><div class="bg-blue-100 text-blue-800 px-4 py-2">{{ $listGamesFriendry->count() }}</div>
@@ -20,6 +31,7 @@
                 <div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
                     <button command="show-modal" commandfor="dialog"  class="!bg-red-500   text-white text-bold  py-2 px-4 ">Usuń Państwo</button>
                 </div>
+
                 <el-dialog>
                     <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
                         <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
@@ -62,6 +74,32 @@
                     </dialog>
                 </el-dialog>
             @endif
+            @if ($listGamesGroup->isEmpty() and $listGamesCup->isEmpty())
+                <div class="container py-10 px-1  min-w-full ">
+                    Zmień grupę
+                    <form action="{{ route('profile.changeGroup') }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <select name="groupChange" id="groupChange" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 form-select-group">
+                            <option value="0" {{   empty(\App\Models\Group_forwarding::checkForwarding($idCountry)) ? 'selected' : '' }}>Nie przepisuj do żadnej grupy</option>
+                            @foreach (\App\Models\Group::showGroup() as $item)
+                                @if (!empty(\App\Models\Group_forwarding::checkForwarding($idCountry)) and \App\Models\Group_forwarding::checkForwarding($idCountry)->group_id == $item->id)
+                                    <option value="{{ $item->id }}"  selected>Grupa {{ $item->name }}</option>
+                                @else
+                                     <option value="{{ $item->id }}" >Grupa {{ $item->name }}</option>
+                                @endif
+
+
+                            @endforeach
+                        </select>
+                        <input type="hidden" name="idCountry" value="{{ $idCountry }}">
+                        <button class="!bg-green-500 text-white text-bold  py-2 px-4">Zmień grupę</button>
+                    </form>
+                </div>
+
+
+
+            @endif
             @if (!$listGamesGroup->isEmpty())
                 <div class="max-w-sm md:max-w-lg w-80 rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-blue-500 text-gray-200 mt-4 mb-4 mx-auto ">
                     <div class="px-6 py-4">
@@ -74,7 +112,7 @@
                         @foreach ($listGamesGroup as $game)
 
                             <div class=" px-4 py-2 ">
-                                    @if (Auth::user()->status < 0 or session()->get('oldGroup') == 0)
+                                    @if (Auth::user()->status < 0 and session()->get('oldGroup') == 0)
                                         <button command="show-modal" commandfor="dialog_{{ $game->id }}"  class="!bg-red-500 px-4 py-2 !rounded text-white">Usuń mecz</button>
                                             <el-dialog>
                                                 <dialog id="dialog_{{ $game->id }}" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">

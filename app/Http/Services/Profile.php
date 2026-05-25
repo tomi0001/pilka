@@ -479,7 +479,20 @@ class Profile
         if (session()->has('oldGroup')) {
             return session()->get('oldGroup');
         }
-        return 0;
+        session()->put('oldGroup', 0);
+        return session()->get('oldGroup');
+    }
+    public function changeGroup(Request $request)
+    {
+
+        $Group_forwarding = new Group_forwarding;
+        $Group_forwarding->deleteForwarding($request->get('idCountry'));
+        if ($request->get('groupChange') != 0) {
+            $Group_forwarding = new Group_forwarding;
+            $Group_forwarding->saveForwarding($request->get('idCountry'), $request->get('groupChange'));
+        }
+
+
     }
 
 }

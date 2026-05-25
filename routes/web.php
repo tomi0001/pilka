@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile.closeGroup', [ProfileController::class, 'closeGroup'])->name('profile.closeGroup');
     Route::get('/profile.showCup', [ProfileController::class, 'showCup'])->name('profile.showCup');
     Route::get('/profile.changeSeession', [ProfileController::class, 'changeSeession'])->name('profile.changeSeession');
+    Route::put('/profile.changeGroup', [ProfileController::class, 'changeGroup'])->name('profile.changeGroup');
 
 
 });
