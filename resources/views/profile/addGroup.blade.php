@@ -8,8 +8,8 @@
                     <section>
 
 
-                            <form action="{{ route('profile.addGroupSubmit') }}" method="get" class="mt-6 space-y-6">
-
+                            <form action="{{ route('profile.addGroupSubmit') }}" method="post" class="mt-6 space-y-6">
+                                @csrf
 
 
                                 <div>

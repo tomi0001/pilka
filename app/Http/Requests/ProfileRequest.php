@@ -126,16 +126,85 @@ class ProfileRequest extends FormRequest
     public function editGame(Request $request, int $id)
     {
         $Profile = new Profile;
+        $game = $Profile->showGameId($id);
+
         $request->validate([
+            'resultOne' => ['required', 'integer', 'different:countryTwo',
+                function ($attribute, $value, $fail) use ($request, $Profile, $game) {
+                    if ($game->status == -1) {
+
+                        if (count($Profile->checkGame($request)) > 1) {
+                            $fail(__('validation.ifExistGame'));
+                        }
+                        if ($Profile->checkGameNullGame($game->country_one) == null) {
+                            $fail(__('validation.ifExistGameNullGame'));
+                        }
+                    } else  if ($game->status >= 0) {
+                        $Profile->chcekErrorCup($game->country_one);
+                        if ($Profile->listStatusErrorForCloseGroup  == false) {
+                            $fail(__('validation.ifExistGameCloseGroup'));
+                        }
+
+
+                        if ( ($Profile->listStatusErrorGamesCup  == false)) {
+                            $fail(__('validation.listStatusErrorGamesCup'));
+                        }
+
+                        if ( ($Profile->listStatusErrorFirstCup  == false)) {
+                            $fail(__('validation.listStatusErrorFirstCup'));
+                        }
+                    }
+                },
+
+            ],
+            'resultTwo' => ['required', 'integer',
+                function ($attribute, $value, $fail) use ($request, $Profile, $game) {
+                    if ($game->status == -1) {
+
+                        if ($Profile->checkGameNullGame($game->country_two) == null) {
+                            $fail(__('validation.ifExistGameNullGame'));
+                        }
+                        if (($Profile->checkGameDate($request))) {
+                            $fail(__('validation.ifExistGameDate'));
+                        }
+                    } else if ($game->status >= 0) {
+                        $Profile->chcekErrorCup($game->country_two,$game->country_one);
+                        if ( ($Profile->listStatusErrorForCloseGroup  == false)) {
+                            $fail(__('validation.ifExistGameCloseGroup'));
+                        }
+
+
+                        if ( ($Profile->listStatusErrorGamesCup  == false)) {
+                            $fail(__('validation.listStatusErrorGamesCup'));
+                        }
+
+                        if ( ($Profile->listStatusErrorFirstCup  == false)) {
+                            $fail(__('validation.listStatusErrorFirstCup'));
+                        }
+                        if ( ($Profile->listStatusChcekIfGameExistCup  == false)) {
+                             $fail(__('validation.listStatusChcekIfGameExistCup'));
+                        }
+                        if ($this->checkResult($request) == -1) {
+                            $fail(__('validation.result'));
+                        }
+
+                    }
+                },
+            ],
             'date' => ['required', 'date'],
             'time' => ['required', 'date_format:H:i'],
-            'resultOne' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultTwo'],
-            'resultTwo' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultOne'],
+            // 'resultOne' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultTwo'],
+            // 'resultTwo' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultOne'],
+            'result_over_one' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_over_two'],
+            'result_over_two' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_over_one'],
+            'result_pena_one' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_pena_two'],
+            'result_pena_two' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_pena_one'],
         ]);
     }
 
     private function checkResult(Request $request)
     {
+
 
         if ($request->get('resultOne') == null and $request->get('result_over_one') == null and $request->get('result_pena_one') == null) {
             return 0;

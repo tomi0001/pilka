@@ -6,7 +6,8 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <section>
-                            <form action="{{ route('profile.addCountrySubmit') }}" method="get" class="mt-6 space-y-6">
+                            <form action="{{ route('profile.addCountrySubmit') }}" method="post" class="mt-6 space-y-6">
+                                @csrf
                                 <div>
                                         <span class="text-gray-600 font-light text-x2 "> Nazwa Kraju</span>
 

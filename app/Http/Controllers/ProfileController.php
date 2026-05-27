@@ -153,6 +153,8 @@ class ProfileController extends Controller
         }
         $listCountry = $Profile->showCountry($request->get('group'), $number);
         $result =  $Profile->calculateCup($number);
+        $request->request->remove('group');
+
         $listGame = $Profile->showGame($request->get('group'), $number);
         if (count($listCountry) == 0) {
             return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
@@ -254,7 +256,7 @@ class ProfileController extends Controller
         $Profile = new Profile;
         $sumMForAllGroup = $Profile->sumMForAllGroup();
         $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
-        if ($ifEndGroup != false) {
+        if ($ifEndGroup == false) {
             return Redirect::route('profile.showGroup', 1)->with('error', 'Nie możesz zakończyć fazy grupowej musisz rozegrac parzystą liczbę meczy');
         }
         else {
@@ -274,9 +276,19 @@ class ProfileController extends Controller
     }
     public function changeSeession(Request $request)
     {
-        $request->session()->put('oldGroup', $request->get('number'));
+        $Profile = new Profile;
+        $Profile->putSessionOldGroup($request->get('number'));
 
-        return Redirect::back();
+        //$request->session()->put('oldGroup', $request->get('number'));
+        //$request->session()->flush();
+        //session()->forget('selectedGroup');
+        //$request->request->remove('group');
+        //$request->request->remove('group');
+        //session()->forget('group');
+        //print($request->get('number'));
+        //print($request->get('route'));
+
+        return Redirect::route($request->get('route'));
     }
     public function changeGroup(Request $request)
     {

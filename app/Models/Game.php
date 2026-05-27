@@ -39,6 +39,9 @@ class Game extends Model
     public static function showGameById(int $id)
     {
         return self::selectRaw("result_one as result_one")->selectRaw("result_two as result_two")
+        ->selectRaw("result_over_one as result_over_one")->selectRaw("result_over_two as result_over_two")
+        ->selectRaw("result_pena_one as result_pena_one")->selectRaw("result_pena_two as result_pena_two")
+        ->selectRaw("status as status")->selectRaw("type as type")
         ->selectRaw("country_one as country_one")->selectRaw("country_two as country_two")
         ->selectRaw("date as date")->selectRaw("id as id")->where('id', $id)
         ->first();
@@ -50,6 +53,10 @@ class Game extends Model
         $Game->date = $request->get('date').' '.$request->get('time').':00';
         $Game->result_one = $request->get('resultOne');
         $Game->result_two = $request->get('resultTwo');
+        $Game->result_over_one = $request->get('result_over_one');
+        $Game->result_over_two = $request->get('result_over_two');
+        $Game->result_pena_one = $request->get('result_pena_one');
+        $Game->result_pena_two = $request->get('result_pena_two');
         $Game->save();
     }
     public static function checkIfFirstCup(int $cup, bool $isResult = false) {
@@ -67,6 +74,7 @@ class Game extends Model
                 ->orWhere('country_two', $idCountry);
         })
         ->where('status', $status)
+        ->whereNotNull('result_one')
         ->where('type', 0)
         ->count();
     }

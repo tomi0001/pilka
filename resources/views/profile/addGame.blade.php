@@ -13,8 +13,8 @@
 
 
 
-                        <form action="{{ route('profile.addGameSubmit') }}" method="get" class="mt-6 space-y-6">
-
+                        <form action="{{ route('profile.addGameSubmit') }}" method="post" class="mt-6 space-y-6">
+                            @csrf
 
                             <div>
                                 <span class="text-gray-600 font-light text-x2 "> Wybierz kraj gospodarz</span>

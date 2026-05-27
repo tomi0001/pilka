@@ -3,7 +3,7 @@
         @if (count($listOldGroup) > 0)
                 <div class="text-blue-500 font-light text-xl mt-4">Istnieją starsze grupy, możesz je przeglądać.</div>
 
-                 @include('profile.selectOldGroup')
+                 @include('profile.selectOldGroup', ['route' => 'profile.showCountries'])
 
         @endif
 
@@ -27,7 +27,7 @@
                 <div class="bg-blue-100 text-blue-800 px-4 py-2 "> Liczba meczy Pucharowych</div><div class="bg-blue-100 text-blue-800 px-4 py-2">{{ $listGamesCup->count() }}</div>
 
             </div>
-            @if ($listGamesGroup->isEmpty() and $listGamesCup->isEmpty() and $listGamesFriendry->isEmpty() and  (session()->get('oldGroup') != 0))
+            @if ($listGamesGroup->isEmpty() and $listGamesCup->isEmpty() and $listGamesFriendry->isEmpty() and  $listOldGroup->isEmpty())
                 <div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
                     <button command="show-modal" commandfor="dialog"  class="!bg-red-500   text-white text-bold  py-2 px-4 ">Usuń Państwo</button>
                 </div>
@@ -280,7 +280,7 @@
 
                     @foreach ($listGamesCup as $game)
                             <div class=" px-4 py-2 ">
-                                    @if (Auth::user()->status == $game->status  or session()->get('oldGroup') == 0)
+                                    @if (Auth::user()->status == $game->status  and session()->get('oldGroup') == 0)
                                         <button command="show-modal" commandfor="dialog_{{ $game->id }}"  class="!bg-red-500 px-4 py-2 !rounded text-white">Usuń mecz</button>
                                             <el-dialog>
                                                 <dialog id="dialog_{{ $game->id }}" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">

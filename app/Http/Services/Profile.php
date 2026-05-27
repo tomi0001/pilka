@@ -218,7 +218,7 @@ class Profile
 
     }
 
-    public function checkGameNullGame(?int $idCountry)
+    public function checkGameNullGame(int $idCountry)
     {
         return Group_forwarding::checkGameNullGame($idCountry);
     }
@@ -255,7 +255,7 @@ class Profile
             elseif (Auth::user()->status == 1) {
                 $User->changeStatus(0);
             }
-            else {
+            elseif (Auth::user()->status >= 0) {
                 $User->changeStatus(Auth::user()->status / 2);
             }
 
@@ -315,6 +315,35 @@ class Profile
     {
         $Game = new Game;
         $Game->editGame($request, $id);
+        $gameId = $this->showGameId($id);
+        if (  (Auth::user()->status == 1 and $gameId->status == 0) )  {
+            $count = Game::checkIfFirstCup(0,true);
+        }
+        else {
+            $count = Game::checkIfFirstCup(Auth::user()->status,true);
+        }
+        if ($count >= Auth::user()->status) {
+            $User = new User;
+            if ( ( Auth::user()->status == 0 )  or (Auth::user()->status == 1 and $gameId->status == 0) )  {
+                $Group = new Group;
+                $Group_forwarding = new Group_forwarding;
+                $Game = new Game;
+                $Group->increments();
+                $Game->increments();
+                $Group_forwarding->increments();
+                $User->changeStatus(-1);
+            }
+            elseif (Auth::user()->status == 1 and $gameId->status == 0) {
+                $User->changeStatus(1);
+            }
+            elseif (Auth::user()->status == 1) {
+                $User->changeStatus(0);
+            }
+            elseif (Auth::user()->status >= 0) {
+                $User->changeStatus(Auth::user()->status / 2);
+            }
+
+        }
     }
 
     public function sumMForAllGroup(int $number = 0)
@@ -452,7 +481,7 @@ class Profile
             $this->listStatusErrorGamesCup = true;
             return;
         }
-        $count = Game::checkIfFirstCup($status);
+        $count = Game::checkIfFirstCup($status,true);
         if ($count < $status) {
             $this->listStatusErrorGamesCup = true;
         }
@@ -493,6 +522,12 @@ class Profile
         }
 
 
+    }
+    public function putSessionOldGroup(int|null $number) {
+         session()->put('oldGroup', $number);
+    }
+    public function showGameId(int $id) {
+        return Game::showGameById($id);
     }
 
 }

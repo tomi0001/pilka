@@ -19,7 +19,7 @@ class RoutingTest extends TestCase
         // $this->assertEquals('Jan Kowalski', $user->showGroup());
         // $this->assertRedirect('/login');
         // $user = Group::factory()->create();
-        $user = User::find(4);
+        $user = User::find(1);
 
         $response = $this->actingAs($user)->get('/profile.addGroup');
         $response = $this->get('/profile.addGroup');

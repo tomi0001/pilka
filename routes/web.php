@@ -20,11 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile.showCountriesId/{id}', [ProfileController::class, 'showCountriesId'])->name('profile.showCountriesId');
     Route::get('/profile.showGroupForm', [ProfileController::class, 'showGroupForm'])->name('profile.showGroupForm');
     Route::get('/profile.addGroup', [ProfileController::class, 'addGroup'])->name('profile.addGroup');
-    Route::get('/profile.addGroupSubmit', [ProfileController::class, 'addGroupSubmit'])->name('profile.addGroupSubmit');
+    Route::post('/profile.addGroupSubmit', [ProfileController::class, 'addGroupSubmit'])->name('profile.addGroupSubmit');
     Route::get('/profile.addCountry', [ProfileController::class, 'addCountry'])->name('profile.addCountry');
     Route::get('/profile.addGame', [ProfileController::class, 'addGame'])->name('profile.addGame');
-    Route::get('/profile.addGameSubmit', [ProfileController::class, 'addGameSubmit'])->name('profile.addGameSubmit');
-    Route::get('/profile.addCountrySubmit', [ProfileController::class, 'addCountrySubmit'])->name('profile.addCountrySubmit');
+    Route::post('/profile.addGameSubmit', [ProfileController::class, 'addGameSubmit'])->name('profile.addGameSubmit');
+    Route::post('/profile.addCountrySubmit', [ProfileController::class, 'addCountrySubmit'])->name('profile.addCountrySubmit');
     Route::delete('/profile.deleteGroup/{id?}', [ProfileController::class, 'deleteGroup'])->name('profile.deleteGroup');
     Route::delete('/profile.deleteCountry/{id?}', [ProfileController::class, 'deleteCountry'])->name('profile.deleteCountry');
     Route::delete('/profile.deleteGame/{id?}/{idCountry?}', [ProfileController::class, 'deleteGame'])->name('profile.deleteGame');

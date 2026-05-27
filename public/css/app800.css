@@ -52,4 +52,11 @@
         margin-left: auto;
         text-align: center;
     }
+    div.main-page-cup {
+        padding-top: 30px;
+        width: 75%;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+    }
 }

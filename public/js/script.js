@@ -70,9 +70,9 @@ function closeGroup(countCountry, countGroups) {
 
 }
 
-function changeSession(url) {
-    window.location.href = url + '?number=' + document.querySelector('#old').value;
-
+function changeSession(url, number, route) {
+    //alert(route);
+    window.location.href = url + '?number=' + number + '&route=' + route;
 }
 
 
