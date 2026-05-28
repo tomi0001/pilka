@@ -232,7 +232,7 @@ class Profile
     {
         $Game = new Game;
         $Game->saveGame($request);
-        if (  (Auth::user()->status == 1 and $request->get('type') == 0) )  {
+        if (  (Auth::user()->status == 1 and $request->get('status') == 0) )  {
             $count = Game::checkIfFirstCup(0,true);
         }
         else {
@@ -240,7 +240,7 @@ class Profile
         }
         if ($count >= Auth::user()->status) {
             $User = new User;
-            if ( ( Auth::user()->status == 0 )  or (Auth::user()->status == 1 and $request->get('type') == 0) )  {
+            if ( ( Auth::user()->status == 0 )  or (Auth::user()->status == 1 and $request->get('status') == 0) )  {
                 $Group = new Group;
                 $Group_forwarding = new Group_forwarding;
                 $Game = new Game;
@@ -249,7 +249,7 @@ class Profile
                 $Group_forwarding->increments();
                 $User->changeStatus(-1);
             }
-            elseif (Auth::user()->status == 1 and $request->get('type') == 0) {
+            elseif (Auth::user()->status == 1 and $request->get('status') == 0) {
                 $User->changeStatus(1);
             }
             elseif (Auth::user()->status == 1) {
@@ -481,7 +481,7 @@ class Profile
             $this->listStatusErrorGamesCup = true;
             return;
         }
-        $count = Game::checkIfFirstCup($status,true);
+        $count = Game::checkIfFirstCup($status);
         if ($count < $status) {
             $this->listStatusErrorGamesCup = true;
         }

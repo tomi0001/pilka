@@ -40,7 +40,7 @@ class ProfileRequest extends FormRequest
         $request->validate([
             'countryOne' => ['required', 'integer', 'different:countryTwo',
                 function ($attribute, $value, $fail) use ($request, $Profile) {
-                    if ($request->get('type') == -1) {
+                    if ($request->get('status') == -1) {
 
                         if (count($Profile->checkGame($request)) > 1) {
                             $fail(__('validation.ifExistGame'));
@@ -48,7 +48,7 @@ class ProfileRequest extends FormRequest
                         if ($Profile->checkGameNullGame($request->get('countryOne')) == null) {
                             $fail(__('validation.ifExistGameNullGame'));
                         }
-                    } else  if ($request->get('type') >= 0) {
+                    } else  if ($request->get('status') >= 0) {
                         $Profile->chcekErrorCup($request->get('countryOne'));
                         if ($Profile->listStatusErrorForCloseGroup  == false) {
                             $fail(__('validation.ifExistGameCloseGroup'));
@@ -70,7 +70,7 @@ class ProfileRequest extends FormRequest
             ],
             'countryTwo' => ['required', 'integer',
                 function ($attribute, $value, $fail) use ($request, $Profile) {
-                    if ($request->get('type') == -1) {
+                    if ($request->get('status') == -1) {
 
                         if ($Profile->checkGameNullGame($request->get('countryTwo')) == null) {
                             $fail(__('validation.ifExistGameNullGame'));
@@ -78,7 +78,7 @@ class ProfileRequest extends FormRequest
                         if (($Profile->checkGameDate($request))) {
                             $fail(__('validation.ifExistGameDate'));
                         }
-                    } else if ($request->get('type') >= 0) {
+                    } else if ($request->get('status') >= 0) {
                         $Profile->chcekErrorCup($request->get('countryTwo'),$request->get('countryOne'));
                         if ( ($Profile->listStatusErrorForCloseGroup  == false)) {
                             $fail(__('validation.ifExistGameCloseGroup'));
@@ -103,14 +103,6 @@ class ProfileRequest extends FormRequest
                     }
                 },
             ],
-            // 'result_error' => ['required', 'integer', 'in:0,2',
-            //     function ($fail) use ($request) {
-            //         if ($request->get('type') >= 0 and $this->checkResult($request) == -1) {
-            //             $fail(__('validation.result'));
-
-            //         }
-            //     },
-            // ],
             'date' => ['required', 'date'],
             'time' => ['required', 'date_format:H:i'],
             'resultOne' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultTwo'],
@@ -146,9 +138,7 @@ class ProfileRequest extends FormRequest
                         }
 
 
-                        if ( ($Profile->listStatusErrorGamesCup  == false)) {
-                            $fail(__('validation.listStatusErrorGamesCup'));
-                        }
+
 
                         if ( ($Profile->listStatusErrorFirstCup  == false)) {
                             $fail(__('validation.listStatusErrorFirstCup'));
@@ -174,9 +164,7 @@ class ProfileRequest extends FormRequest
                         }
 
 
-                        if ( ($Profile->listStatusErrorGamesCup  == false)) {
-                            $fail(__('validation.listStatusErrorGamesCup'));
-                        }
+
 
                         if ( ($Profile->listStatusErrorFirstCup  == false)) {
                             $fail(__('validation.listStatusErrorFirstCup'));
@@ -193,8 +181,6 @@ class ProfileRequest extends FormRequest
             ],
             'date' => ['required', 'date'],
             'time' => ['required', 'date_format:H:i'],
-            // 'resultOne' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultTwo'],
-            // 'resultTwo' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:resultOne'],
             'result_over_one' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_over_two'],
             'result_over_two' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_over_one'],
             'result_pena_one' => ['nullable', 'integer', 'min:0', 'max:255', 'required_with:result_pena_two'],

@@ -278,16 +278,6 @@ class ProfileController extends Controller
     {
         $Profile = new Profile;
         $Profile->putSessionOldGroup($request->get('number'));
-
-        //$request->session()->put('oldGroup', $request->get('number'));
-        //$request->session()->flush();
-        //session()->forget('selectedGroup');
-        //$request->request->remove('group');
-        //$request->request->remove('group');
-        //session()->forget('group');
-        //print($request->get('number'));
-        //print($request->get('route'));
-
         return Redirect::route($request->get('route'));
     }
     public function changeGroup(Request $request)

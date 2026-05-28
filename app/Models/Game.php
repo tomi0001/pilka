@@ -33,7 +33,7 @@ class Game extends Model
         $this->result_over_two = $request->get('result_over_two');
         $this->result_pena_one = $request->get('result_pena_one');
         $this->result_pena_two = $request->get('result_pena_two');
-        $this->status = $request->get('type');
+        $this->status = $request->get('status');
         $this->save();
     }
     public static function showGameById(int $id)
