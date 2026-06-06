@@ -10,7 +10,7 @@ class Group extends Model
 
     public static function showGroup(int $number = 0)
     {
-        return self::where("type", $number)->get();
+        return self::where("type", $number)->orderBy("name")->get();
     }
 
     public static function ifExistGroup(string $name)

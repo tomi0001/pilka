@@ -55,18 +55,20 @@
                                             <p class="text-sm text-gray-500">Wybierz typu fazy pucharowej</p>
                                         </div>
                                         <div class="bg-gray-50 mt-2 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                            <form action="{{ route('profile.closeGroup') }}" method="POST" id="closeGroupForm">
-                                                @csrf
-                                                @method('PUT')
-                                                <select name="closeGroup" id="closeGroup" >
-                                                    @for ($i=$result[0]; $i <= $result[1]; $i=$i * 2)
-                                                        <option value="{{ $i }}" @selected(old('closeGroup') == $i ? true : false)>1/{{ $i }} Pucharu</option>
-                                                    @endfor
-                                                </select>
-                                                <x-danger-button class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3" >
-                                                    {{ __('Zakończ fazę grupową') }}
-                                                </x-danger-button>
-                                            </form>
+                                            @if ($ifEndGroup == true)
+                                                <form action="{{ route('profile.closeGroup') }}" method="POST" id="closeGroupForm">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <select name="closeGroup" id="closeGroup" >
+                                                        @for ($i=$result[0]; $i <= $result[1]; $i=$i * 2)
+                                                            <option value="{{ $i }}" @selected(old('closeGroup') == $i ? true : false)>1/{{ $i }} Pucharu</option>
+                                                        @endfor
+                                                    </select>
+                                                    <x-danger-button class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3" >
+                                                        {{ __('Zakończ fazę grupową') }}
+                                                    </x-danger-button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -207,25 +209,25 @@
                         @foreach ($listGame as $game)
 
                             <div class="!grid sm:!hidden   !grid-cols-8 !gap-1">
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 ">{{ \App\Models\Countrie::find($game->country_one)->name }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4">{{ ($game->result_one !== null  ? $game->result_one : 'nie rozegrany') }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4  col-span-4">{{ \App\Models\Countrie::find($game->country_two)->name }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4">{{ ($game->result_two !== null ? $game->result_two : 'nie rozegrany') }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4   col-span-8 ">{{ substr($game->date, 0, 16) }}</div>
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 flex items-center justify-center">{{ \App\Models\Countrie::find($game->country_one)->name }}</div>
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 flex items-center justify-center">{{ ($game->result_one !== null  ? $game->result_one : 'nie rozegrany') }}</div>
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4  col-span-4 flex items-center justify-center">{{ \App\Models\Countrie::find($game->country_two)->name }}</div>
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 flex items-center justify-center">{{ ($game->result_two !== null ? $game->result_two : 'nie rozegrany') }}</div>
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4   col-span-8 flex items-center justify-center">{{ substr($game->date, 0, 16) }}</div>
                             </div>
                             <div class="!hidden sm:!grid  !grid-cols-14 !gap-1">
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 ">{{ \App\Models\Countrie::find($game->country_one)->name }}</div>
-                                    <div class=" bg-blue-100 text-blue-800 px-1 py-4 !col-span-2 ">
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">{{ \App\Models\Countrie::find($game->country_one)->name }}</div>
+                                    <div class=" bg-blue-100 text-blue-800 px-1 py-4 !col-span-2 flex items-center justify-center">
                                         <span class="font-bold">vs</span>
                                     </div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4  !col-span-4">{{ \App\Models\Countrie::find($game->country_two)->name }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4   !col-span-4 ">{{ substr($game->date, 0, 10) }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4">{{ ($game->result_one !== null  ? $game->result_one : 'nie rozegrany') }}</div>
-                                    <div class=" bg-blue-100 text-blue-800 px-1 py-4  !col-span-2 ">
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4  !col-span-4 flex items-center justify-center">{{ \App\Models\Countrie::find($game->country_two)->name }}</div>
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4   !col-span-4 flex items-center justify-center">{{ substr($game->date, 0, 10) }}</div>
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">{{ ($game->result_one !== null  ? $game->result_one : 'nie rozegrany') }}</div>
+                                    <div class=" bg-blue-100 text-blue-800 px-1 py-4  !col-span-2 flex items-center justify-center">
                                         <span class="font-bold">vs</span>
                                     </div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4">{{ ($game->result_two !== null ? $game->result_two : 'nie rozegrany') }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 ">{{ substr($game->date, 10, 6) }}</div>
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">{{ ($game->result_two !== null ? $game->result_two : 'nie rozegrany') }}</div>
+                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">{{ substr($game->date, 10, 6) }}</div>
                             </div>
                             <div class="m-7"></div>
 

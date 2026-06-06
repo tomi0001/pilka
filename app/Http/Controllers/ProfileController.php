@@ -106,6 +106,7 @@ class ProfileController extends Controller
         } else {
             $Profile = new Profile;
             $Profile->saveGroup($request->get('name'));
+            return Redirect::route('profile.addGroup')->with('success', 'Grupa została dodana');
         }
 
     }
@@ -136,6 +137,7 @@ class ProfileController extends Controller
         } else {
             $Profile = new Profile;
             $Profile->saveCountry($request);
+            return Redirect::route('profile.addCountry')->with('success', 'Kraj został dodany');
         }
 
     }
@@ -153,7 +155,6 @@ class ProfileController extends Controller
         }
         $listCountry = $Profile->showCountry($request->get('group'), $number);
         $result =  $Profile->calculateCup($number);
-        $request->request->remove('group');
 
         $listGame = $Profile->showGame($request->get('group'), $number);
         if (count($listCountry) == 0) {
@@ -163,7 +164,6 @@ class ProfileController extends Controller
         }
 
         $sumMForAllGroup = $Profile->sumMForAllGroup($number);
-
         $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
 
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
@@ -181,7 +181,8 @@ class ProfileController extends Controller
             return $validate;
         } else {
 
-            $count =$Profile->saveGame($request);
+            $Profile->saveGame($request);
+            return Redirect::route('profile.addGame')->with('success', 'Gra została dodana');
         }
 
     }
@@ -248,6 +249,7 @@ class ProfileController extends Controller
         } else {
 
             $Profile->editGame($request, $id);
+            return Redirect::route('profile.editGame', $id)->with('success', 'Gra została pozytywnie edytowana');
         }
 
     }

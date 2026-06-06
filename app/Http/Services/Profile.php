@@ -54,7 +54,7 @@ class Profile
     {
         for ($i = 0; $i < count($listCountry); $i++) {
 
-            $arrayPtk[$i]['idGroup'] = $listCountry[$i]->name;
+            //$arrayPtk[$i]['idGroup'] = $listCountry[$i]->idGroup;
             $arrayPtk[$i]['idCountry'] = $listCountry[$i]->id;
             $arrayPtk[$i]['RM'] = 0;
 
@@ -214,7 +214,15 @@ class Profile
 
     public function checkGame(Request $request)
     {
-        return ProfileRepository::showGameIfTrue($request->get('countryOne'), $request->get('countryTwo'));
+        $idOne = ProfileRepository::showGameIfTrue($request->get('countryOne'));
+        $idTwo = ProfileRepository::showGameIfTrue($request->get('countryTwo'));
+        if (empty($idOne) || empty($idTwo)) {
+            return false;
+        }
+        if ($idOne->groupId == $idTwo->groupId) {
+            return true;
+        }
+        return false;
 
     }
 
@@ -262,9 +270,15 @@ class Profile
         }
     }
 
-    public function checkGameDate(Request $request)
+    public function checkGameDate(Request $request, bool $isEdit = false)
     {
-        return ProfileRepository::showGameIfTrueDate($request->get('countryOne'), $request->get('countryTwo'), $request->get('date').' '.$request->get('time').':00');
+        if ($isEdit) {
+            return ProfileRepository::showGameIfTrueDateIsEdit($request->get('countryOne'), $request->get('countryTwo'), $request->get('date').' '.$request->get('time').':00');
+        }
+        else {
+
+            return ProfileRepository::showGameIfTrueDate($request->get('countryOne'), $request->get('countryTwo'), $request->get('date').' '.$request->get('time').':00');
+        }
     }
 
     public function showCountriesById(int $id,  int $number = 0)
@@ -354,13 +368,14 @@ class Profile
         foreach ($listGroup as $group) {
             $listCountry = $Repository->showCountry($group->id, $number);
             if (count($listCountry) > 0) {
-                $arrayPtk[$i] = $this->crecreateArrayForM($listCountry);
+                $arrayPtk[] = $this->crecreateArrayForM($listCountry);
+                //$i++;
             }
             $listGame = ProfileRepository::showGames($group->id,$number);
             if (count($listGame) > 0) {
-                $arrayPtk[$i] = $this->sumPtkForM($listGame, $arrayPtk[$i]);
+                $arrayPtk[] = $this->sumPtkForM($listGame, $arrayPtk[$i]);
             }
-            $i++;
+
         }
 
         return $arrayPtk;
@@ -388,9 +403,6 @@ class Profile
         $Repository = new ProfileRepository;
         $number = $this->loadSessionOldGroup();
         $result = $Repository->calculateCup($number);
-        if ($result == 0) {
-            return [1, 1];
-        }
         $countGroups = Group::countGroups($number);
         $lowerLimit = $this->calculateCupLower($countGroups);
         $upperLimit = $this->calculateCupUpper($result);

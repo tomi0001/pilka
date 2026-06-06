@@ -42,7 +42,7 @@ class ProfileRequest extends FormRequest
                 function ($attribute, $value, $fail) use ($request, $Profile) {
                     if ($request->get('status') == -1) {
 
-                        if (count($Profile->checkGame($request)) > 1) {
+                        if (($Profile->checkGame($request)) == false ) {
                             $fail(__('validation.ifExistGame'));
                         }
                         if ($Profile->checkGameNullGame($request->get('countryOne')) == null) {
@@ -121,11 +121,11 @@ class ProfileRequest extends FormRequest
         $game = $Profile->showGameId($id);
 
         $request->validate([
-            'resultOne' => ['required', 'integer', 'different:countryTwo',
+            'resultOne' => [ 'different:countryTwo','required_with:resultTwo',
                 function ($attribute, $value, $fail) use ($request, $Profile, $game) {
                     if ($game->status == -1) {
 
-                        if (count($Profile->checkGame($request)) > 1) {
+                        if (($Profile->checkGame($request)) == false ) {
                             $fail(__('validation.ifExistGame'));
                         }
                         if ($Profile->checkGameNullGame($game->country_one) == null) {
@@ -147,16 +147,14 @@ class ProfileRequest extends FormRequest
                 },
 
             ],
-            'resultTwo' => ['required', 'integer',
+            'resultTwo' => ['required_with:resultOne',
                 function ($attribute, $value, $fail) use ($request, $Profile, $game) {
                     if ($game->status == -1) {
 
                         if ($Profile->checkGameNullGame($game->country_two) == null) {
                             $fail(__('validation.ifExistGameNullGame'));
                         }
-                        if (($Profile->checkGameDate($request))) {
-                            $fail(__('validation.ifExistGameDate'));
-                        }
+
                     } else if ($game->status >= 0) {
                         $Profile->chcekErrorCup($game->country_two,$game->country_one);
                         if ( ($Profile->listStatusErrorForCloseGroup  == false)) {

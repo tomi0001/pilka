@@ -4,6 +4,9 @@
             @csrf
             @method('PUT')
                 <div class="grid grid-cols-2 gap-2">
+                    <input type="hidden" name="countryOne" value="{{ $game->country_one }}">
+                    <input type="hidden" name="countryTwo" value="{{ $game->country_two }}">
+
                     <div class="bg-blue-100 text-blue-800 px-4 py-2  	flex items-center justify-center">
                         Wynik: <br> {{ \App\Models\Countrie::find($game->country_one)->name }}:
                     </div>
@@ -82,6 +85,11 @@
                     <button type="submit" class="!bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Edytuj
                     </button>
+                    @if (session('success'))
+                                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative flex items-center justify-center " role="alert">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
         </form>
 
 

@@ -17,8 +17,8 @@
                         @foreach ($listCountry as $country)
 
 
-                                <div class="bg-blue-100 text-blue-800 px-4 py-2 ">{!! "<a href='" . route('profile.showCountriesId', ['id' => $country->id]) . "'>" . $country->name . "</a>"   !!}</div>
-                                <div class="bg-blue-100 text-blue-800 px-4 py-2 ">
+                                <div class="bg-blue-100 text-blue-800 px-4 py-2 flex items-center justify-center">{!! "<a href='" . route('profile.showCountriesId', ['id' => $country->id]) . "'>" . $country->name . "</a>"   !!}</div>
+                                <div class="bg-blue-100 text-blue-800 px-4 py-2 flex items-center justify-center">
                                     <span @class([
                                         'font-bold',
                                         'text-red-500' => \App\Http\Repositories\ProfileRepository::showNameGroup($country->id,session()->get('oldGroup')) == null,
@@ -29,7 +29,7 @@
                                       " <a href='" . route('profile.showGroupForm', ['group' => \App\Http\Repositories\ProfileRepository::showNameGroup($country->id,session()->get('oldGroup'))->group_id]) . "'> Grupa " . \App\Http\Repositories\ProfileRepository::showNameGroup($country->id,session()->get('oldGroup'))->name . "</a>" !!}
                                      </span>
                                 </div>
-                                <div class="bg-blue-100 text-blue-800 px-4 py-2">
+                                <div class="bg-blue-100 text-blue-800 px-4 py-2 flex items-center justify-center">
                                     liczba meczy {{ \App\Http\Repositories\ProfileRepository::countGames($country->id,session()->get('oldGroup') ) }}
                                 </div>
                         @endforeach
