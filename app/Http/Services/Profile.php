@@ -53,8 +53,6 @@ class Profile
     private function crecreateArrayForM($listCountry)
     {
         for ($i = 0; $i < count($listCountry); $i++) {
-
-            //$arrayPtk[$i]['idGroup'] = $listCountry[$i]->idGroup;
             $arrayPtk[$i]['idCountry'] = $listCountry[$i]->id;
             $arrayPtk[$i]['RM'] = 0;
 

@@ -136,10 +136,6 @@ class ProfileRequest extends FormRequest
                         if ($Profile->listStatusErrorForCloseGroup  == false) {
                             $fail(__('validation.ifExistGameCloseGroup'));
                         }
-
-
-
-
                         if ( ($Profile->listStatusErrorFirstCup  == false)) {
                             $fail(__('validation.listStatusErrorFirstCup'));
                         }
@@ -188,8 +184,6 @@ class ProfileRequest extends FormRequest
 
     private function checkResult(Request $request)
     {
-
-
         if ($request->get('resultOne') == null and $request->get('result_over_one') == null and $request->get('result_pena_one') == null) {
             return 0;
         } else {
@@ -212,7 +206,6 @@ class ProfileRequest extends FormRequest
 
             }
         }
-
         return -1;
 
     }

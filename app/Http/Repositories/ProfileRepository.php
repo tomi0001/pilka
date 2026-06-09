@@ -113,7 +113,6 @@ class ProfileRepository extends Model
                 ->orOn('countries.id', '=', 'games.country_two');
         })
             ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')
-            //->selectRaw('group_forwardings.group_id as group_id')
             ->selectRaw('distinct group_forwardings.countrie_id as countrie_id')
             ->selectRaw('games.type as type')
             ->selectRaw('games.date as date')
@@ -122,7 +121,6 @@ class ProfileRepository extends Model
             ->selectRaw('games.country_two as country_two')
             ->selectRaw('games.result_one as result_one')
             ->selectRaw('games.result_two as result_two')
-            //->selectRaw('distinct group_forwardings.group_id as group_idf')
             ->where('group_forwardings.countrie_id', $id)
             ->where('games.type', $number)
             ->where('games.status', -1)
@@ -156,7 +154,6 @@ class ProfileRepository extends Model
                 ->orOn('countries.id', '=', 'games.country_two');
             })
             ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')
-            //->selectRaw('group_forwardings.group_id as group_id')
             ->selectRaw('distinct group_forwardings.countrie_id as countrie_id')
             ->selectRaw('games.type as type')
             ->selectRaw('games.date as date')
