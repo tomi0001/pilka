@@ -36,17 +36,19 @@ class Game extends Model
         $this->status = $request->get('status');
         $this->save();
     }
+
     public static function showGameById(int $id)
     {
-        return self::selectRaw("result_one as result_one")->selectRaw("result_two as result_two")
-        ->selectRaw("result_over_one as result_over_one")->selectRaw("result_over_two as result_over_two")
-        ->selectRaw("result_pena_one as result_pena_one")->selectRaw("result_pena_two as result_pena_two")
-        ->selectRaw("status as status")->selectRaw("type as type")
-        ->selectRaw("country_one as country_one")->selectRaw("country_two as country_two")
-        ->selectRaw("date as date")->selectRaw("id as id")->where('id', $id)
-        ->first();
+        return self::selectRaw('result_one as result_one')->selectRaw('result_two as result_two')
+            ->selectRaw('result_over_one as result_over_one')->selectRaw('result_over_two as result_over_two')
+            ->selectRaw('result_pena_one as result_pena_one')->selectRaw('result_pena_two as result_pena_two')
+            ->selectRaw('status as status')->selectRaw('type as type')
+            ->selectRaw('country_one as country_one')->selectRaw('country_two as country_two')
+            ->selectRaw('date as date')->selectRaw('id as id')->where('id', $id)
+            ->first();
 
     }
+
     public function editGame(Request $request, int $id)
     {
         $Game = self::find($id);
@@ -59,44 +61,52 @@ class Game extends Model
         $Game->result_pena_two = $request->get('result_pena_two');
         $Game->save();
     }
-    public static function checkIfFirstCup(int $cup, bool $isResult = false) {
+
+    public static function checkIfFirstCup(int $cup, bool $isResult = false)
+    {
         return self::where('status', $cup)->where('type', 0)
             ->when($isResult == true, function ($query) {
                 $query->whereNotNull('games.result_one')
                     ->whereNotNull('games.result_two');
 
             })
-        ->count();
+            ->count();
     }
-    public static function checkCountryIfGameExist(int $idCountry,int $status) {
+
+    public static function checkCountryIfGameExist(int $idCountry, int $status)
+    {
         return self::where(function ($query) use ($idCountry) {
             $query->where('country_one', $idCountry)
                 ->orWhere('country_two', $idCountry);
         })
-        ->where('status', $status)
-        ->whereNotNull('result_one')
-        ->where('type', 0)
-        ->count();
+            ->where('status', $status)
+            ->whereNotNull('result_one')
+            ->where('type', 0)
+            ->count();
     }
-    public static function showGamesCup(int $number = 0) {
-        return self::where('status',">=",0)->where('type', $number)->orderBy('status')->orderBy('date')->get();
-    }
-    public static function chcekIfGameExistCup(int $idCountryOne, int $idCountryTwo, int $status) {
-        return self::where('status', $status)
-        ->where('type', 0)
-        ->where(function ($query) use ($idCountryOne, $idCountryTwo) {
-            $query->where('country_one', $idCountryOne)
-                ->Where('country_two', $idCountryTwo);
-        })
-        ->orwhere(function ($query) use ($idCountryOne, $idCountryTwo) {
-            $query->where('country_one', $idCountryTwo)
-                ->Where('country_two', $idCountryOne);
-        })
 
-        ->count();
+    public static function showGamesCup(int $number = 0)
+    {
+        return self::where('status', '>=', 0)->where('type', $number)->orderBy('status')->orderBy('date')->get();
     }
-    public  function increments() {
+
+    public static function chcekIfGameExistCup(int $idCountryOne, int $idCountryTwo, int $status)
+    {
+        return self::where('status', $status)
+            ->where('type', 0)
+            ->where(function ($query) use ($idCountryOne, $idCountryTwo) {
+                $query->where('country_one', $idCountryOne)
+                    ->Where('country_two', $idCountryTwo);
+            })
+            ->orwhere(function ($query) use ($idCountryOne, $idCountryTwo) {
+                $query->where('country_one', $idCountryTwo)
+                    ->Where('country_two', $idCountryOne);
+            })
+            ->count();
+    }
+
+    public function increments()
+    {
         return self::increment('type');
     }
-
 }

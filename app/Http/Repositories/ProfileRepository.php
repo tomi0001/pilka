@@ -3,9 +3,9 @@
 namespace App\Http\Repositories;
 
 use App\Models\Countrie;
-use App\Models\Group_forwarding;
 use App\Models\Game;
 use App\Models\Group;
+use App\Models\Group_forwarding;
 use Illuminate\Database\Eloquent\Model;
 
 class ProfileRepository extends Model
@@ -22,24 +22,25 @@ class ProfileRepository extends Model
     public static function showGameIfTrue1(int $idCountryOne, int $idCountryTwo)
     {
         return Countrie::join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')->selectRaw(' DISTINCT group_forwardings.group_id')
-            ->where('type', 0 )
+            ->where('type', 0)
             ->where(function ($query) use ($idCountryOne, $idCountryTwo) {
                 $query->where('group_forwardings.countrie_id', $idCountryOne)
                     ->orWhere('group_forwardings.countrie_id', $idCountryTwo);
             })
             ->get();
     }
+
     public static function showGameIfTrue(int $idCountry)
     {
         return Countrie::join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')->selectRaw(' DISTINCT group_forwardings.group_id as groupId')
-            ->where('type', 0 )
+            ->where('type', 0)
 
             ->where('group_forwardings.countrie_id', $idCountry)
 
             ->first();
     }
 
-    public static function showGames(int $idGroup,int $number = 0, bool $isResult = false)
+    public static function showGames(int $idGroup, int $number = 0, bool $isResult = false)
     {
         return Game::join('countries as c1', 'c1.id', '=', 'games.country_one')
             ->join('countries as c2', 'c2.id', '=', 'games.country_two')
@@ -70,22 +71,21 @@ class ProfileRepository extends Model
             ->where('date', $date)
             ->first();
     }
+
     public static function showGameIfTrueDateIsEdit(int $idCountryOne, int $idCountryTwo, string $date)
     {
         return Game::where(function ($query) use ($idCountryOne, $idCountryTwo) {
             $query->where('country_one', $idCountryOne)
                 ->Where('country_two', $idCountryTwo);
         })
-
-        ->whereNotNull('games.result_one')
-                    ->whereNotNull('games.result_two')
-
+            ->whereNotNull('games.result_one')
+            ->whereNotNull('games.result_two')
 
             ->where('date', $date)
             ->first();
     }
 
-    public static function showNameGroup(int $idCountry, int|null $number = 0)
+    public static function showNameGroup(int $idCountry, ?int $number = 0)
     {
         return Countrie::join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')
             ->join('groups', 'groups.id', '=', 'group_forwardings.group_id')
@@ -96,12 +96,12 @@ class ProfileRepository extends Model
             ->first();
     }
 
-    public static function countGames(int $idCountry, int|null $number = 0)
+    public static function countGames(int $idCountry, ?int $number = 0)
     {
         return Game::where(function ($query) use ($idCountry) {
-                $query->where('country_one', $idCountry)
-                    ->orWhere('country_two', $idCountry);
-            })
+            $query->where('country_one', $idCountry)
+                ->orWhere('country_two', $idCountry);
+        })
             ->where('type', $number)
             ->count();
     }
@@ -152,7 +152,7 @@ class ProfileRepository extends Model
         return Game::join('countries', function ($join) {
             $join->on('countries.id', '=', 'games.country_one')
                 ->orOn('countries.id', '=', 'games.country_two');
-            })
+        })
             ->join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')
             ->selectRaw('distinct group_forwardings.countrie_id as countrie_id')
             ->selectRaw('games.type as type')
@@ -169,13 +169,15 @@ class ProfileRepository extends Model
             ->selectRaw('games.result_pena_two as result_pena_two')
             ->where('group_forwardings.countrie_id', $id)
             ->where('games.type', $number)
-            ->where('games.status',">=", 0)
+            ->where('games.status', '>=', 0)
             ->get();
     }
+
     public static function checkIfEndGroup()
     {
-        return Game::selectRaw("DISTINCT country_one")->where('type', 0)->whereNotNull('result_one')->orWhereNotNull('result_two')->get();
+        return Game::selectRaw('DISTINCT country_one')->where('type', 0)->whereNotNull('result_one')->orWhereNotNull('result_two')->get();
     }
+
     public function showCountryForM()
     {
 
@@ -184,19 +186,22 @@ class ProfileRepository extends Model
 
         return $listCountry;
     }
-    public static function calculateCup(int $number = 0) {
-        return Group_forwarding::join('groups','group_forwardings.group_id', 'groups.id')
-                ->where("groups.type", $number)
-                ->count();
+
+    public static function calculateCup(int $number = 0)
+    {
+        return Group_forwarding::join('groups', 'group_forwardings.group_id', 'groups.id')
+            ->where('groups.type', $number)
+            ->count();
 
     }
-    public static function checkGameForCloseGroup(int $idCountryOne) {
-        return Group_forwarding::join('groups','group_forwardings.group_id', 'groups.id')
-                ->where("groups.type", 0)
-                ->where(function ($query) use ($idCountryOne) {
+
+    public static function checkGameForCloseGroup(int $idCountryOne)
+    {
+        return Group_forwarding::join('groups', 'group_forwardings.group_id', 'groups.id')
+            ->where('groups.type', 0)
+            ->where(function ($query) use ($idCountryOne) {
                 $query->where('group_forwardings.countrie_id', $idCountryOne);
             })
-                ->first();
+            ->first();
     }
-
 }

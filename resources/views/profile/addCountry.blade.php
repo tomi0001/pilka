@@ -6,50 +6,49 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <section>
-                            <form action="{{ route('profile.addCountrySubmit') }}" method="post" class="mt-6 space-y-6">
-                                @csrf
-                                <div>
-                                        <span class="text-gray-600 font-light text-x2 "> Nazwa Kraju</span>
+                        <form action="{{ route('profile.addCountrySubmit') }}" method="post" class="mt-6 space-y-6">
+                            @csrf
+                            <div>
+                                <span class="text-gray-600 font-light text-x2 "> Nazwa Kraju</span>
 
-                                        <input id="name" type="text" name="name" autocomplete="family-name" maxlength="200"
-                                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                                <input id="name" type="text" name="name" autocomplete="family-name"
+                                    maxlength="200"
+                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
 
-                                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('name')" class="mt-2" />
 
+                            </div>
+                            <div>
+                                <span class="text-gray-600 font-light text-x2 "> Do jakiej grupy chcesz dodać kraj?
+                                </span>
+
+                                <select name="group" id="group"
+                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                    <option value="">Narazie nie dodawaj</option>
+                                    @foreach ($listGroup as $group)
+                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                    @endforeach
+                                </select>
+
+
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <x-primary-button>{{ __('Dodaj') }}</x-primary-button>
+
+                                @if (session('status') === 'password-updated')
+                                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                        class="text-sm text-gray-600">{{ __('Dodaj.') }}</p>
+                                @endif
+                            </div>
+                            @if (session('success'))
+                                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative flex items-center justify-center "
+                                    role="alert">
+                                    {{ session('success') }}
                                 </div>
-                                    <div>
-                                        <span class="text-gray-600 font-light text-x2 "> Do jakiej grupy chcesz dodać kraj? </span>
+                            @endif
 
-                                        <select name="group" id="group" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                                    <option value="">Narazie nie dodawaj</option>
-                                                    @foreach ($listGroup as $group)
-                                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                                    @endforeach
-                                        </select>
-
-
-                                    </div>
-                                    <div class="flex items-center gap-4">
-                                        <x-primary-button>{{ __('Dodaj') }}</x-primary-button>
-
-                                        @if (session('status') === 'password-updated')
-                                            <p
-                                                x-data="{ show: true }"
-                                                x-show="show"
-                                                x-transition
-                                                x-init="setTimeout(() => show = false, 2000)"
-                                                class="text-sm text-gray-600"
-                                            >{{ __('Dodaj.') }}</p>
-                                        @endif
-                                    </div>
-                                    @if (session('success'))
-                                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative flex items-center justify-center " role="alert">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
-
-                            </form>
-                        </section>
+                        </form>
+                    </section>
                 </div>
             </div>
         </div>

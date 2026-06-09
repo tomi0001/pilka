@@ -60,19 +60,20 @@ class ServiceTest extends TestCase
 
         $this->assertEquals(1, count($listGame));
     }
-    public function test_deleteCountry(): void
+
+    public function test_delete_country(): void
     {
         $Profile = new Profile;
 
         $listGame = $Profile->deleteCountry(6);
         $this->assertEquals(0, count($listGame));
     }
-    public function test_deleteGroup(): void
+
+    public function test_delete_group(): void
     {
         $Profile = new Profile;
 
         $listGame = $Profile->deleteGroup(10);
         $this->assertEquals(true, ($listGame));
     }
-
 }

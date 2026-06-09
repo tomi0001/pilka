@@ -42,26 +42,26 @@ class ProfileRequest extends FormRequest
                 function ($attribute, $value, $fail) use ($request, $Profile) {
                     if ($request->get('status') == -1) {
 
-                        if (($Profile->checkGame($request)) == false ) {
+                        if (($Profile->checkGame($request)) == false) {
                             $fail(__('validation.ifExistGame'));
                         }
                         if ($Profile->checkGameNullGame($request->get('countryOne')) == null) {
                             $fail(__('validation.ifExistGameNullGame'));
                         }
-                    } else  if ($request->get('status') >= 0) {
+                    } elseif ($request->get('status') >= 0) {
                         $Profile->chcekErrorCup($request->get('countryOne'));
-                        if ($Profile->listStatusErrorForCloseGroup  == false) {
+                        if ($Profile->listStatusErrorForCloseGroup == false) {
                             $fail(__('validation.ifExistGameCloseGroup'));
                         }
-                        if ( ($Profile->listStatusErrorCountryIfGameExist  == false)) {
+                        if (($Profile->listStatusErrorCountryIfGameExist == false)) {
                             $fail(__('validation.listStatusErrorCountryIfGameExist'));
                         }
 
-                        if ( ($Profile->listStatusErrorGamesCup  == false)) {
+                        if (($Profile->listStatusErrorGamesCup == false)) {
                             $fail(__('validation.listStatusErrorGamesCup'));
                         }
 
-                        if ( ($Profile->listStatusErrorFirstCup  == false)) {
+                        if (($Profile->listStatusErrorFirstCup == false)) {
                             $fail(__('validation.listStatusErrorFirstCup'));
                         }
                     }
@@ -78,24 +78,24 @@ class ProfileRequest extends FormRequest
                         if (($Profile->checkGameDate($request))) {
                             $fail(__('validation.ifExistGameDate'));
                         }
-                    } else if ($request->get('status') >= 0) {
-                        $Profile->chcekErrorCup($request->get('countryTwo'),$request->get('countryOne'));
-                        if ( ($Profile->listStatusErrorForCloseGroup  == false)) {
+                    } elseif ($request->get('status') >= 0) {
+                        $Profile->chcekErrorCup($request->get('countryTwo'), $request->get('countryOne'));
+                        if (($Profile->listStatusErrorForCloseGroup == false)) {
                             $fail(__('validation.ifExistGameCloseGroup'));
                         }
-                        if ( ($Profile->listStatusErrorCountryIfGameExist  == false)) {
+                        if (($Profile->listStatusErrorCountryIfGameExist == false)) {
                             $fail(__('validation.listStatusErrorCountryIfGameExist'));
                         }
 
-                        if ( ($Profile->listStatusErrorGamesCup  == false)) {
+                        if (($Profile->listStatusErrorGamesCup == false)) {
                             $fail(__('validation.listStatusErrorGamesCup'));
                         }
 
-                        if ( ($Profile->listStatusErrorFirstCup  == false)) {
+                        if (($Profile->listStatusErrorFirstCup == false)) {
                             $fail(__('validation.listStatusErrorFirstCup'));
                         }
-                        if ( ($Profile->listStatusChcekIfGameExistCup  == false)) {
-                             $fail(__('validation.listStatusChcekIfGameExistCup'));
+                        if (($Profile->listStatusChcekIfGameExistCup == false)) {
+                            $fail(__('validation.listStatusChcekIfGameExistCup'));
                         }
                         if ($this->checkResult($request) == -1) {
                             $fail(__('validation.result'));
@@ -121,22 +121,22 @@ class ProfileRequest extends FormRequest
         $game = $Profile->showGameId($id);
 
         $request->validate([
-            'resultOne' => [ 'different:countryTwo','required_with:resultTwo',
+            'resultOne' => ['different:countryTwo', 'required_with:resultTwo',
                 function ($attribute, $value, $fail) use ($request, $Profile, $game) {
                     if ($game->status == -1) {
 
-                        if (($Profile->checkGame($request)) == false ) {
+                        if (($Profile->checkGame($request)) == false) {
                             $fail(__('validation.ifExistGame'));
                         }
                         if ($Profile->checkGameNullGame($game->country_one) == null) {
                             $fail(__('validation.ifExistGameNullGame'));
                         }
-                    } else  if ($game->status >= 0) {
+                    } elseif ($game->status >= 0) {
                         $Profile->chcekErrorCup($game->country_one);
-                        if ($Profile->listStatusErrorForCloseGroup  == false) {
+                        if ($Profile->listStatusErrorForCloseGroup == false) {
                             $fail(__('validation.ifExistGameCloseGroup'));
                         }
-                        if ( ($Profile->listStatusErrorFirstCup  == false)) {
+                        if (($Profile->listStatusErrorFirstCup == false)) {
                             $fail(__('validation.listStatusErrorFirstCup'));
                         }
                     }
@@ -151,20 +151,17 @@ class ProfileRequest extends FormRequest
                             $fail(__('validation.ifExistGameNullGame'));
                         }
 
-                    } else if ($game->status >= 0) {
-                        $Profile->chcekErrorCup($game->country_two,$game->country_one);
-                        if ( ($Profile->listStatusErrorForCloseGroup  == false)) {
+                    } elseif ($game->status >= 0) {
+                        $Profile->chcekErrorCup($game->country_two, $game->country_one);
+                        if (($Profile->listStatusErrorForCloseGroup == false)) {
                             $fail(__('validation.ifExistGameCloseGroup'));
                         }
 
-
-
-
-                        if ( ($Profile->listStatusErrorFirstCup  == false)) {
+                        if (($Profile->listStatusErrorFirstCup == false)) {
                             $fail(__('validation.listStatusErrorFirstCup'));
                         }
-                        if ( ($Profile->listStatusChcekIfGameExistCup  == false)) {
-                             $fail(__('validation.listStatusChcekIfGameExistCup'));
+                        if (($Profile->listStatusChcekIfGameExistCup == false)) {
+                            $fail(__('validation.listStatusChcekIfGameExistCup'));
                         }
                         if ($this->checkResult($request) == -1) {
                             $fail(__('validation.result'));
@@ -193,12 +190,12 @@ class ProfileRequest extends FormRequest
                 }
             } elseif ($request->get('resultOne') != null and $request->get('result_over_one') != null and $request->get('result_pena_one') == null) {
 
-                if ($request->get('result_over_one') != $request->get('result_over_two') and ($request->get('resultOne') == $request->get('resultTwo')  ) ) {
+                if ($request->get('result_over_one') != $request->get('result_over_two') and ($request->get('resultOne') == $request->get('resultTwo'))) {
                     return 0;
                 }
             } elseif ($request->get('resultOne') != null and $request->get('result_over_one') != null and $request->get('result_pena_one') != null) {
 
-                if ( ($request->get('result_pena_one') != $request->get('result_pena_two')) and ($request->get('result_over_one') == $request->get('result_over_two')  ) and ($request->get('resultOne') == $request->get('resultTwo') )) {
+                if (($request->get('result_pena_one') != $request->get('result_pena_two')) and ($request->get('result_over_one') == $request->get('result_over_two')) and ($request->get('resultOne') == $request->get('resultTwo'))) {
                     return 0;
                 } else {
                     return -1;
@@ -206,6 +203,7 @@ class ProfileRequest extends FormRequest
 
             }
         }
+
         return -1;
 
     }

@@ -1,85 +1,110 @@
 <x-app-layout>
     <div class="main-page-view">
         @if (count($listOldGroup) > 0)
-                <div class="text-blue-500 font-light text-xl mt-4">Istnieją starsze grupy, możesz je przeglądać.</div>
+            <div class="text-blue-500 font-light text-xl mt-4">Istnieją starsze grupy, możesz je przeglądać.</div>
 
-                 @include('profile.selectOldGroup', ['route' => 'profile.showGroup'])
-
+            @include('profile.selectOldGroup', ['route' => 'profile.showGroup'])
         @endif
         @if (session()->get('oldGroup') == 0)
             @if (Auth::user()->status >= 0)
                 <div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
-                    <p class="text-red-500 font-light text-xl mt-4">Faza grupowa została zakończona. Teraz możesz dodawać mecze fazy pucharowej.</p>
+                    <p class="text-red-500 font-light text-xl mt-4">Faza grupowa została zakończona. Teraz możesz dodawać
+                        mecze fazy pucharowej.</p>
                 </div>
             @else
                 <el-dialog>
-                        <dialog id="dialog2" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-                            <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+                    <dialog id="dialog2" aria-labelledby="dialog-title"
+                        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+                        <el-dialog-backdrop
+                            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
-                            <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                                <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div tabindex="0"
+                            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+                            <el-dialog-panel
+                                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                     <div class="sm:flex sm:items-start">
-                                        <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-red-600">
-                                                <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
+                                        <div
+                                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="1.5" data-slot="icon" aria-hidden="true"
+                                                class="size-6 text-red-600">
+                                                <path
+                                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        <h3 id="dialog-title" class="text-base font-semibold text-gray-900">zakończenie fazy grupowej</h3>
-                                        <div class="mt-2">
-                                            <p class="text-sm text-gray-500">Czy na pewno chcesz zakończyć fazę grupową? Już nie będzie można dodawać meczów w fazie grupowej </p>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-
-
-
-
-
-
-
-                                        <button onclick="closeGroup()"  id="buttonCloseGroup"  class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3">
-                                                Zakończ fazę grupową
-                                            </button>
-
-
-
-                                    <button type="button" command="close" commandfor="dialog2"   class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150" >Anuluj</button>
-                                    </div>
-
-                                    <div  id="closeGroup" style="display: none">
-                                        <div class="bg-gray-50 mt-2 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                            <p class="text-sm text-gray-500">Wybierz typu fazy pucharowej</p>
-                                        </div>
-                                        <div class="bg-gray-50 mt-2 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                            @if ($ifEndGroup == true)
-                                                <form action="{{ route('profile.closeGroup') }}" method="POST" id="closeGroupForm">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <select name="closeGroup" id="closeGroup" >
-                                                        @for ($i=$result[0]; $i <= $result[1]; $i=$i * 2)
-                                                            <option value="{{ $i }}" @selected(old('closeGroup') == $i ? true : false)>1/{{ $i }} Pucharu</option>
-                                                        @endfor
-                                                    </select>
-                                                    <x-danger-button class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3" >
-                                                        {{ __('Zakończ fazę grupową') }}
-                                                    </x-danger-button>
-                                                </form>
-                                            @endif
+                                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900">
+                                                zakończenie fazy grupowej</h3>
+                                            <div class="mt-2">
+                                                <p class="text-sm text-gray-500">Czy na pewno chcesz zakończyć fazę
+                                                    grupową? Już nie będzie można dodawać meczów w fazie grupowej </p>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
 
-                                </el-dialog-panel>
-                            </div>
-                        </dialog>
+
+
+
+
+
+
+                                    <button onclick="closeGroup()" id="buttonCloseGroup"
+                                        class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3">
+                                        Zakończ fazę grupową
+                                    </button>
+
+
+
+                                    <button type="button" command="close" commandfor="dialog2"
+                                        class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">Anuluj</button>
+                                </div>
+
+                                <div id="closeGroup" style="display: none">
+                                    <div class="bg-gray-50 mt-2 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <p class="text-sm text-gray-500">Wybierz typu fazy pucharowej</p>
+                                    </div>
+                                    <div class="bg-gray-50 mt-2 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        @if ($ifEndGroup == true)
+                                            <form action="{{ route('profile.closeGroup') }}" method="POST"
+                                                id="closeGroupForm">
+                                                @csrf
+                                                @method('PUT')
+                                                <select name="closeGroup" id="closeGroup">
+                                                    @for ($i = $result[0]; $i <= $result[1]; $i = $i * 2)
+                                                        @if ($i == 1)
+                                                            <option value="{{ $i }}"
+                                                                @selected(old('closeGroup') == $i ? true : false)>Finał</option>
+                                                        @else
+                                                            <option value="{{ $i }}"
+                                                                @selected(old('closeGroup') == $i ? true : false)>1/{{ $i }}
+                                                                Pucharu</option>
+                                                        @endif
+                                                    @endfor
+                                                </select>
+                                                <x-danger-button
+                                                    class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3">
+                                                    {{ __('Zakończ fazę grupową') }}
+                                                </x-danger-button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+
+                            </el-dialog-panel>
+                        </div>
+                    </dialog>
                 </el-dialog>
                 @if ($ifEndGroup == true)
-                    <button command="show-modal" commandfor="dialog2"  class="!bg-red-500   text-white text-bold  py-2 px-4 ">zakończ fazę grupową</button>
+                    <button command="show-modal" commandfor="dialog2"
+                        class="!bg-red-500   text-white text-bold  py-2 px-4 ">zakończ fazę grupową</button>
                 @else
-                    <button  class="!bg-red-200   text-white text-bold  py-2 px-4 rounded rounded cursor-not-allowed " title="Nie możesz zakończyc fazy grupowej musisz rozegrac parzystą liczbę meczy" >zakończ fazę grupową</button>
+                    <button class="!bg-red-200   text-white text-bold  py-2 px-4 rounded rounded cursor-not-allowed "
+                        title="Nie możesz zakończyc fazy grupowej musisz rozegrac parzystą liczbę meczy">zakończ fazę
+                        grupową</button>
                 @endif
 
 
@@ -87,7 +112,9 @@
         @endif
         <form action="{{ route('profile.showGroupForm') }}" method="get" id="showGroup">
 
-            <select name="group" id="group" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 form-select-group" onchange="document.getElementById('showGroup').submit()">
+            <select name="group" id="group"
+                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 form-select-group"
+                onchange="document.getElementById('showGroup').submit()">
                 @foreach ($listGroup as $group)
                     @if ($group->id == $selectedGroup)
                         <option value="{{ $group->id }}" selected>Grupa {{ $group->name }}</option>
@@ -99,32 +126,44 @@
         </form>
 
 
-    @if (session()->get('oldGroup') == 0)
-        @if ($listGame->isEmpty())
+        @if (session()->get('oldGroup') == 0)
+            @if ($listGame->isEmpty())
+                <div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
+                    <button command="show-modal" commandfor="dialog"
+                        class="!bg-red-500   text-white text-bold  py-2 px-4 ">Usuń grupę</button>
+                </div>
+                <el-dialog>
+                    <dialog id="dialog" aria-labelledby="dialog-title"
+                        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+                        <el-dialog-backdrop
+                            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
-            <div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
-                    <button command="show-modal" commandfor="dialog"  class="!bg-red-500   text-white text-bold  py-2 px-4 ">Usuń grupę</button>
-            </div>
-            <el-dialog>
-                    <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-                        <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
-
-                        <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                            <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                        <div tabindex="0"
+                            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+                            <el-dialog-panel
+                                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
                                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                <div class="sm:flex sm:items-start">
-                                    <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-red-600">
-                                        <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                    <div class="sm:flex sm:items-start">
+                                        <div
+                                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="1.5" data-slot="icon" aria-hidden="true"
+                                                class="size-6 text-red-600">
+                                                <path
+                                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900">
+                                                Usunięcie grupy</h3>
+                                            <div class="mt-2">
+                                                <p class="text-sm text-gray-500">Czy na pewno chcesz usunąć tę grupę?
+                                                    Wszystkie dane zostaną trwale usunięte. tej akcji nie można cofnąć.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                    <h3 id="dialog-title" class="text-base font-semibold text-gray-900">Usunięcie grupy</h3>
-                                    <div class="mt-2">
-                                        <p class="text-sm text-gray-500">Czy na pewno chcesz usunąć tę grupę? Wszystkie dane zostaną trwale usunięte. tej akcji nie można cofnąć.</p>
-                                    </div>
-                                    </div>
-                                </div>
                                 </div>
                                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
 
@@ -135,103 +174,147 @@
                                     <form action="{{ route('profile.deleteGroup', $selectedGroup) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <x-danger-button class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3" >
-                        {{ __('Usuń') }}
-                    </x-danger-button>
+                                        <x-danger-button
+                                            class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3">
+                                            {{ __('Usuń') }}
+                                        </x-danger-button>
                                     </form>
 
-                                <button type="button" command="close" commandfor="dialog"   class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150" >Anuluj</button>
+                                    <button type="button" command="close" commandfor="dialog"
+                                        class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">Anuluj</button>
                                 </div>
                             </el-dialog-panel>
                         </div>
                     </dialog>
-            </el-dialog>
-
-        @else
-            <button class="!bg-red-200   text-white text-bold  py-2 px-4 rounded rounded cursor-not-allowed ">Usuń grupę</button>
-
-
+                </el-dialog>
+            @else
+                <button class="!bg-red-200   text-white text-bold  py-2 px-4 rounded rounded cursor-not-allowed ">Usuń
+                    grupę</button>
+            @endif
         @endif
-    @endif
-    @if ($listCountry->isEmpty())
-        <p class="text-red-500 font-light text-xl mt-4">Brak krajów w tej grupie.</p>
-    @else
-        <div class="overflow-hidden rounded-3xl relative overflow-x-auto bg-neutral-primary-soft shadow-md rounded-base border border-default">
+        @if ($listCountry->isEmpty())
+            <p class="text-red-500 font-light text-xl mt-4">Brak krajów w tej grupie.</p>
+        @else
+            <div
+                class="overflow-hidden rounded-3xl relative overflow-x-auto bg-neutral-primary-soft shadow-md rounded-base border border-default">
 
-         <table class="w-full text-sm text-left rtl:text-right text-body min-w-full border-collapse " id="groupTable">
-            <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default bg-blue-400">
-                <tr>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >Kraj</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >RM</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >W</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >R</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >P</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >BZ</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >BS</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >RB</th>
-                    <th class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href" >PTK</th>
-                </tr>
-            </thead>
-            <tbody  class="">
-                @for($i=0;$i < count($arrayPtk); $i++)
-                    @if ($i < 2)
-                        <tr class="bg-gray-100  border-blue-500">
-                    @else
-                    <tr>
-                    @endif
-                        <td class="px-8 py-4">{{ $arrayPtk[$i]['name'] }}</td>
-                        <td class="px-8 py-4">{{ $arrayPtk[$i]['RM'] }}</td>
-                        <td class="px-8 py-4">{{ $arrayPtk[$i]['W'] }}</td>
-                        <td class="px-8 py-4">{{ $arrayPtk[$i]['R'] }}</td>
-                        <td class="px-8 py-4">{{ $arrayPtk[$i]['P'] }}</td>
-                        <td class="px-8 py-4">{{ $arrayPtk[$i]['BZ'] }}</td>
-                        <td class="px-8 py-4">{{ $arrayPtk[$i]['BS'] }}</td>
-                        <td class="px-8 py-4">{{ $arrayPtk[$i]['RB'] }}</td>
-                        <td class="px-8 py-4">{{ $arrayPtk[$i]['PTK'] }}</td>
-                    </tr>
-                @endfor
-            </tbody>
-        </table>
-        </div>
-    @endif
+                <table class="w-full text-sm text-left rtl:text-right text-body min-w-full border-collapse "
+                    id="groupTable">
+                    <thead
+                        class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default bg-blue-400">
+                        <tr>
+                            <th
+                                class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href">
+                                Kraj</th>
+                            <th
+                                class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href">
+                                RM</th>
+                            <th
+                                class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href">
+                                W</th>
+                            <th
+                                class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href">
+                                R</th>
+                            <th
+                                class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href">
+                                P</th>
+                            <th
+                                class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href">
+                                BZ</th>
+                            <th
+                                class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href">
+                                BS</th>
+                            <th
+                                class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href">
+                                RB</th>
+                            <th
+                                class="px-8 py-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-700 table-href">
+                                PTK</th>
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                        @for ($i = 0; $i < count($arrayPtk); $i++)
+                            @if ($i < 2)
+                                <tr class="bg-gray-100  border-blue-500">
+                                @else
+                                <tr>
+                            @endif
+                            <td class="px-8 py-4">{{ $arrayPtk[$i]['name'] }}</td>
+                            <td class="px-8 py-4">{{ $arrayPtk[$i]['RM'] }}</td>
+                            <td class="px-8 py-4">{{ $arrayPtk[$i]['W'] }}</td>
+                            <td class="px-8 py-4">{{ $arrayPtk[$i]['R'] }}</td>
+                            <td class="px-8 py-4">{{ $arrayPtk[$i]['P'] }}</td>
+                            <td class="px-8 py-4">{{ $arrayPtk[$i]['BZ'] }}</td>
+                            <td class="px-8 py-4">{{ $arrayPtk[$i]['BS'] }}</td>
+                            <td class="px-8 py-4">{{ $arrayPtk[$i]['RB'] }}</td>
+                            <td class="px-8 py-4">{{ $arrayPtk[$i]['PTK'] }}</td>
+                            </tr>
+                        @endfor
+                    </tbody>
+                </table>
+            </div>
+        @endif
 
 
         <div class="main-page-show-game">
             @if ($listGame->isEmpty())
                 <p class="text-red-500 font-light text-xl mt-4">Brak meczów w tej grupie.</p>
             @else
-                <div class="max-w-sm md:max-w-lg w-80 rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-blue-500 text-gray-200 mt-4 mb-4 mx-auto ">
+                <div
+                    class="max-w-sm md:max-w-lg w-80 rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-blue-500 text-gray-200 mt-4 mb-4 mx-auto ">
                     <div class="px-6 py-4">
                         <div class="font-bold text-xl mb-2">Mecze grupowe</div>
                     </div>
                 </div>
                 <div class="main-groups-game">
-                        @foreach ($listGame as $game)
-
-                            <div class="!grid sm:!hidden   !grid-cols-8 !gap-1">
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 flex items-center justify-center">{{ \App\Models\Countrie::find($game->country_one)->name }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 flex items-center justify-center">{{ ($game->result_one !== null  ? $game->result_one : 'nie rozegrany') }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4  col-span-4 flex items-center justify-center">{{ \App\Models\Countrie::find($game->country_two)->name }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 flex items-center justify-center">{{ ($game->result_two !== null ? $game->result_two : 'nie rozegrany') }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4   col-span-8 flex items-center justify-center">{{ substr($game->date, 0, 16) }}</div>
+                    @foreach ($listGame as $game)
+                        <div class="!grid sm:!hidden   !grid-cols-8 !gap-1">
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 flex items-center justify-center">
+                                {{ \App\Models\Countrie::find($game->country_one)->name }}</div>
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 flex items-center justify-center">
+                                {{ $game->result_one !== null ? $game->result_one : 'nie rozegrany' }}</div>
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4  col-span-4 flex items-center justify-center">
+                                {{ \App\Models\Countrie::find($game->country_two)->name }}</div>
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4 col-span-4 flex items-center justify-center">
+                                {{ $game->result_two !== null ? $game->result_two : 'nie rozegrany' }}</div>
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4   col-span-8 flex items-center justify-center">
+                                {{ substr($game->date, 0, 16) }}</div>
+                        </div>
+                        <div class="!hidden sm:!grid  !grid-cols-14 !gap-1">
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">
+                                {{ \App\Models\Countrie::find($game->country_one)->name }}</div>
+                            <div
+                                class=" bg-blue-100 text-blue-800 px-1 py-4 !col-span-2 flex items-center justify-center">
+                                <span class="font-bold">vs</span>
                             </div>
-                            <div class="!hidden sm:!grid  !grid-cols-14 !gap-1">
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">{{ \App\Models\Countrie::find($game->country_one)->name }}</div>
-                                    <div class=" bg-blue-100 text-blue-800 px-1 py-4 !col-span-2 flex items-center justify-center">
-                                        <span class="font-bold">vs</span>
-                                    </div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4  !col-span-4 flex items-center justify-center">{{ \App\Models\Countrie::find($game->country_two)->name }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4   !col-span-4 flex items-center justify-center">{{ substr($game->date, 0, 10) }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">{{ ($game->result_one !== null  ? $game->result_one : 'nie rozegrany') }}</div>
-                                    <div class=" bg-blue-100 text-blue-800 px-1 py-4  !col-span-2 flex items-center justify-center">
-                                        <span class="font-bold">vs</span>
-                                    </div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">{{ ($game->result_two !== null ? $game->result_two : 'nie rozegrany') }}</div>
-                                    <div class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">{{ substr($game->date, 10, 6) }}</div>
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4  !col-span-4 flex items-center justify-center">
+                                {{ \App\Models\Countrie::find($game->country_two)->name }}</div>
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4   !col-span-4 flex items-center justify-center">
+                                {{ substr($game->date, 0, 10) }}</div>
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">
+                                {{ $game->result_one !== null ? $game->result_one : 'nie rozegrany' }}</div>
+                            <div
+                                class=" bg-blue-100 text-blue-800 px-1 py-4  !col-span-2 flex items-center justify-center">
+                                <span class="font-bold">vs</span>
                             </div>
-                            <div class="m-7"></div>
-
-                         @endforeach
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">
+                                {{ $game->result_two !== null ? $game->result_two : 'nie rozegrany' }}</div>
+                            <div
+                                class="bg-blue-100 text-blue-800 px-4 py-4 !col-span-4 flex items-center justify-center">
+                                {{ substr($game->date, 10, 6) }}</div>
+                        </div>
+                        <div class="m-7"></div>
+                    @endforeach
                 </div>
             @endif
         </div>

@@ -51,7 +51,8 @@ class User extends Authenticatable
     {
         return self::orderBy('id')->get();
     }
-    public function changeStatus( int $status)
+
+    public function changeStatus(int $status)
     {
         $user = self::find(1);
         if ($user) {

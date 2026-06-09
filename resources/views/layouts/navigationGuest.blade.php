@@ -15,10 +15,10 @@
                     <x-nav-link :href="route('guest.showCountries')" :active="request()->routeIs('guest.showCountries')">
                         Lista Państw
                     </x-nav-link>
-                    <x-nav-link :href="route('guest.showCup')" :active="request()->routeIs('guest.showCup')" >
+                    <x-nav-link :href="route('guest.showCup')" :active="request()->routeIs('guest.showCup')">
                         faza pucharowa
                     </x-nav-link>
-                    @if ((\App\Models\User::exists()))
+                    @if (\App\Models\User::exists())
                         <x-nav-link :href="route('login')" :active="request()->routeIs('login')">
                             {{ __('Logowanie') }}
                         </x-nav-link>

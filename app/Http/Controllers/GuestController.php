@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileRequest;
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Services\Profile;
-use App\Models\Group;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
-
 
 class GuestController extends Controller
 {
@@ -22,16 +16,14 @@ class GuestController extends Controller
         }
     }
 
-    public function main()
-    {
-        return view('guest.main');
-    }
+
+
     public function showGroup()
     {
         $Profile = new Profile;
-        $number  =$Profile->loadSessionOldGroup();
+        $number = $Profile->loadSessionOldGroup();
         $listGroup = $Profile->showGroup($number);
-        $result =  $Profile->calculateCup($number);
+        $result = $Profile->calculateCup($number);
         $listOldGroup = $Profile->chcekOldGroup();
 
         if (count($listGroup) == 0) {
@@ -42,18 +34,17 @@ class GuestController extends Controller
         $listGame = $Profile->showGame($id, $number);
         if (count($listCountry) == 0) {
             return View('guest.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-            ->with('selectedGroup', $id)->with('result', $result)->with('ifEndGroup', false)->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
+                ->with('selectedGroup', $id)->with('result', $result)->with('ifEndGroup', false)->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
         }
 
         $sumMForAllGroup = $Profile->sumMForAllGroup($number);
         $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
 
-
-
         return View('guest.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
             ->with('selectedGroup', $id)->with('listGame', $listGame)->with('arrayPtk', $Profile->arrayPtk)
             ->with('ifEndGroup', $ifEndGroup)->with('result', $result)->with('listOldGroup', $listOldGroup);
     }
+
     public function showGroupForm(Request $request)
     {
         $Profile = new Profile;
@@ -61,18 +52,17 @@ class GuestController extends Controller
         $listGroup = $Profile->showGroup($number);
         $listOldGroup = $Profile->chcekOldGroup();
 
-
         if (count($listGroup) == 0) {
             return View('guest.showGroupError')->with('listOldGroup', $listOldGroup);
         }
         $listCountry = $Profile->showCountry($request->get('group'), $number);
-        $result =  $Profile->calculateCup($number);
+        $result = $Profile->calculateCup($number);
 
         $listGame = $Profile->showGame($request->get('group'), $number);
         if (count($listCountry) == 0) {
             return View('guest.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-            ->with('selectedGroup', $request->get('group'))->with('result', $result)->with('ifEndGroup', false)
-            ->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
+                ->with('selectedGroup', $request->get('group'))->with('result', $result)->with('ifEndGroup', false)
+                ->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
         }
 
         $sumMForAllGroup = $Profile->sumMForAllGroup($number);
@@ -82,6 +72,7 @@ class GuestController extends Controller
             ->with('selectedGroup', $request->get('group'))->with('arrayPtk', $Profile->arrayPtk)
             ->with('listGame', $listGame)->with('ifEndGroup', $ifEndGroup)->with('result', $result)->with('listOldGroup', $listOldGroup);
     }
+
     public function showCountries()
     {
         $Profile = new Profile;
@@ -104,19 +95,22 @@ class GuestController extends Controller
             ->with('idCountry', $id)
             ->with('listOldGroup', $listOldGroup);
     }
+
     public function showCup()
     {
         $Profile = new Profile;
         $listOldGroup = $Profile->chcekOldGroup();
         $number = $Profile->loadSessionOldGroup();
-        $list =  $Profile->showGamesCup($number);
+        $list = $Profile->showGamesCup($number);
 
         return View('guest.showCup')->with('list', $list)->with('listOldGroup', $listOldGroup);
     }
+
     public function changeSeession(Request $request)
     {
         $Profile = new Profile;
         $Profile->putSessionOldGroup($request->get('number'));
+
         return Redirect::route($request->get('route'));
     }
 }

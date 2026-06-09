@@ -25,18 +25,25 @@ class Group_forwarding extends Model
     {
         self::where('group_id', $idGroup)->delete();
     }
+
     public static function deleteCountry(int $idCountry)
     {
         self::where('countrie_id', $idCountry)->delete();
     }
-    public function increments() {
+
+    public function increments()
+    {
         return self::increment('type');
     }
-    public static function checkForwarding(int $idCountry) {
+
+    public static function checkForwarding(int $idCountry)
+    {
         return self::selectRaw('group_id as group_id')->where('countrie_id', $idCountry)->where('type', 0)->first();
     }
-    public function deleteForwarding( int $idCountry) {
+
+    public function deleteForwarding(int $idCountry)
+    {
         $Group_forwarding = new self;
-        $Group_forwarding->where('countrie_id', $idCountry)->where("type", 0)->delete();
+        $Group_forwarding->where('countrie_id', $idCountry)->where('type', 0)->delete();
     }
 }

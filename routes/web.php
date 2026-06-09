@@ -1,20 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-
-
-
-Route::get('/', [GuestController::class, 'main'])->name('guest.main');
+Route::get('/', [GuestController::class, 'showGroup'])->name('guest.main');
 Route::get('/guest.showGroup', [GuestController::class, 'showGroup'])->name('guest.showGroup');
 Route::get('/guest.showCountries', [GuestController::class, 'showCountries'])->name('guest.showCountries');
 Route::get('/guest.showCountriesId/{id}', [GuestController::class, 'showCountriesId'])->name('guest.showCountriesId');
 Route::get('/guest.showGroupForm', [GuestController::class, 'showGroupForm'])->name('guest.showGroupForm');
 Route::get('/guest.showCup', [GuestController::class, 'showCup'])->name('guest.showCup');
 Route::get('/guest.changeSeession', [GuestController::class, 'changeSeession'])->name('guest.changeSeession');
-Route::get('/dashboard',  [ProfileController::class, 'showGroup'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [ProfileController::class, 'showGroup'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -38,7 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile.showCup', [ProfileController::class, 'showCup'])->name('profile.showCup');
     Route::get('/profile.changeSeession', [ProfileController::class, 'changeSeession'])->name('profile.changeSeession');
     Route::put('/profile.changeGroup', [ProfileController::class, 'changeGroup'])->name('profile.changeGroup');
-
 
 });
 

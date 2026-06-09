@@ -10,11 +10,11 @@ test('Order Workflow', function () {
     it('kończy pełny proces zamówienia', function () {
         // Dodaj do koszyka
         $this->actingAs($this->user)
-             ->post('/cart/add', [
-                 'product_id' => $this->product->id,
-                 'quantity' => 2
-             ])
-             ->assertStatus(200);
+            ->post('/cart/add', [
+                'product_id' => $this->product->id,
+                'quantity' => 2,
+            ])
+            ->assertStatus(200);
 
         // Weryfikuj zawartość koszyka
         $cart = Cart::where('user_id', $this->user->id)->first();
@@ -26,11 +26,11 @@ test('Order Workflow', function () {
             'shipping_address' => '123 Testowa St',
             'billing_address' => '123 Testowa St',
             'payment_method' => 'credit_card',
-            'card_token' => 'test_token_123'
+            'card_token' => 'test_token_123',
         ];
 
         $response = $this->actingAs($this->user)
-                         ->post('/checkout', $orderData);
+            ->post('/checkout', $orderData);
 
         $response->assertRedirect('/orders/confirmation');
 
