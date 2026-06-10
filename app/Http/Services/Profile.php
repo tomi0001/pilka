@@ -33,8 +33,9 @@ class Profile
 
     public function showCountry(int $id, int $number = 0)
     {
-        $Repository = new ProfileRepository;
-        $listCountry = $Repository->showCountry($id, $number);
+
+        $Group = new Group;
+        $listCountry = $Group->showCountry($id, $number);
 
         $listGame = ProfileRepository::showGames($id, $number);
         if (count($listCountry) > 0) {
@@ -243,9 +244,9 @@ class Profile
         $Game = new Game;
         $Game->saveGame($request);
         if ((Auth::user()->status == 1 and $request->get('status') == 0)) {
-            $count = Game::checkIfFirstCup(0, true);
+            $count = ProfileRepository::checkIfFirstCup(0, true);
         } else {
-            $count = Game::checkIfFirstCup(Auth::user()->status, true);
+            $count = ProfileRepository::checkIfFirstCup(Auth::user()->status, true);
         }
         if ($count >= Auth::user()->status) {
             $User = new User;
@@ -328,9 +329,9 @@ class Profile
         $Game->editGame($request, $id);
         $gameId = $this->showGameId($id);
         if ((Auth::user()->status == 1 and $gameId->status == 0)) {
-            $count = Game::checkIfFirstCup(0, true);
+            $count = ProfileRepository::checkIfFirstCup(0, true);
         } else {
-            $count = Game::checkIfFirstCup(Auth::user()->status, true);
+            $count = ProfileRepository::checkIfFirstCup(Auth::user()->status, true);
         }
         if ($count >= Auth::user()->status) {
             $User = new User;
@@ -355,19 +356,21 @@ class Profile
 
     public function sumMForAllGroup(int $number = 0)
     {
-        $Repository = new ProfileRepository;
+        $Group = new Group;
         $listGroup = Group::showGroup($number);
         $i = 0;
         foreach ($listGroup as $group) {
-            $listCountry = $Repository->showCountry($group->id, $number);
-            if (count($listCountry) > 0) {
-                $arrayPtk[$i] = $this->crecreateArrayForM($listCountry);
-            }
+            $listCountry = $Group->showCountry($group->id, $number);
             $listGame = ProfileRepository::showGames($group->id, $number);
-            if (count($listGame) > 0) {
+            if (count($listCountry) > 0 and count($listGame) > 0) {
+                $arrayPtk[$i] = $this->crecreateArrayForM($listCountry);
                 $arrayPtk[$i] = $this->sumPtkForM($listGame, $arrayPtk[$i]);
+                $i++;
+
             }
-            $i++;
+
+
+
 
         }
 
@@ -396,10 +399,10 @@ class Profile
 
         $Repository = new ProfileRepository;
         $number = $this->loadSessionOldGroup();
-        $result = $Repository->calculateCup($number);
+        $countGames = Group_forwarding::calculateCup($number);
         $countGroups = Group::countGroups($number);
         $lowerLimit = $this->calculateCupLower($countGroups);
-        $upperLimit = $this->calculateCupUpper($result);
+        $upperLimit = $this->calculateCupUpper($countGames);
 
         if ($lowerLimit > $upperLimit) {
 
@@ -424,10 +427,10 @@ class Profile
         return (int) $lowerLimit / 2;
     }
 
-    private function calculateCupUpper(int $countCountry)
+    private function calculateCupUpper(int $countGames)
     {
         $upperLimit = 64;
-        $count = $countCountry / 2;
+        $count = $countGames / 2;
         while ($count < $upperLimit) {
             $upperLimit = $upperLimit / 2;
         }
@@ -473,9 +476,9 @@ class Profile
         } else {
             $tmp = Auth::user()->status * 2;
         }
-        $count = Game::checkIfFirstCup($tmp);
+        $count = ProfileRepository::checkIfFirstCup($tmp);
         if ($count != 0) {
-            $count = Game::checkCountryIfGameExist($idCountry, $tmp);
+            $count = ProfileRepository::checkCountryIfGameExist($idCountry, $tmp);
             if ($count == 0) {
                 $this->listStatusErrorFirstCup = false;
             }
@@ -490,7 +493,7 @@ class Profile
         } else {
             $tmp = Auth::user()->status * 2;
         }
-        $count = Game::chcekIfGameExistCup($idCountryOne, $idCountryTwo, $tmp);
+        $count = ProfileRepository::chcekIfGameExistCup($idCountryOne, $idCountryTwo, $tmp);
         if ($count == 0) {
             $this->listStatusChcekIfGameExistCup = true;
         }
@@ -503,7 +506,7 @@ class Profile
 
             return;
         }
-        $count = Game::checkIfFirstCup($status);
+        $count = ProfileRepository::checkIfFirstCup($status);
         if ($count < $status) {
             $this->listStatusErrorGamesCup = true;
         }
@@ -512,7 +515,7 @@ class Profile
     private function checkCountryIfGameExist(int $idCountry)
     {
         $tmp = Auth::user()->status;
-        $count = Game::checkCountryIfGameExist($idCountry, $tmp);
+        $count = ProfileRepository::checkCountryIfGameExist($idCountry, $tmp);
         if ($count == 0) {
             return $this->listStatusErrorCountryIfGameExist = true;
         }

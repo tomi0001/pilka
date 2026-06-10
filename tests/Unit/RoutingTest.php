@@ -15,18 +15,14 @@ class RoutingTest extends TestCase
      */
     public function test(): void
     {
-        // $user = new Profile();
-        // $this->assertEquals('Jan Kowalski', $user->showGroup());
-        // $this->assertRedirect('/login');
-        // $user = Group::factory()->create();
+
         $user = User::find(1);
 
         $response = $this->actingAs($user)->get('/profile.addGroup');
         $response = $this->get('/profile.addGroup');
 
         $response->assertStatus(200);
-        // $response->assertViewHas('user', $user); // Sprawdza, czy zmienna 'user' została przekazana
-        // $response->assertViewHas('title', 'Profil użytkownika');
+
     }
 
     public function test_show_group(): void

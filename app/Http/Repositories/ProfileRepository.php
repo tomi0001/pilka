@@ -10,14 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProfileRepository extends Model
 {
-    public function showCountry(int $id, int $number = 0)
-    {
 
-        $listCountry = Group::selectRaw('countries.name as name')->selectRaw('countries.id as id')->join('group_forwardings', 'groups.id', '=', 'group_forwardings.group_id')
-            ->join('countries', 'group_forwardings.countrie_id', '=', 'countries.id')->where('groups.id', $id)->where('groups.type', $number)->get();
-
-        return $listCountry;
-    }
 
     public static function showGameIfTrue1(int $idCountryOne, int $idCountryTwo)
     {
@@ -173,27 +166,11 @@ class ProfileRepository extends Model
             ->get();
     }
 
-    public static function checkIfEndGroup()
-    {
-        return Game::selectRaw('DISTINCT country_one')->where('type', 0)->whereNotNull('result_one')->orWhereNotNull('result_two')->get();
-    }
 
-    public function showCountryForM()
-    {
 
-        $listCountry = Group::selectRaw('countries.name as name')->selectRaw('countries.id as id')->join('group_forwardings', 'groups.id', '=', 'group_forwardings.group_id')
-            ->join('countries', 'group_forwardings.countrie_id', '=', 'countries.id')->get();
 
-        return $listCountry;
-    }
 
-    public static function calculateCup(int $number = 0)
-    {
-        return Group_forwarding::join('groups', 'group_forwardings.group_id', 'groups.id')
-            ->where('groups.type', $number)
-            ->count();
 
-    }
 
     public static function checkGameForCloseGroup(int $idCountryOne)
     {
@@ -203,5 +180,41 @@ class ProfileRepository extends Model
                 $query->where('group_forwardings.countrie_id', $idCountryOne);
             })
             ->first();
+    }
+    public static function chcekIfGameExistCup(int $idCountryOne, int $idCountryTwo, int $status)
+    {
+        return Game::where('status', $status)
+            ->where('type', 0)
+            ->where(function ($query) use ($idCountryOne, $idCountryTwo) {
+                $query->where('country_one', $idCountryOne)
+                    ->Where('country_two', $idCountryTwo);
+            })
+            ->orwhere(function ($query) use ($idCountryOne, $idCountryTwo) {
+                $query->where('country_one', $idCountryTwo)
+                    ->Where('country_two', $idCountryOne);
+            })
+            ->count();
+    }
+    public static function checkIfFirstCup(int $cup, bool $isResult = false)
+    {
+        return Game::where('status', $cup)->where('type', 0)
+            ->when($isResult == true, function ($query) {
+                $query->whereNotNull('games.result_one')
+                    ->whereNotNull('games.result_two');
+
+            })
+            ->count();
+    }
+
+    public static function checkCountryIfGameExist(int $idCountry, int $status)
+    {
+        return Game::where(function ($query) use ($idCountry) {
+            $query->where('country_one', $idCountry)
+                ->orWhere('country_two', $idCountry);
+        })
+            ->where('status', $status)
+            ->whereNotNull('result_one')
+            ->where('type', 0)
+            ->count();
     }
 }

@@ -1,11 +1,8 @@
-npm install
-npm run build
-
 ## O Aplikacji
 
 Aplikacja słuzy do prowadzenia dzienniczka bazy meczy coś na zasadzie mistrzostw świata lub Europy, można dodawać mecze i zapisywać je i wyświetlać grupy tak jak e mistrzostaw w piłce nożnej, aplikacja została napisane w języku skryptowym PHP 8.4 w frameworku laravel i obsługuje baze danych mysql
 
-## Wyamagania aplikacji
+## Wymagania aplikacji
 
     - Apache
     - PHP wersja minimum 8.5

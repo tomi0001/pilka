@@ -1,7 +1,9 @@
 <x-app-layout>
 
 
-
+    @section ('title')
+        Dodaj Mecz
+    @endsection
 
 
     <div class="py-12">

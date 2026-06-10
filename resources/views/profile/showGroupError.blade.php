@@ -1,4 +1,8 @@
 <x-app-layout>
+
+    @section ('title')
+        Przeglądaj Grupę
+    @endsection
     <div class="main-page-view">
         <p class="text-red-500 font-light text-xl mt-4 flex items-center justify-center">Nie ma żadnych grup, dodaj
             grupę..</p>

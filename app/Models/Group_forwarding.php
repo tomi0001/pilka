@@ -46,4 +46,11 @@ class Group_forwarding extends Model
         $Group_forwarding = new self;
         $Group_forwarding->where('countrie_id', $idCountry)->where('type', 0)->delete();
     }
+    public static function calculateCup(int $number = 0)
+    {
+        return self::join('groups', 'group_forwardings.group_id', 'groups.id')
+            ->where('groups.type', $number)
+            ->count();
+
+    }
 }

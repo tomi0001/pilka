@@ -44,4 +44,21 @@ class Group extends Model
     {
         return self::selectRaw('type as type')->where('type', '>', 0)->groupBy('type')->get();
     }
+    public function showCountry(int $id, int $number = 0)
+    {
+
+        $listCountry = self::selectRaw('countries.name as name')->selectRaw('countries.id as id')->join('group_forwardings', 'groups.id', '=', 'group_forwardings.group_id')
+            ->join('countries', 'group_forwardings.countrie_id', '=', 'countries.id')->where('groups.id', $id)->where('groups.type', $number)->get();
+
+        return $listCountry;
+    }
+
+    public function showCountryForM()
+    {
+
+        $listCountry = self::selectRaw('countries.name as name')->selectRaw('countries.id as id')->join('group_forwardings', 'groups.id', '=', 'group_forwardings.group_id')
+            ->join('countries', 'group_forwardings.countrie_id', '=', 'countries.id')->get();
+
+        return $listCountry;
+    }
 }

@@ -17,7 +17,8 @@ return [
     'ifExistGroup' => 'Już jest taka grupy o tej nazwie',
     'ifExistCountry' => 'Już jest taki kraj o tej nazwie',
     'ifExistGame' => 'Państwa należa do innych grup',
-
+    'current_password' => 'Hasło jest niepoprawne.',
+    'required' => 'Pole :attribute jest wymagane.',
     'result' => 'Błędny wynik',
     'ifExistGameCloseGroup' => 'Państwo nie należy do żadnej grupy lub należy do grupy zamkniętej',
     'listStatusErrorCountryIfGameExist' => 'Państwo należy do grupy, w której jest już zaplanowany mecz z jedną z tych drużyn',

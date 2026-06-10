@@ -1,4 +1,7 @@
 <x-app-layout>
+    @section ('title')
+        Edytuj Mecz
+    @endsection
     <div class="main-page-game-edit">
         <form action="{{ route('profile.editGameSubmit', $game->id) }}" method="POST">
             @csrf
