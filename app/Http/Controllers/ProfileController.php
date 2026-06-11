@@ -77,17 +77,18 @@ class ProfileController extends Controller
         $id = $Profile->whereIdFirstGroup($number);
         $listCountry = $Profile->showCountry($id, $number);
         $listGame = $Profile->showGame($id, $number);
-        if (count($listCountry) == 0) {
-            return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-                ->with('selectedGroup', $id)->with('result', $result)->with('ifEndGroup', false)->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
-        }
-
         $sumMForAllGroup = $Profile->sumMForAllGroup($number);
         if (empty($sumMForAllGroup)) {
             $ifEndGroup = false;
         } else {
             $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
         }
+        if (count($listCountry) == 0) {
+            return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
+                ->with('selectedGroup', $id)->with('result', $result)->with('ifEndGroup', $ifEndGroup)->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
+        }
+
+
 
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
             ->with('selectedGroup', $id)->with('listGame', $listGame)->with('arrayPtk', $Profile->arrayPtk)
@@ -161,18 +162,19 @@ class ProfileController extends Controller
         $result = $Profile->calculateCup($number);
 
         $listGame = $Profile->showGame($request->get('group'), $number);
-        if (count($listCountry) == 0) {
-            return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
-                ->with('selectedGroup', $request->get('group'))->with('result', $result)->with('ifEndGroup', false)
-                ->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
-        }
-
         $sumMForAllGroup = $Profile->sumMForAllGroup($number);
         if (empty($sumMForAllGroup)) {
             $ifEndGroup = false;
         } else {
             $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
         }
+        if (count($listCountry) == 0) {
+            return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
+                ->with('selectedGroup', $request->get('group'))->with('result', $result)->with('ifEndGroup', $ifEndGroup)
+                ->with('listGame', $listGame)->with('listOldGroup', $listOldGroup);
+        }
+
+
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
             ->with('selectedGroup', $request->get('group'))->with('arrayPtk', $Profile->arrayPtk)
             ->with('listGame', $listGame)->with('ifEndGroup', $ifEndGroup)->with('result', $result)->with('listOldGroup', $listOldGroup);

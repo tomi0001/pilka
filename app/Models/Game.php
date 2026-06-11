@@ -48,7 +48,8 @@ class Game extends Model
             ->selectRaw('result_pena_one as result_pena_one')->selectRaw('result_pena_two as result_pena_two')
             ->selectRaw('status as status')->selectRaw('type as type')
             ->selectRaw('country_one as country_one')->selectRaw('country_two as country_two')
-            ->selectRaw('date as date')->selectRaw('id as id')->where('id', $id)
+            ->selectRaw('date as date')->selectRaw('id as id')
+            ->where('id', $id)
             ->first();
 
     }

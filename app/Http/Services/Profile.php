@@ -326,12 +326,11 @@ class Profile
     {
         return Game::showGameById($id);
     }
-
     public function editGame(Request $request, int $id)
     {
         $Game = new Game;
         $Game->editGame($request, $id);
-        $gameId = $this->showGameId($id);
+        $gameId = $this->showGameById($id);
         if ((Auth::user()->status == 1 and $gameId->status == 0)) {
             $count = ProfileRepository::checkIfFirstCup(0, true);
         } else {
@@ -508,7 +507,6 @@ class Profile
     {
         if (Auth::user()->status == 0 or Auth::user()->status == 1) {
             $this->listStatusErrorGamesCup = true;
-
             return;
         }
         $count = ProfileRepository::checkIfFirstCup($status);

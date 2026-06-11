@@ -16,7 +16,7 @@ class ProfileRepository extends Model
         Created by tomi0001@gmail.com Marz 2026- June 2026
     */
 
-    public static function showGameIfTrue1(int $idCountryOne, int $idCountryTwo)
+    public static function showGameIfTrue1(int|null $idCountryOne, int|null $idCountryTwo)
     {
         return Countrie::join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')->selectRaw(' DISTINCT group_forwardings.group_id')
             ->where('type', 0)
@@ -27,7 +27,7 @@ class ProfileRepository extends Model
             ->get();
     }
 
-    public static function showGameIfTrue(int $idCountry)
+    public static function showGameIfTrue(int|null $idCountry)
     {
         return Countrie::join('group_forwardings', 'group_forwardings.countrie_id', '=', 'countries.id')->selectRaw(' DISTINCT group_forwardings.group_id as groupId')
             ->where('type', 0)

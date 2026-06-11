@@ -376,7 +376,7 @@
 
         @foreach ($listGamesCup as $game)
             <div class=" px-4 py-2 ">
-                @if (Auth::user()->status == $game->status and session()->get('oldGroup') == 0)
+                @if ( ( $game->status <= 1 and  Auth::user()->status <= 1 and session()->get('oldGroup') == 0)    or    (  Auth::user()->status == $game->status and session()->get('oldGroup') == 0))
                     <button command="show-modal" commandfor="dialog_{{ $game->id }}"
                         class="!bg-red-500 px-4 py-2 !rounded text-white">Usuń mecz</button>
                     <el-dialog>

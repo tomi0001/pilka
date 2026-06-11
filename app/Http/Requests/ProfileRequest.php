@@ -125,7 +125,7 @@ class ProfileRequest extends FormRequest
         $game = $Profile->showGameId($id);
 
         $request->validate([
-            'resultOne' => ['different:countryTwo', 'required_with:resultTwo',
+            'resultOne' => ['required','different:countryTwo', 'required_with:resultTwo',
                 function ($attribute, $value, $fail) use ($request, $Profile, $game) {
                     if ($game->status == -1) {
 
@@ -135,19 +135,12 @@ class ProfileRequest extends FormRequest
                         if ($Profile->checkGameNullGame($game->country_one) == null) {
                             $fail(__('validation.ifExistGameNullGame'));
                         }
-                    } elseif ($game->status >= 0) {
-                        $Profile->chcekErrorCup($game->country_one);
-                        if ($Profile->listStatusErrorForCloseGroup == false) {
-                            $fail(__('validation.ifExistGameCloseGroup'));
-                        }
-                        if (($Profile->listStatusErrorFirstCup == false)) {
-                            $fail(__('validation.listStatusErrorFirstCup'));
-                        }
                     }
+
                 },
 
             ],
-            'resultTwo' => ['required_with:resultOne',
+            'resultTwo' => ['required','required_with:resultOne',
                 function ($attribute, $value, $fail) use ($request, $Profile, $game) {
                     if ($game->status == -1) {
 
@@ -157,16 +150,7 @@ class ProfileRequest extends FormRequest
 
                     } elseif ($game->status >= 0) {
                         $Profile->chcekErrorCup($game->country_two, $game->country_one);
-                        if (($Profile->listStatusErrorForCloseGroup == false)) {
-                            $fail(__('validation.ifExistGameCloseGroup'));
-                        }
 
-                        if (($Profile->listStatusErrorFirstCup == false)) {
-                            $fail(__('validation.listStatusErrorFirstCup'));
-                        }
-                        if (($Profile->listStatusChcekIfGameExistCup == false)) {
-                            $fail(__('validation.listStatusChcekIfGameExistCup'));
-                        }
                         if ($this->checkResult($request) == -1) {
                             $fail(__('validation.result'));
                         }
