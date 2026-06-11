@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
+
+    /*
+        Created by tomi0001@gmail.com Marz 2026- June 2026
+    */
     public $timestamps = false;
 
     public static function showGroup(int $number = 0)

@@ -46,7 +46,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
+    /*
+        Created by tomi0001@gmail.com Marz 2026- June 2026
+    */
     public static function showUser()
     {
         return self::orderBy('id')->get();
