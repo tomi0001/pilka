@@ -83,7 +83,11 @@ class ProfileController extends Controller
         }
 
         $sumMForAllGroup = $Profile->sumMForAllGroup($number);
-        $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
+        if (empty($sumMForAllGroup)) {
+            $ifEndGroup = false;
+        } else {
+            $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
+        }
 
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
             ->with('selectedGroup', $id)->with('listGame', $listGame)->with('arrayPtk', $Profile->arrayPtk)
@@ -164,8 +168,11 @@ class ProfileController extends Controller
         }
 
         $sumMForAllGroup = $Profile->sumMForAllGroup($number);
-        $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
-
+        if (empty($sumMForAllGroup)) {
+            $ifEndGroup = false;
+        } else {
+            $ifEndGroup = $Profile->ifEndGroup($sumMForAllGroup);
+        }
         return View('profile.showGroup')->with('listGroup', $listGroup)->with('listCountry', $listCountry)
             ->with('selectedGroup', $request->get('group'))->with('arrayPtk', $Profile->arrayPtk)
             ->with('listGame', $listGame)->with('ifEndGroup', $ifEndGroup)->with('result', $result)->with('listOldGroup', $listOldGroup);

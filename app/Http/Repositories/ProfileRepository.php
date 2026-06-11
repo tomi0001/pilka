@@ -66,6 +66,7 @@ class ProfileRepository extends Model
                 ->Where('country_two', $idCountryTwo);
         })
             ->where('date', $date)
+            ->where('type', 0)
             ->first();
     }
 
@@ -79,6 +80,7 @@ class ProfileRepository extends Model
             ->whereNotNull('games.result_two')
 
             ->where('date', $date)
+            ->where('type', 0)
             ->first();
     }
 
@@ -190,12 +192,13 @@ class ProfileRepository extends Model
         return Game::where('status', $status)
             ->where('type', 0)
             ->where(function ($query) use ($idCountryOne, $idCountryTwo) {
-                $query->where('country_one', $idCountryOne)
-                    ->Where('country_two', $idCountryTwo);
-            })
-            ->orwhere(function ($query) use ($idCountryOne, $idCountryTwo) {
-                $query->where('country_one', $idCountryTwo)
-                    ->Where('country_two', $idCountryOne);
+                $query->where(function ($q) use ($idCountryOne, $idCountryTwo) {
+                    $q->where('country_one', $idCountryOne)
+                    ->where('country_two', $idCountryTwo);
+                })->orWhere(function ($q) use ($idCountryOne, $idCountryTwo) {
+                    $q->where('country_one', $idCountryTwo)
+                    ->where('country_two', $idCountryOne);
+                });
             })
             ->count();
     }

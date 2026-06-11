@@ -363,6 +363,7 @@ class Profile
         $Group = new Group;
         $listGroup = Group::showGroup($number);
         $i = 0;
+        $arrayPtk = [];
         foreach ($listGroup as $group) {
             $listCountry = $Group->showCountry($group->id, $number);
             $listGame = ProfileRepository::showGames($group->id, $number);
