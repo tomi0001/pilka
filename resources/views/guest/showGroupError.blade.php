@@ -10,7 +10,7 @@
             <div class="text-blue-500 font-light text-xl mt-4 flex items-center justify-center">Istnieją starsze grupy,
                 możesz je przeglądać.</div>
 
-            @include('profile.selectOldGroup', ['route' => 'profile.showGroup'])
+            @include('guest.selectOldGroup', ['route' => 'guest.showGroup'])
         @endif
     </div>
 </x-appGuest-layout>
